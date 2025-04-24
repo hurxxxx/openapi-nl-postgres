@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+pytz
+python-dateutil
+python-dotenv
+vanna[chromadb,openai,postgres]
+playwright
+pytest
+pytest-playwright
+
