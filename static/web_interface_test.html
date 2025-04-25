@@ -5,192 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PostgreSQL Natural Language Query Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        pre {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-
-        .status {
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-
-        .success {
-            background-color: #dff0d8;
-            color: #3c763d;
-        }
-
-        .error {
-            background-color: #f2dede;
-            color: #a94442;
-        }
-
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-
-        .tab.active {
-            border: 1px solid #ddd;
-            border-bottom: 1px solid white;
-            border-radius: 4px 4px 0 0;
-            margin-bottom: -1px;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* 모달 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-        }
-
-        #modalContent {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 4px;
-            max-height: 60vh;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* 표 형식 데이터를 위한 스타일 */
-        #modalContent table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 10px 0;
-        }
-
-        #modalContent th,
-        #modalContent td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .content-cell {
-            cursor: pointer;
-            color: #0066cc;
-            text-decoration: underline;
-        }
-
-        .content-cell:hover {
-            color: #004080;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <body>
@@ -219,11 +34,11 @@
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <div style="display: flex; align-items: center;">
+                <div class="input-group">
                     <input type="password" id="password" placeholder="Enter your database password">
-                    <div id="password_status" style="margin-left: 10px; font-size: 0.9em;"></div>
+                    <div id="password_status" class="status-indicator"></div>
                 </div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                <div class="helper-text">
                     Leave empty to use the password from .env file
                 </div>
             </div>
@@ -233,18 +48,18 @@
             </div>
             <div class="form-group">
                 <label for="api_key">OpenAI API Key:</label>
-                <div style="display: flex; align-items: center;">
+                <div class="input-group">
                     <input type="text" id="api_key" value="env" placeholder="Enter your OpenAI API key or use env">
-                    <div id="api_key_status" style="margin-left: 10px; font-size: 0.9em;"></div>
+                    <div id="api_key_status" class="status-indicator"></div>
                 </div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                <div class="helper-text">
                     Leave as "env" to use the API key from .env file, or enter your own key
                 </div>
             </div>
             <div class="form-group">
                 <label for="model">Model:</label>
                 <input type="text" id="model" value="env" placeholder="Example: gpt-4, gpt-3.5-turbo">
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                <div class="helper-text">
                     Leave as "env" to use the model from .env file, or specify a model
                 </div>
             </div>
@@ -264,15 +79,14 @@
             </div>
             <div class="tab-content active" id="schema-tab">
                 <p>Train the model on the database schema.</p>
-                <p style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                <p class="helper-text">
                     Note: Schema training is automatically performed once when the server starts if database
                     connection information is available in environment variables. You only need to use this
                     button if you want to retrain the model or if automatic training was not performed.
                 </p>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">What this does:</p>
-                    <p style="margin: 0;">Extracts and trains on your database schema information including tables,
+                <div class="example-container">
+                    <p class="example-title">What this does:</p>
+                    <p class="example-content">Extracts and trains on your database schema information including tables,
                         columns, data types, and relationships.</p>
                 </div>
                 <button id="trainSchema">Train on Schema</button>
@@ -283,12 +97,12 @@
                     <label for="table">Table Name:</label>
                     <input type="text" id="table" placeholder="Enter table name">
                 </div>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">Example:</p>
-                    <p style="margin: 0;">Enter a table name like "customers" to train the model on the actual data in
+                <div class="example-container">
+                    <p class="example-title">Example:</p>
+                    <p class="example-content">Enter a table name like "customers" to train the model on the actual data
+                        in
                         that table.</p>
-                    <p style="margin-top: 5px;">This helps the model understand the data distribution and common values
+                    <p class="example-content">This helps the model understand the data distribution and common values
                         in your database.</p>
                 </div>
                 <button id="trainData">Train on Data</button>
@@ -299,10 +113,9 @@
                     <label for="trainDDL">DDL Statement:</label>
                     <textarea id="trainDDL" rows="5" placeholder="Enter DDL statement..."></textarea>
                 </div>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">Example:</p>
-                    <pre style="margin: 0; white-space: pre-wrap;">CREATE TABLE my_table (id INT, name TEXT)</pre>
+                <div class="example-container">
+                    <p class="example-title">Example:</p>
+                    <pre class="example-content">CREATE TABLE my_table (id INT, name TEXT)</pre>
                 </div>
                 <button id="trainDDL">Train on DDL</button>
             </div>
@@ -312,11 +125,10 @@
                     <label for="trainDocumentation">Documentation:</label>
                     <textarea id="trainDocumentation" rows="5" placeholder="Enter documentation..."></textarea>
                 </div>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">Example:</p>
+                <div class="example-container">
+                    <p class="example-title">Example:</p>
                     <pre
-                        style="margin: 0; white-space: pre-wrap;">Our business defines customer lifetime value (CLV) as the total revenue generated by a customer over their entire relationship with our company. This is stored in the customers table under the clv column.</pre>
+                        class="example-content">Our business defines customer lifetime value (CLV) as the total revenue generated by a customer over their entire relationship with our company. This is stored in the customers table under the clv column.</pre>
                 </div>
                 <button id="trainDocumentation">Train on Documentation</button>
             </div>
@@ -326,11 +138,9 @@
                     <label for="trainSQLOnly">SQL Statement:</label>
                     <textarea id="trainSQLOnly" rows="5" placeholder="Enter SQL statement..."></textarea>
                 </div>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">Example:</p>
-                    <pre
-                        style="margin: 0; white-space: pre-wrap;">SELECT col1, col2, col3 FROM my_table WHERE condition = 'value'</pre>
+                <div class="example-container">
+                    <p class="example-title">Example:</p>
+                    <pre class="example-content">SELECT col1, col2, col3 FROM my_table WHERE condition = 'value'</pre>
                 </div>
                 <button id="trainSQLOnly">Train on SQL</button>
             </div>
@@ -344,28 +154,27 @@
                     <label for="trainSQL">SQL Query:</label>
                     <textarea id="trainSQL" rows="5" placeholder="Enter the corresponding SQL query..."></textarea>
                 </div>
-                <div class="example-container"
-                    style="margin-top: 10px; margin-bottom: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 4px solid #4CAF50;">
-                    <p style="font-weight: bold; margin-top: 0;">Example:</p>
-                    <p style="margin: 0;"><strong>Question:</strong> How many customers do we have in each country?</p>
-                    <p style="margin-top: 5px;"><strong>SQL:</strong></p>
+                <div class="example-container">
+                    <p class="example-title">Example:</p>
+                    <p class="example-content"><strong>Question:</strong> How many customers do we have in each country?
+                    </p>
+                    <p class="example-content"><strong>SQL:</strong></p>
                     <pre
-                        style="margin: 0; white-space: pre-wrap;">SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC</pre>
+                        class="example-content">SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC</pre>
                 </div>
                 <button id="trainQuestionSQL">Train on Question-SQL Pair</button>
             </div>
             <div class="tab-content" id="manage-tab">
                 <p>View and manage existing training data.</p>
                 <button id="refreshTrainingData">Refresh Training Data</button>
-                <div id="trainingDataContainer" style="margin-top: 15px; max-height: 400px; overflow-y: auto;">
-                    <table id="trainingDataTable" style="width: 100%; border-collapse: collapse;">
+                <div id="trainingDataContainer" class="data-container">
+                    <table id="trainingDataTable">
                         <thead>
                             <tr>
-                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">ID</th>
-                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Data Type
-                                </th>
-                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">View</th>
-                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Actions</th>
+                                <th>ID</th>
+                                <th>Data Type</th>
+                                <th>View</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="trainingDataBody">
@@ -394,7 +203,7 @@
         </div>
     </div>
 
-    <!-- 모달 창 -->
+    <!-- Modal dialog -->
     <div id="contentModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -403,630 +212,8 @@
         </div>
     </div>
 
-    <script>
-        // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-                tab.classList.add('active');
-                document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-            });
-        });
-
-        // Check connection status
-        document.getElementById('checkStatus').addEventListener('click', async () => {
-            try {
-                const response = await fetch('/connection_status');
-                const data = await response.json();
-
-                const statusElement = document.getElementById('connectionStatus');
-                const trainSchemaButton = document.getElementById('trainSchema');
-
-                if (data.connected) {
-                    statusElement.innerHTML = `<div class="success">Connected to ${data.connection_info.dbname} on ${data.connection_info.host}</div>`;
-
-                    // Always enable the train schema button
-                    trainSchemaButton.textContent = "Train on Schema";
-                    trainSchemaButton.disabled = false;
-                    trainSchemaButton.style.backgroundColor = "#4CAF50";
-                } else {
-                    statusElement.innerHTML = '<div class="error">Not connected to any database</div>';
-                    trainSchemaButton.disabled = true;
-                    trainSchemaButton.style.backgroundColor = "#cccccc";
-                }
-            } catch (error) {
-                document.getElementById('connectionStatus').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-            }
-        });
-
-        // Connect to database
-        document.getElementById('connect').addEventListener('click', async () => {
-            // Get password value
-            const passwordInput = document.getElementById('password').value;
-
-            const connectData = {
-                host: document.getElementById('host').value,
-                dbname: document.getElementById('dbname').value,
-                user: document.getElementById('user').value,
-                password: passwordInput, // If empty, server will use env password
-                port: document.getElementById('port').value,
-                api_key: document.getElementById('api_key').value,
-                model: document.getElementById('model').value
-            };
-
-            try {
-                const response = await fetch('/connect', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(connectData)
-                });
-
-                const data = await response.json();
-                const resultElement = document.getElementById('connectResult');
-
-                if (data.status) {
-                    resultElement.innerHTML = `<div class="success">${data.message}</div>`;
-                } else {
-                    resultElement.innerHTML = `<div class="error">${data.message}</div>`;
-                }
-            } catch (error) {
-                document.getElementById('connectResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-            }
-        });
-
-        // Train on schema
-        document.getElementById('trainSchema').addEventListener('click', async () => {
-            try {
-                const trainButton = document.getElementById('trainSchema');
-                trainButton.disabled = true;
-                trainButton.textContent = "Training...";
-
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ train_type: 'schema' })
-                });
-
-                const data = await response.json();
-
-                // Check if training was skipped because it already exists
-                if (data.message.includes("already exists")) {
-                    document.getElementById('trainResult').innerHTML = `<div class="success">${data.message} <br>Schema training was already performed previously.</div>`;
-                } else {
-                    document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-                }
-
-                // Reset button state after training
-                trainButton.textContent = "Train on Schema";
-                trainButton.disabled = false;
-                trainButton.style.backgroundColor = "#4CAF50";
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-                const trainButton = document.getElementById('trainSchema');
-                trainButton.textContent = "Train on Schema";
-                trainButton.disabled = false;
-                trainButton.style.backgroundColor = "#4CAF50";
-            }
-        });
-
-        // Train on data
-        document.getElementById('trainData').addEventListener('click', async () => {
-            const table = document.getElementById('table').value;
-
-            if (!table) {
-                document.getElementById('trainResult').innerHTML = '<div class="error">Please enter a table name</div>';
-                return;
-            }
-
-            try {
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        train_type: 'data',
-                        table: table
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-            }
-        });
-
-        // Train on DDL
-        document.getElementById('trainDDL').addEventListener('click', async () => {
-            const ddl = document.getElementById('trainDDL').value;
-
-            if (!ddl) {
-                document.getElementById('trainResult').innerHTML = '<div class="error">Please enter a DDL statement</div>';
-                return;
-            }
-
-            try {
-                const trainButton = document.getElementById('trainDDL');
-                trainButton.disabled = true;
-                trainButton.textContent = "Training...";
-
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        train_type: 'ddl',
-                        content: ddl
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-
-                // Clear the form field after successful training
-                document.getElementById('trainDDL').value = '';
-
-                // Reset button state
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on DDL";
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-
-                // Reset button state
-                const trainButton = document.getElementById('trainDDL');
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on DDL";
-            }
-        });
-
-        // Train on Documentation
-        document.getElementById('trainDocumentation').addEventListener('click', async () => {
-            const documentation = document.getElementById('trainDocumentation').value;
-
-            if (!documentation) {
-                document.getElementById('trainResult').innerHTML = '<div class="error">Please enter documentation</div>';
-                return;
-            }
-
-            try {
-                const trainButton = document.getElementById('trainDocumentation');
-                trainButton.disabled = true;
-                trainButton.textContent = "Training...";
-
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        train_type: 'documentation',
-                        content: documentation
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-
-                // Clear the form field after successful training
-                document.getElementById('trainDocumentation').value = '';
-
-                // Reset button state
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on Documentation";
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-
-                // Reset button state
-                const trainButton = document.getElementById('trainDocumentation');
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on Documentation";
-            }
-        });
-
-        // Train on SQL only
-        document.getElementById('trainSQLOnly').addEventListener('click', async () => {
-            const sql = document.getElementById('trainSQLOnly').value;
-
-            if (!sql) {
-                document.getElementById('trainResult').innerHTML = '<div class="error">Please enter a SQL statement</div>';
-                return;
-            }
-
-            try {
-                const trainButton = document.getElementById('trainSQLOnly');
-                trainButton.disabled = true;
-                trainButton.textContent = "Training...";
-
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        train_type: 'sql',
-                        content: sql
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-
-                // Clear the form field after successful training
-                document.getElementById('trainSQLOnly').value = '';
-
-                // Reset button state
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on SQL";
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-
-                // Reset button state
-                const trainButton = document.getElementById('trainSQLOnly');
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on SQL";
-            }
-        });
-
-        // Train on question-SQL pair
-        document.getElementById('trainQuestionSQL').addEventListener('click', async () => {
-            const question = document.getElementById('trainQuestion').value;
-            const sql = document.getElementById('trainSQL').value;
-
-            if (!question || !sql) {
-                document.getElementById('trainResult').innerHTML = '<div class="error">Please enter both a question and SQL query</div>';
-                return;
-            }
-
-            try {
-                const trainButton = document.getElementById('trainQuestionSQL');
-                trainButton.disabled = true;
-                trainButton.textContent = "Training...";
-
-                const response = await fetch('/train', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        train_type: 'question_sql',
-                        question: question,
-                        content: sql
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('trainResult').innerHTML = `<div class="success">${data.message}</div>`;
-
-                // Clear the form fields after successful training
-                document.getElementById('trainQuestion').value = '';
-                document.getElementById('trainSQL').value = '';
-
-                // Reset button state
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on Question-SQL Pair";
-            } catch (error) {
-                document.getElementById('trainResult').innerHTML = `<div class="error">Error: ${error.message}</div>`;
-
-                // Reset button state
-                const trainButton = document.getElementById('trainQuestionSQL');
-                trainButton.disabled = false;
-                trainButton.textContent = "Train on Question-SQL Pair";
-            }
-        });
-
-        // Query database
-        document.getElementById('query').addEventListener('click', async () => {
-            const question = document.getElementById('question').value;
-
-            if (!question) {
-                document.getElementById('sqlQuery').textContent = '';
-                document.getElementById('queryResults').textContent = '';
-                document.getElementById('explanation').textContent = '';
-                return;
-            }
-
-            try {
-                const response = await fetch('/query', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ question })
-                });
-
-                const data = await response.json();
-
-                document.getElementById('sqlQuery').textContent = data.sql || 'No SQL generated';
-                document.getElementById('queryResults').textContent = JSON.stringify(data.results, null, 2);
-                document.getElementById('explanation').textContent = data.explanation || 'No explanation provided';
-            } catch (error) {
-                document.getElementById('sqlQuery').textContent = '';
-                document.getElementById('queryResults').textContent = `Error: ${error.message}`;
-                document.getElementById('explanation').textContent = '';
-            }
-        });
-
-        // Check API configuration
-        async function checkApiConfig() {
-            try {
-                const response = await fetch('/api_config');
-                const data = await response.json();
-
-                const statusElement = document.getElementById('api_key_status');
-
-                if (data.has_api_key) {
-                    statusElement.innerHTML = `<span style="color: green;">✓ API Key available</span>`;
-                    document.getElementById('model').value = data.model;
-                } else {
-                    statusElement.innerHTML = '<span style="color: red;">✗ No API Key found in .env</span>';
-                }
-            } catch (error) {
-                document.getElementById('api_key_status').innerHTML =
-                    `<span style="color: red;">✗ Error checking API key: ${error.message}</span>`;
-            }
-        }
-
-        // Check database configuration
-        async function checkDbConfig() {
-            try {
-                const response = await fetch('/db_config');
-                const data = await response.json();
-
-                if (data.has_db_config) {
-                    // Update input fields with values from .env
-                    document.getElementById('host').value = data.host;
-                    document.getElementById('host').placeholder = "Example: localhost";
-
-                    document.getElementById('port').value = data.port;
-                    document.getElementById('port').placeholder = "Example: 5432";
-
-                    document.getElementById('dbname').value = data.dbname;
-                    document.getElementById('dbname').placeholder = "Example: postgres";
-
-                    document.getElementById('user').value = data.user;
-                    document.getElementById('user').placeholder = "Example: postgres";
-
-                    // Don't set password value from environment for security
-                    document.getElementById('password').value = "";
-                    document.getElementById('password').placeholder = "Enter your database password or leave empty to use .env";
-
-                    // Show password status
-                    const passwordStatus = document.getElementById('password_status');
-                    if (data.password) {
-                        passwordStatus.innerHTML = '<span style="color: green;">✓ Password available in .env</span>';
-                    } else {
-                        passwordStatus.innerHTML = '<span style="color: red;">✗ No password in .env</span>';
-                    }
-                } else {
-                    // Set placeholders with example values if no config in .env
-                    document.getElementById('host').value = "";
-                    document.getElementById('host').placeholder = "Example: localhost";
-
-                    document.getElementById('port').value = "";
-                    document.getElementById('port').placeholder = "Example: 5432";
-
-                    document.getElementById('dbname').value = "";
-                    document.getElementById('dbname').placeholder = "Example: postgres";
-
-                    document.getElementById('user').value = "";
-                    document.getElementById('user').placeholder = "Example: postgres";
-
-                    document.getElementById('password').value = "";
-                    document.getElementById('password').placeholder = "Enter your database password";
-
-                    // Show password status
-                    const passwordStatus = document.getElementById('password_status');
-                    passwordStatus.innerHTML = '<span style="color: red;">✗ No password in .env</span>';
-                }
-            } catch (error) {
-                console.error("Error checking database config:", error);
-            }
-        }
-
-        // Modal related functions
-        function setupModal() {
-            const modal = document.getElementById('contentModal');
-            const closeBtn = document.querySelector('.close');
-
-            // Close modal when close button is clicked
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside the modal
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
-            // Close modal when ESC key is pressed
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && modal.style.display === 'block') {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-
-        // Convert object to string
-        function formatObjectToString(obj) {
-            if (typeof obj === 'string') {
-                return obj;
-            }
-
-            try {
-                // Format object for better readability
-                return JSON.stringify(obj, null, 2);
-            } catch (error) {
-                console.error('Error formatting object:', error);
-                return String(obj);
-            }
-        }
-
-        // Display content in modal
-        function showContentInModal(title, content) {
-            const modal = document.getElementById('contentModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalContent = document.getElementById('modalContent');
-
-            modalTitle.textContent = title;
-
-            // Convert content to string if it's an object
-            let formattedContent = formatObjectToString(content);
-
-            // Preserve line breaks for table-formatted data
-            formattedContent = formattedContent.replace(/\n/g, '<br>');
-
-            // Set modal content
-            modalContent.innerHTML = formattedContent;
-
-            modal.style.display = 'block';
-        }
-
-        // Fetch and display training data
-        async function fetchTrainingData() {
-            try {
-                const response = await fetch('/training_data');
-                const data = await response.json();
-
-                const trainingDataBody = document.getElementById('trainingDataBody');
-                trainingDataBody.innerHTML = '';
-
-                if (!data.training_data || data.training_data.length === 0) {
-                    trainingDataBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px;">No training data found</td></tr>';
-                    return;
-                }
-
-                // Sort training data by ID
-                const sortedData = [...data.training_data].sort((a, b) => {
-                    if (a.id && b.id) {
-                        return a.id.localeCompare(b.id);
-                    }
-                    return 0;
-                });
-
-                sortedData.forEach(item => {
-                    const row = document.createElement('tr');
-
-                    // ID cell
-                    const idCell = document.createElement('td');
-                    idCell.style.padding = '8px';
-                    idCell.style.borderBottom = '1px solid #ddd';
-                    idCell.textContent = item.id || 'N/A';
-                    row.appendChild(idCell);
-
-                    // Data Type cell - display training_data_type
-                    const typeCell = document.createElement('td');
-                    typeCell.style.padding = '8px';
-                    typeCell.style.borderBottom = '1px solid #ddd';
-
-                    // Display training_data_type value
-                    typeCell.textContent = item.training_data_type || 'Unknown';
-                    row.appendChild(typeCell);
-
-                    // View button cell
-                    const viewCell = document.createElement('td');
-                    viewCell.style.padding = '8px';
-                    viewCell.style.borderBottom = '1px solid #ddd';
-                    viewCell.style.textAlign = 'center';
-
-                    // Create button
-                    const viewButton = document.createElement('button');
-                    viewButton.textContent = 'View Content';
-                    viewButton.style.backgroundColor = '#4CAF50';
-                    viewButton.style.padding = '5px 10px';
-                    viewButton.style.fontSize = '14px';
-                    viewButton.style.border = 'none';
-                    viewButton.style.borderRadius = '4px';
-                    viewButton.style.color = 'white';
-                    viewButton.style.cursor = 'pointer';
-
-                    // Show modal when clicked
-                    viewButton.addEventListener('click', () => {
-                        // Determine data type
-                        let dataType = item.training_data_type || 'Unknown';
-                        const title = `${dataType} - ${item.id}`;
-
-                        // Display the entire item object in the modal
-                        showContentInModal(title, item);
-                    });
-
-                    viewCell.appendChild(viewButton);
-                    row.appendChild(viewCell);
-
-                    // Actions cell
-                    const actionsCell = document.createElement('td');
-                    actionsCell.style.padding = '8px';
-                    actionsCell.style.borderBottom = '1px solid #ddd';
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.style.backgroundColor = '#f44336';
-                    deleteButton.style.padding = '5px 10px';
-                    deleteButton.style.fontSize = '14px';
-
-                    deleteButton.addEventListener('click', async () => {
-                        if (confirm(`Are you sure you want to delete training data with ID: ${item.id}?`)) {
-                            try {
-                                const response = await fetch(`/training_data/${item.id}`, {
-                                    method: 'DELETE'
-                                });
-
-                                if (response.ok) {
-                                    document.getElementById('trainResult').innerHTML =
-                                        `<div class="success">Successfully deleted training data with ID: ${item.id}</div>`;
-
-                                    // Refresh the training data list
-                                    fetchTrainingData();
-                                } else {
-                                    const errorData = await response.json();
-                                    document.getElementById('trainResult').innerHTML =
-                                        `<div class="error">Error: ${errorData.detail || 'Failed to delete training data'}</div>`;
-                                }
-                            } catch (error) {
-                                document.getElementById('trainResult').innerHTML =
-                                    `<div class="error">Error: ${error.message}</div>`;
-                            }
-                        }
-                    });
-
-                    actionsCell.appendChild(deleteButton);
-                    row.appendChild(actionsCell);
-
-                    trainingDataBody.appendChild(row);
-                });
-            } catch (error) {
-                document.getElementById('trainingDataBody').innerHTML =
-                    `<tr><td colspan="4" style="text-align: center; padding: 10px; color: red;">Error: ${error.message}</td></tr>`;
-                document.getElementById('trainResult').innerHTML =
-                    `<div class="error">Error fetching training data: ${error.message}</div>`;
-            }
-        }
-
-        // Refresh training data button
-        document.getElementById('refreshTrainingData').addEventListener('click', fetchTrainingData);
-
-        // Check connection status on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('checkStatus').click();
-            checkApiConfig();
-            checkDbConfig();
-
-            // Initialize modal
-            setupModal();
-
-            // Fetch training data when the manage tab is clicked
-            document.querySelector('.tab[data-tab="manage"]').addEventListener('click', fetchTrainingData);
-        });
-    </script>
+    <!-- Load JavaScript -->
+    <script src="/static/js/app.js"></script>
 </body>
 
 </html>
