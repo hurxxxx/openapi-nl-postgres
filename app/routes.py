@@ -352,18 +352,38 @@ async def get_web_interface_file():
 
 
 @router.post("/train/json", response_model=TrainJsonResponse, summary="Train model with JSON file")
-async def train_with_json_file(file: UploadFile = File(...)):
+async def train_with_json_file(file: UploadFile = File(...), train_type: str = "question_sql"):
     """
-    Train the model with a JSON file containing question-SQL pairs.
+    Train the model with a JSON file containing training data.
 
-    The JSON file should be an array of objects with the following structure:
-    [
-        {
-            "question": "What are the top 10 companies by revenue?",
-            "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
-        },
-        ...
-    ]
+    The JSON file format depends on the training type:
+
+    - question_sql: Array of objects with 'question' and 'answer' fields
+      [
+          {
+              "question": "What are the top 10 companies by revenue?",
+              "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
+          },
+          ...
+      ]
+
+    - ddl: Array of strings containing DDL statements
+      [
+          "CREATE TABLE my_table (id INT, name TEXT)",
+          ...
+      ]
+
+    - documentation: Array of strings containing documentation
+      [
+          "Our business defines XYZ as ABC",
+          ...
+      ]
+
+    - sql: Array of strings containing SQL statements
+      [
+          "SELECT col1, col2, col3 FROM my_table",
+          ...
+      ]
     """
     if not vn or not vn.is_connected:
         raise HTTPException(status_code=400, detail="Not connected to a database. Please connect first.")
@@ -372,6 +392,14 @@ async def train_with_json_file(file: UploadFile = File(...)):
     if not file.filename.endswith('.json'):
         raise HTTPException(status_code=400, detail="Only JSON files are allowed")
 
+    # Validate train_type
+    valid_train_types = ["question_sql", "ddl", "documentation", "sql"]
+    if train_type not in valid_train_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid train_type. Must be one of: {', '.join(valid_train_types)}"
+        )
+
     try:
         # Read the file content
         content = await file.read()
@@ -379,9 +407,15 @@ async def train_with_json_file(file: UploadFile = File(...)):
         # Parse JSON
         training_data = json.loads(content.decode('utf-8'))
 
-        # Validate the structure
-        if not isinstance(training_data, list):
-            raise HTTPException(status_code=400, detail="JSON file must contain an array of objects")
+        # Validate the structure based on train_type
+        if train_type == "question_sql":
+            # For question_sql, we expect an array of objects with question and answer fields
+            if not isinstance(training_data, list):
+                raise HTTPException(status_code=400, detail="JSON file must contain an array of objects")
+        elif train_type in ["ddl", "documentation", "sql"]:
+            # For other types, we expect an array of strings
+            if not isinstance(training_data, list):
+                raise HTTPException(status_code=400, detail="JSON file must contain an array of strings or objects")
 
         # Process each training example
         success_count = 0
@@ -390,22 +424,68 @@ async def train_with_json_file(file: UploadFile = File(...)):
 
         for i, example in enumerate(training_data):
             try:
-                # Validate the example structure
-                if not isinstance(example, dict) or 'question' not in example or 'answer' not in example:
-                    error_count += 1
-                    errors.append({
-                        'index': i,
-                        'error': "Example must have 'question' and 'answer' fields",
-                        'example': example
-                    })
-                    continue
+                if train_type == "question_sql":
+                    # Validate the example structure for question_sql
+                    if not isinstance(example, dict) or 'question' not in example or 'answer' not in example:
+                        error_count += 1
+                        errors.append({
+                            'index': i,
+                            'error': "Example must have 'question' and 'answer' fields",
+                            'example': example
+                        })
+                        continue
 
-                # Train on the example
-                question = example['question']
-                sql = example['answer']
+                    # Train on the example
+                    question = example['question']
+                    sql = example['answer']
 
-                print(f"Training on example {i+1}/{len(training_data)}: {question}")
-                result = vn.train(question=question, sql=sql)
+                    print(f"Training on question-SQL pair {i+1}/{len(training_data)}: {question}")
+                    result = vn.train(question=question, sql=sql)
+
+                elif train_type == "ddl":
+                    # Validate the example structure for ddl
+                    if not isinstance(example, str):
+                        error_count += 1
+                        errors.append({
+                            'index': i,
+                            'error': "DDL example must be a string",
+                            'example': example
+                        })
+                        continue
+
+                    # Train on the example
+                    print(f"Training on DDL statement {i+1}/{len(training_data)}")
+                    result = vn.train(ddl=example)
+
+                elif train_type == "documentation":
+                    # Validate the example structure for documentation
+                    if not isinstance(example, str):
+                        error_count += 1
+                        errors.append({
+                            'index': i,
+                            'error': "Documentation example must be a string",
+                            'example': example
+                        })
+                        continue
+
+                    # Train on the example
+                    print(f"Training on documentation {i+1}/{len(training_data)}")
+                    result = vn.train(documentation=example)
+
+                elif train_type == "sql":
+                    # Validate the example structure for sql
+                    if not isinstance(example, str):
+                        error_count += 1
+                        errors.append({
+                            'index': i,
+                            'error': "SQL example must be a string",
+                            'example': example
+                        })
+                        continue
+
+                    # Train on the example
+                    print(f"Training on SQL statement {i+1}/{len(training_data)}")
+                    result = vn.train(sql=example)
 
                 # Check if training was successful
                 if result and 'id' in result:
