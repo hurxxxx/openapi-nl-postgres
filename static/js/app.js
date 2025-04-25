@@ -18,7 +18,7 @@ const elements = {
     checkStatusBtn: document.getElementById('checkStatus'),
     connectBtn: document.getElementById('connect'),
     connectResult: document.getElementById('connectResult'),
-    
+
     // Form inputs
     hostInput: document.getElementById('host'),
     dbnameInput: document.getElementById('dbname'),
@@ -27,37 +27,44 @@ const elements = {
     portInput: document.getElementById('port'),
     apiKeyInput: document.getElementById('api_key'),
     modelInput: document.getElementById('model'),
-    
+
     // Status indicators
     apiKeyStatus: document.getElementById('api_key_status'),
     passwordStatus: document.getElementById('password_status'),
-    
+
     // Training elements
     trainSchema: document.getElementById('trainSchema'),
     trainDDL: document.getElementById('trainDDL'),
     trainDocumentation: document.getElementById('trainDocumentation'),
     trainSQLOnly: document.getElementById('trainSQLOnly'),
     trainQuestionSQL: document.getElementById('trainQuestionSQL'),
+    trainJsonFile: document.getElementById('trainJsonFile'),
     refreshTrainingData: document.getElementById('refreshTrainingData'),
     trainResult: document.getElementById('trainResult'),
-    
+
+    // JSON file training elements
+    jsonFile: document.getElementById('jsonFile'),
+    jsonTrainingProgress: document.getElementById('jsonTrainingProgress'),
+    jsonProgressFill: document.getElementById('jsonProgressFill'),
+    jsonProgressText: document.getElementById('jsonProgressText'),
+
     // Training inputs
     trainDDLInput: document.getElementById('trainDDL'),
     trainDocumentationInput: document.getElementById('trainDocumentation'),
     trainSQLOnlyInput: document.getElementById('trainSQLOnly'),
     trainQuestionInput: document.getElementById('trainQuestion'),
     trainSQLInput: document.getElementById('trainSQL'),
-    
+
     // Query elements
     questionInput: document.getElementById('question'),
     queryBtn: document.getElementById('query'),
     sqlQuery: document.getElementById('sqlQuery'),
     queryResults: document.getElementById('queryResults'),
     explanation: document.getElementById('explanation'),
-    
+
     // Training data elements
     trainingDataBody: document.getElementById('trainingDataBody'),
-    
+
     // Modal elements
     modal: document.getElementById('contentModal'),
     modalTitle: document.getElementById('modalTitle'),
@@ -72,7 +79,7 @@ function initApp() {
     setupEventListeners();
     setupTabNavigation();
     setupModal();
-    
+
     // Initial data loading
     checkConnectionStatus();
     checkApiConfig();
@@ -86,18 +93,19 @@ function setupEventListeners() {
     // Connection
     elements.checkStatusBtn.addEventListener('click', checkConnectionStatus);
     elements.connectBtn.addEventListener('click', connectToDatabase);
-    
+
     // Training
     elements.trainSchema.addEventListener('click', trainSchema);
     elements.trainDDL.addEventListener('click', trainDDL);
     elements.trainDocumentation.addEventListener('click', trainDocumentation);
     elements.trainSQLOnly.addEventListener('click', trainSQL);
     elements.trainQuestionSQL.addEventListener('click', trainQuestionSQL);
+    elements.trainJsonFile.addEventListener('click', trainWithJsonFile);
     elements.refreshTrainingData.addEventListener('click', fetchTrainingData);
-    
+
     // Query
     elements.queryBtn.addEventListener('click', queryDatabase);
-    
+
     // Training data tab
     document.querySelector('.tab[data-tab="manage"]').addEventListener('click', fetchTrainingData);
 }
@@ -187,7 +195,7 @@ async function connectToDatabase() {
     try {
         showLoading(elements.connectResult);
         elements.connectBtn.disabled = true;
-        
+
         const response = await fetch('/connect', {
             method: 'POST',
             headers: {
@@ -197,7 +205,7 @@ async function connectToDatabase() {
         });
 
         const data = await response.json();
-        
+
         if (data.status) {
             elements.connectResult.innerHTML = `<div class="success">${data.message}</div>`;
             state.isConnected = true;
@@ -266,7 +274,7 @@ async function checkDbConfig() {
             } else {
                 elements.passwordStatus.innerHTML = '<span style="color: red;">✗ No password in .env</span>';
             }
-            
+
             state.hasDbConfig = true;
         } else {
             // Set placeholders with example values if no config in .env
@@ -287,7 +295,7 @@ async function checkDbConfig() {
 
             // Show password status
             elements.passwordStatus.innerHTML = '<span style="color: red;">✗ No password in .env</span>';
-            
+
             state.hasDbConfig = false;
         }
     } catch (error) {
@@ -554,7 +562,7 @@ async function queryDatabase() {
     try {
         elements.queryBtn.disabled = true;
         elements.queryBtn.textContent = "Running...";
-        
+
         // Clear previous results
         elements.sqlQuery.textContent = 'Generating SQL...';
         elements.queryResults.textContent = 'Waiting for results...';
@@ -584,6 +592,93 @@ async function queryDatabase() {
 }
 
 /**
+ * Train the model with a JSON file
+ */
+async function trainWithJsonFile() {
+    if (!state.isConnected) {
+        elements.trainResult.innerHTML = '<div class="error">Not connected to a database. Please connect first.</div>';
+        return;
+    }
+
+    const fileInput = elements.jsonFile;
+    if (!fileInput.files || fileInput.files.length === 0) {
+        elements.trainResult.innerHTML = '<div class="error">Please select a JSON file</div>';
+        return;
+    }
+
+    const file = fileInput.files[0];
+    if (!file.name.endsWith('.json')) {
+        elements.trainResult.innerHTML = '<div class="error">Please select a JSON file with .json extension</div>';
+        return;
+    }
+
+    try {
+        // Disable the button and show loading state
+        const trainButton = elements.trainJsonFile;
+        trainButton.disabled = true;
+        trainButton.textContent = "Uploading...";
+
+        // Show progress container
+        elements.jsonTrainingProgress.style.display = 'block';
+        elements.jsonProgressFill.style.width = '10%';
+        elements.jsonProgressText.textContent = 'Uploading file...';
+
+        // Create form data
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Upload the file
+        const response = await fetch('/train/json', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Update progress
+        elements.jsonProgressFill.style.width = '50%';
+        elements.jsonProgressText.textContent = 'Processing training data...';
+
+        // Parse the response
+        const data = await response.json();
+
+        // Update progress to complete
+        elements.jsonProgressFill.style.width = '100%';
+        elements.jsonProgressText.textContent = 'Training complete!';
+
+        // Show the result
+        let resultMessage = `<div class="success">${data.message}</div>`;
+
+        // Add details about errors if any
+        if (data.error_count > 0) {
+            resultMessage += `<div class="error">Failed to train ${data.error_count} examples. See details below:</div>`;
+            resultMessage += '<ul>';
+            data.errors.forEach(error => {
+                resultMessage += `<li>Error at index ${error.index}: ${error.error}</li>`;
+            });
+            resultMessage += '</ul>';
+        }
+
+        elements.trainResult.innerHTML = resultMessage;
+
+        // Reset the file input
+        fileInput.value = '';
+    } catch (error) {
+        elements.jsonProgressFill.style.width = '100%';
+        elements.jsonProgressText.textContent = 'Error!';
+        elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    } finally {
+        // Reset button state
+        const trainButton = elements.trainJsonFile;
+        trainButton.disabled = false;
+        trainButton.textContent = "Train with JSON File";
+
+        // Hide progress container after a delay
+        setTimeout(() => {
+            elements.jsonTrainingProgress.style.display = 'none';
+        }, 3000);
+    }
+}
+
+/**
  * Fetch and display training data
  */
 async function fetchTrainingData() {
@@ -594,7 +689,7 @@ async function fetchTrainingData() {
 
     try {
         showLoading(elements.trainingDataBody);
-        
+
         const response = await fetch('/training_data');
         const data = await response.json();
 

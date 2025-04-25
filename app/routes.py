@@ -2,8 +2,9 @@
 API routes for the application.
 """
 import os
+import json
 import traceback
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 
 from app import config
@@ -11,7 +12,7 @@ from app.models import (
     ConnectionRequest, ConnectionResponse,
     TrainRequest, TrainResponse,
     QueryRequest, QueryResponse,
-    TrainingDataResponse
+    TrainingDataResponse, TrainJsonResponse
 )
 from app.database import vn
 from app.utils import convert_to_records
@@ -348,3 +349,91 @@ async def get_web_interface_file():
     """
     html_file = config.STATIC_DIR / "web_interface_test.html"
     return FileResponse(html_file)
+
+
+@router.post("/train/json", response_model=TrainJsonResponse, summary="Train model with JSON file")
+async def train_with_json_file(file: UploadFile = File(...)):
+    """
+    Train the model with a JSON file containing question-SQL pairs.
+
+    The JSON file should be an array of objects with the following structure:
+    [
+        {
+            "question": "What are the top 10 companies by revenue?",
+            "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
+        },
+        ...
+    ]
+    """
+    if not vn or not vn.is_connected:
+        raise HTTPException(status_code=400, detail="Not connected to a database. Please connect first.")
+
+    # Check file extension
+    if not file.filename.endswith('.json'):
+        raise HTTPException(status_code=400, detail="Only JSON files are allowed")
+
+    try:
+        # Read the file content
+        content = await file.read()
+
+        # Parse JSON
+        training_data = json.loads(content.decode('utf-8'))
+
+        # Validate the structure
+        if not isinstance(training_data, list):
+            raise HTTPException(status_code=400, detail="JSON file must contain an array of objects")
+
+        # Process each training example
+        success_count = 0
+        error_count = 0
+        errors = []
+
+        for i, example in enumerate(training_data):
+            try:
+                # Validate the example structure
+                if not isinstance(example, dict) or 'question' not in example or 'answer' not in example:
+                    error_count += 1
+                    errors.append({
+                        'index': i,
+                        'error': "Example must have 'question' and 'answer' fields",
+                        'example': example
+                    })
+                    continue
+
+                # Train on the example
+                question = example['question']
+                sql = example['answer']
+
+                print(f"Training on example {i+1}/{len(training_data)}: {question}")
+                result = vn.train(question=question, sql=sql)
+
+                # Check if training was successful
+                if result and 'id' in result:
+                    success_count += 1
+                else:
+                    error_count += 1
+                    errors.append({
+                        'index': i,
+                        'error': "Training failed with unknown error",
+                        'example': example
+                    })
+            except Exception as e:
+                error_count += 1
+                errors.append({
+                    'index': i,
+                    'error': str(e),
+                    'example': example
+                })
+
+        # Return the results
+        return TrainJsonResponse(
+            message=f"Training completed with {success_count} successes and {error_count} errors",
+            success_count=success_count,
+            error_count=error_count,
+            errors=errors
+        )
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON format: {str(e)}")
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Training failed: {str(e)}")

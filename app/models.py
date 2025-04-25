@@ -3,6 +3,7 @@ Pydantic models for request and response validation.
 """
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
+from fastapi import UploadFile, File
 
 
 class ConnectionRequest(BaseModel):
@@ -50,3 +51,11 @@ class QueryResponse(BaseModel):
 class TrainingDataResponse(BaseModel):
     """Response model for training data."""
     training_data: List[Dict[str, Any]] = Field(..., description="List of training data entries")
+
+
+class TrainJsonResponse(BaseModel):
+    """Response model for JSON file training."""
+    message: str = Field(..., description="Training status message")
+    success_count: int = Field(..., description="Number of successfully trained examples")
+    error_count: int = Field(0, description="Number of examples that failed to train")
+    errors: List[Dict[str, Any]] = Field([], description="List of errors encountered during training")

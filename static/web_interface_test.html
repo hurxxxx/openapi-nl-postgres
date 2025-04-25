@@ -75,6 +75,7 @@
                 <div class="tab" data-tab="documentation">Documentation</div>
                 <div class="tab" data-tab="sql">SQL</div>
                 <div class="tab" data-tab="qa">Question-SQL</div>
+                <div class="tab" data-tab="json">JSON File</div>
                 <div class="tab" data-tab="manage">Manage Training Data</div>
             </div>
             <div class="tab-content active" id="schema-tab">
@@ -163,6 +164,33 @@
                         class="example-content">SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC</pre>
                 </div>
                 <button id="trainQuestionSQL">Train on Question-SQL Pair</button>
+            </div>
+            <div class="tab-content" id="json-tab">
+                <p>Train the model with a JSON file containing question-SQL pairs.</p>
+                <div class="form-group">
+                    <label for="jsonFile">JSON File:</label>
+                    <input type="file" id="jsonFile" accept=".json" />
+                </div>
+                <div class="example-container">
+                    <p class="example-title">Expected JSON Format:</p>
+                    <pre class="example-content">[
+  {
+    "question": "What are the top 10 companies by revenue?",
+    "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
+  },
+  {
+    "question": "How many employees work in each department?",
+    "answer": "SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC"
+  }
+]</pre>
+                </div>
+                <button id="trainJsonFile">Train with JSON File</button>
+                <div id="jsonTrainingProgress" class="progress-container" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="jsonProgressFill"></div>
+                    </div>
+                    <div id="jsonProgressText">Processing...</div>
+                </div>
             </div>
             <div class="tab-content" id="manage-tab">
                 <p>View and manage existing training data.</p>
