@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Who are our top 10 customers by total spending?",
+    "answer": "SELECT c.name, c.email, SUM(o.total_amount) AS total_spent FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id, c.name, c.email ORDER BY total_spent DESC LIMIT 10"
+  },
+  {
+    "question": "What are our 5 most popular products?",
+    "answer": "SELECT p.name, COUNT(oi.id) AS times_ordered FROM products p JOIN order_items oi ON p.id = oi.product_id GROUP BY p.id, p.name ORDER BY times_ordered DESC LIMIT 5"
+  },
+  {
+    "question": "How many customers do we have in each country?",
+    "answer": "SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC"
+  },
+  {
+    "question": "What was our total revenue for each month of last year?",
+    "answer": "SELECT EXTRACT(MONTH FROM order_date) AS month, SUM(total_amount) AS monthly_revenue FROM orders WHERE EXTRACT(YEAR FROM order_date) = EXTRACT(YEAR FROM CURRENT_DATE) - 1 GROUP BY month ORDER BY month"
+  },
+  {
+    "question": "Which product categories have the highest average customer lifetime value?",
+    "answer": "SELECT cat.name AS category, AVG(c.lifetime_value) AS avg_lifetime_value FROM categories cat JOIN products p ON cat.id = p.category_id JOIN order_items oi ON p.id = oi.product_id JOIN orders o ON oi.order_id = o.id JOIN customers c ON o.customer_id = c.id GROUP BY cat.id, cat.name ORDER BY avg_lifetime_value DESC"
+  }
+]

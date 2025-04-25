@@ -1,0 +1,7 @@
+[
+  "CREATE TABLE customers (id SERIAL PRIMARY KEY, name VARCHAR(100), email VARCHAR(100), country VARCHAR(50), signup_date DATE, lifetime_value DECIMAL(10,2))",
+  "CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(100), description TEXT, price DECIMAL(10,2), category VARCHAR(50), in_stock BOOLEAN)",
+  "CREATE TABLE orders (id SERIAL PRIMARY KEY, customer_id INTEGER REFERENCES customers(id), order_date TIMESTAMP, total_amount DECIMAL(10,2), status VARCHAR(20))",
+  "CREATE TABLE order_items (id SERIAL PRIMARY KEY, order_id INTEGER REFERENCES orders(id), product_id INTEGER REFERENCES products(id), quantity INTEGER, price DECIMAL(10,2))",
+  "CREATE TABLE categories (id SERIAL PRIMARY KEY, name VARCHAR(50), parent_id INTEGER REFERENCES categories(id))"
+]

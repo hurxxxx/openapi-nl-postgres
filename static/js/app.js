@@ -50,33 +50,13 @@ const elements = {
     jsonProgressFill: document.getElementById('jsonProgressFill'),
     jsonProgressText: document.getElementById('jsonProgressText'),
 
-    // DDL JSON file training elements
-    ddlJsonFile: document.getElementById('ddlJsonFile'),
-    trainDdlJsonFile: document.getElementById('trainDdlJsonFile'),
-    ddlJsonTrainingProgress: document.getElementById('ddlJsonTrainingProgress'),
-    ddlJsonProgressFill: document.getElementById('ddlJsonProgressFill'),
-    ddlJsonProgressText: document.getElementById('ddlJsonProgressText'),
-
-    // Documentation JSON file training elements
-    docJsonFile: document.getElementById('docJsonFile'),
-    trainDocJsonFile: document.getElementById('trainDocJsonFile'),
-    docJsonTrainingProgress: document.getElementById('docJsonTrainingProgress'),
-    docJsonProgressFill: document.getElementById('docJsonProgressFill'),
-    docJsonProgressText: document.getElementById('docJsonProgressText'),
-
-    // SQL JSON file training elements
-    sqlJsonFile: document.getElementById('sqlJsonFile'),
-    trainSqlJsonFile: document.getElementById('trainSqlJsonFile'),
-    sqlJsonTrainingProgress: document.getElementById('sqlJsonTrainingProgress'),
-    sqlJsonProgressFill: document.getElementById('sqlJsonProgressFill'),
-    sqlJsonProgressText: document.getElementById('sqlJsonProgressText'),
-
-    // Question-SQL JSON file training elements
-    qaSqlJsonFile: document.getElementById('qaSqlJsonFile'),
-    trainQaSqlJsonFile: document.getElementById('trainQaSqlJsonFile'),
-    qaSqlJsonTrainingProgress: document.getElementById('qaSqlJsonTrainingProgress'),
-    qaSqlJsonProgressFill: document.getElementById('qaSqlJsonProgressFill'),
-    qaSqlJsonProgressText: document.getElementById('qaSqlJsonProgressText'),
+    // JSON file training elements
+    jsonFile: document.getElementById('jsonFile'),
+    jsonTrainType: document.getElementById('jsonTrainType'),
+    jsonFormatExample: document.getElementById('jsonFormatExample'),
+    jsonTrainingProgress: document.getElementById('jsonTrainingProgress'),
+    jsonProgressFill: document.getElementById('jsonProgressFill'),
+    jsonProgressText: document.getElementById('jsonProgressText'),
 
     // Training inputs
     trainDDLInput: document.getElementById('trainDDL'),
@@ -136,10 +116,6 @@ function setupEventListeners() {
 
     // JSON file training
     elements.trainJsonFile.addEventListener('click', trainWithJsonFile);
-    elements.trainDdlJsonFile.addEventListener('click', () => trainWithJsonFileByType('ddl'));
-    elements.trainDocJsonFile.addEventListener('click', () => trainWithJsonFileByType('documentation'));
-    elements.trainSqlJsonFile.addEventListener('click', () => trainWithJsonFileByType('sql'));
-    elements.trainQaSqlJsonFile.addEventListener('click', () => trainWithJsonFileByType('question_sql'));
 
     // Training data management
     elements.refreshTrainingData.addEventListener('click', fetchTrainingData);
@@ -678,127 +654,7 @@ function updateJsonFormatExample() {
     elements.jsonFormatExample.innerHTML = exampleHtml;
 }
 
-/**
- * Train the model with a JSON file for a specific training type
- */
-async function trainWithJsonFileByType(trainType) {
-    if (!state.isConnected) {
-        elements.trainResult.innerHTML = '<div class="error">Not connected to a database. Please connect first.</div>';
-        return;
-    }
 
-    // Determine which elements to use based on the training type
-    let fileInput, trainButton, progressContainer, progressFill, progressText;
-
-    switch (trainType) {
-        case 'ddl':
-            fileInput = elements.ddlJsonFile;
-            trainButton = elements.trainDdlJsonFile;
-            progressContainer = elements.ddlJsonTrainingProgress;
-            progressFill = elements.ddlJsonProgressFill;
-            progressText = elements.ddlJsonProgressText;
-            break;
-        case 'documentation':
-            fileInput = elements.docJsonFile;
-            trainButton = elements.trainDocJsonFile;
-            progressContainer = elements.docJsonTrainingProgress;
-            progressFill = elements.docJsonProgressFill;
-            progressText = elements.docJsonProgressText;
-            break;
-        case 'sql':
-            fileInput = elements.sqlJsonFile;
-            trainButton = elements.trainSqlJsonFile;
-            progressContainer = elements.sqlJsonTrainingProgress;
-            progressFill = elements.sqlJsonProgressFill;
-            progressText = elements.sqlJsonProgressText;
-            break;
-        case 'question_sql':
-            fileInput = elements.qaSqlJsonFile;
-            trainButton = elements.trainQaSqlJsonFile;
-            progressContainer = elements.qaSqlJsonTrainingProgress;
-            progressFill = elements.qaSqlJsonProgressFill;
-            progressText = elements.qaSqlJsonProgressText;
-            break;
-        default:
-            elements.trainResult.innerHTML = '<div class="error">Invalid training type</div>';
-            return;
-    }
-
-    if (!fileInput.files || fileInput.files.length === 0) {
-        elements.trainResult.innerHTML = '<div class="error">Please select a JSON file</div>';
-        return;
-    }
-
-    const file = fileInput.files[0];
-    if (!file.name.endsWith('.json')) {
-        elements.trainResult.innerHTML = '<div class="error">Please select a JSON file with .json extension</div>';
-        return;
-    }
-
-    try {
-        // Disable the button and show loading state
-        trainButton.disabled = true;
-        trainButton.textContent = "Uploading...";
-
-        // Show progress container
-        progressContainer.style.display = 'block';
-        progressFill.style.width = '10%';
-        progressText.textContent = 'Uploading file...';
-
-        // Create form data
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('train_type', trainType);
-
-        // Upload the file
-        const response = await fetch('/train/json', {
-            method: 'POST',
-            body: formData
-        });
-
-        // Update progress
-        progressFill.style.width = '50%';
-        progressText.textContent = 'Processing training data...';
-
-        // Parse the response
-        const data = await response.json();
-
-        // Update progress to complete
-        progressFill.style.width = '100%';
-        progressText.textContent = 'Training complete!';
-
-        // Show the result
-        let resultMessage = `<div class="success">${data.message}</div>`;
-
-        // Add details about errors if any
-        if (data.error_count > 0) {
-            resultMessage += `<div class="error">Failed to train ${data.error_count} examples. See details below:</div>`;
-            resultMessage += '<ul>';
-            data.errors.forEach(error => {
-                resultMessage += `<li>Error at index ${error.index}: ${error.error}</li>`;
-            });
-            resultMessage += '</ul>';
-        }
-
-        elements.trainResult.innerHTML = resultMessage;
-
-        // Reset the file input
-        fileInput.value = '';
-    } catch (error) {
-        progressFill.style.width = '100%';
-        progressText.textContent = 'Error!';
-        elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    } finally {
-        // Reset button state
-        trainButton.disabled = false;
-        trainButton.textContent = "Train with JSON File";
-
-        // Hide progress container after a delay
-        setTimeout(() => {
-            progressContainer.style.display = 'none';
-        }, 3000);
-    }
-}
 
 /**
  * Train the model with a JSON file from the general JSON tab
