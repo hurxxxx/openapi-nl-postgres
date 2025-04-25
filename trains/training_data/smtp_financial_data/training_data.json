@@ -1,0 +1,394 @@
+[
+  {
+    "question": "모든 회사의 재무 데이터를 조회해줘",
+    "answer": "SELECT * FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 매출액을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 순이익을 보여줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 영업이익을 조회해줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 총자산을 보여줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 총부채를 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 자본금을 보여줘",
+    "answer": "SELECT financial_company_id, year, capital_stock FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 법인세를 조회해줘",
+    "answer": "SELECT financial_company_id, year, corporate_tax FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 유동자산을 보여줘",
+    "answer": "SELECT financial_company_id, year, current_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 당좌자산을 조회해줘",
+    "answer": "SELECT financial_company_id, year, quick_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 재고자산을 보여줘",
+    "answer": "SELECT financial_company_id, year, inventory FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 비유동자산을 조회해줘",
+    "answer": "SELECT financial_company_id, year, non_current_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 투자자산을 보여줘",
+    "answer": "SELECT financial_company_id, year, investment_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 유형자산을 조회해줘",
+    "answer": "SELECT financial_company_id, year, tangible_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 무형자산을 보여줘",
+    "answer": "SELECT financial_company_id, year, intangible_assets FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 유동부채를 조회해줘",
+    "answer": "SELECT financial_company_id, year, current_liabilities FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 비유동부채를 보여줘",
+    "answer": "SELECT financial_company_id, year, non_current_liabilities FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 이익잉여금을 조회해줘",
+    "answer": "SELECT financial_company_id, year, retained_earnings FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 매출원가를 보여줘",
+    "answer": "SELECT financial_company_id, year, sales_cost FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 매출총이익을 조회해줘",
+    "answer": "SELECT financial_company_id, year, sales_profit FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 판관비를 보여줘",
+    "answer": "SELECT financial_company_id, year, sga FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 기타수익을 조회해줘",
+    "answer": "SELECT financial_company_id, year, other_income FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 기타비용을 보여줘",
+    "answer": "SELECT financial_company_id, year, other_expenses FROM smtp_financial_data"
+  },
+  {
+    "question": "회사별 세전이익을 조회해줘",
+    "answer": "SELECT financial_company_id, year, pre_tax_income FROM smtp_financial_data"
+  },
+  {
+    "question": "2022년 재무 데이터를 조회해줘",
+    "answer": "SELECT * FROM smtp_financial_data WHERE year = 2022"
+  },
+  {
+    "question": "2021년 재무 데이터를 보여줘",
+    "answer": "SELECT * FROM smtp_financial_data WHERE year = 2021"
+  },
+  {
+    "question": "2020년 재무 데이터를 조회해줘",
+    "answer": "SELECT * FROM smtp_financial_data WHERE year = 2020"
+  },
+  {
+    "question": "2019년 재무 데이터를 보여줘",
+    "answer": "SELECT * FROM smtp_financial_data WHERE year = 2019"
+  },
+  {
+    "question": "2018년 재무 데이터를 조회해줘",
+    "answer": "SELECT * FROM smtp_financial_data WHERE year = 2018"
+  },
+  {
+    "question": "매출액이 1조원 이상인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data WHERE revenue >= 1000000000000"
+  },
+  {
+    "question": "매출액이 1000억원 이상인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data WHERE revenue >= 100000000000"
+  },
+  {
+    "question": "매출액이 100억원 이상인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data WHERE revenue >= 10000000000"
+  },
+  {
+    "question": "순이익이 양수인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data WHERE net_income > 0"
+  },
+  {
+    "question": "순이익이 음수인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data WHERE net_income < 0"
+  },
+  {
+    "question": "영업이익이 양수인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data WHERE operating_income > 0"
+  },
+  {
+    "question": "영업이익이 음수인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data WHERE operating_income < 0"
+  },
+  {
+    "question": "총자산이 1조원 이상인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data WHERE total_assets >= 1000000000000"
+  },
+  {
+    "question": "총자산이 1000억원 이상인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data WHERE total_assets >= 100000000000"
+  },
+  {
+    "question": "총부채가 1조원 이상인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities FROM smtp_financial_data WHERE total_liabilities >= 1000000000000"
+  },
+  {
+    "question": "총부채가 1000억원 이상인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities FROM smtp_financial_data WHERE total_liabilities >= 100000000000"
+  },
+  {
+    "question": "자본금이 1000억원 이상인 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, capital_stock FROM smtp_financial_data WHERE capital_stock >= 100000000000"
+  },
+  {
+    "question": "자본금이 100억원 이상인 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, capital_stock FROM smtp_financial_data WHERE capital_stock >= 10000000000"
+  },
+  {
+    "question": "매출액 기준으로 상위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data ORDER BY revenue DESC LIMIT 10"
+  },
+  {
+    "question": "순이익 기준으로 상위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data ORDER BY net_income DESC LIMIT 10"
+  },
+  {
+    "question": "영업이익 기준으로 상위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data ORDER BY operating_income DESC LIMIT 10"
+  },
+  {
+    "question": "총자산 기준으로 상위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data ORDER BY total_assets DESC LIMIT 10"
+  },
+  {
+    "question": "매출액 기준으로 하위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data WHERE revenue > 0 ORDER BY revenue ASC LIMIT 10"
+  },
+  {
+    "question": "순이익 기준으로 하위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data ORDER BY net_income ASC LIMIT 10"
+  },
+  {
+    "question": "영업이익 기준으로 하위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data ORDER BY operating_income ASC LIMIT 10"
+  },
+  {
+    "question": "총자산 기준으로 하위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data WHERE total_assets > 0 ORDER BY total_assets ASC LIMIT 10"
+  },
+  {
+    "question": "2022년 매출액 기준으로 상위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, revenue FROM smtp_financial_data WHERE year = 2022 ORDER BY revenue DESC LIMIT 10"
+  },
+  {
+    "question": "2022년 순이익 기준으로 상위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, net_income FROM smtp_financial_data WHERE year = 2022 ORDER BY net_income DESC LIMIT 10"
+  },
+  {
+    "question": "2022년 영업이익 기준으로 상위 10개 회사를 보여줘",
+    "answer": "SELECT financial_company_id, operating_income FROM smtp_financial_data WHERE year = 2022 ORDER BY operating_income DESC LIMIT 10"
+  },
+  {
+    "question": "2022년 총자산 기준으로 상위 10개 회사를 조회해줘",
+    "answer": "SELECT financial_company_id, total_assets FROM smtp_financial_data WHERE year = 2022 ORDER BY total_assets DESC LIMIT 10"
+  },
+  {
+    "question": "연도별 평균 매출액을 보여줘",
+    "answer": "SELECT year, AVG(revenue) as avg_revenue FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 평균 순이익을 조회해줘",
+    "answer": "SELECT year, AVG(net_income) as avg_net_income FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 평균 영업이익을 보여줘",
+    "answer": "SELECT year, AVG(operating_income) as avg_operating_income FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 평균 총자산을 조회해줘",
+    "answer": "SELECT year, AVG(total_assets) as avg_total_assets FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 평균 총부채를 보여줘",
+    "answer": "SELECT year, AVG(total_liabilities) as avg_total_liabilities FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 평균 자본금을 조회해줘",
+    "answer": "SELECT year, AVG(capital_stock) as avg_capital_stock FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 매출액을 보여줘",
+    "answer": "SELECT year, SUM(revenue) as total_revenue FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 순이익을 조회해줘",
+    "answer": "SELECT year, SUM(net_income) as total_net_income FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 영업이익을 보여줘",
+    "answer": "SELECT year, SUM(operating_income) as total_operating_income FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 자산을 조회해줘",
+    "answer": "SELECT year, SUM(total_assets) as total_assets_sum FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 부채를 보여줘",
+    "answer": "SELECT year, SUM(total_liabilities) as total_liabilities_sum FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "연도별 총 자본금을 조회해줘",
+    "answer": "SELECT year, SUM(capital_stock) as total_capital_stock FROM smtp_financial_data GROUP BY year ORDER BY year"
+  },
+  {
+    "question": "회사별 매출액 추이를 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "회사별 순이익 추이를 조회해줘",
+    "answer": "SELECT financial_company_id, year, net_income FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "회사별 영업이익 추이를 보여줘",
+    "answer": "SELECT financial_company_id, year, operating_income FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "회사별 총자산 추이를 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_assets FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "회사별 총부채 추이를 보여줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "회사별 자본금 추이를 조회해줘",
+    "answer": "SELECT financial_company_id, year, capital_stock FROM smtp_financial_data ORDER BY financial_company_id, year"
+  },
+  {
+    "question": "매출액 대비 순이익 비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, net_income, (net_income / revenue * 100) as profit_margin FROM smtp_financial_data WHERE revenue > 0 ORDER BY profit_margin DESC LIMIT 10"
+  },
+  {
+    "question": "매출액 대비 영업이익 비율이 높은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, operating_income, (operating_income / revenue * 100) as operating_margin FROM smtp_financial_data WHERE revenue > 0 ORDER BY operating_margin DESC LIMIT 10"
+  },
+  {
+    "question": "총자산 대비 순이익 비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, total_assets, net_income, (net_income / total_assets * 100) as ROA FROM smtp_financial_data WHERE total_assets > 0 ORDER BY ROA DESC LIMIT 10"
+  },
+  {
+    "question": "자본금 대비 순이익 비율이 높은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, capital_stock, net_income, (net_income / capital_stock * 100) as ROE FROM smtp_financial_data WHERE capital_stock > 0 ORDER BY ROE DESC LIMIT 10"
+  },
+  {
+    "question": "부채비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities, total_assets, (total_liabilities / total_assets * 100) as debt_ratio FROM smtp_financial_data WHERE total_assets > 0 ORDER BY debt_ratio DESC LIMIT 10"
+  },
+  {
+    "question": "부채비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, total_liabilities, total_assets, (total_liabilities / total_assets * 100) as debt_ratio FROM smtp_financial_data WHERE total_assets > 0 AND total_liabilities > 0 ORDER BY debt_ratio ASC LIMIT 10"
+  },
+  {
+    "question": "유동비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, current_assets, current_liabilities, (current_assets / current_liabilities * 100) as current_ratio FROM smtp_financial_data WHERE current_liabilities > 0 ORDER BY current_ratio DESC LIMIT 10"
+  },
+  {
+    "question": "유동비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, current_assets, current_liabilities, (current_assets / current_liabilities * 100) as current_ratio FROM smtp_financial_data WHERE current_liabilities > 0 AND current_assets > 0 ORDER BY current_ratio ASC LIMIT 10"
+  },
+  {
+    "question": "당좌비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, quick_assets, current_liabilities, (quick_assets / current_liabilities * 100) as quick_ratio FROM smtp_financial_data WHERE current_liabilities > 0 ORDER BY quick_ratio DESC LIMIT 10"
+  },
+  {
+    "question": "당좌비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, quick_assets, current_liabilities, (quick_assets / current_liabilities * 100) as quick_ratio FROM smtp_financial_data WHERE current_liabilities > 0 AND quick_assets > 0 ORDER BY quick_ratio ASC LIMIT 10"
+  },
+  {
+    "question": "재고자산 회전율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, inventory, (revenue / inventory) as inventory_turnover FROM smtp_financial_data WHERE inventory > 0 ORDER BY inventory_turnover DESC LIMIT 10"
+  },
+  {
+    "question": "재고자산 회전율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, inventory, (revenue / inventory) as inventory_turnover FROM smtp_financial_data WHERE inventory > 0 AND revenue > 0 ORDER BY inventory_turnover ASC LIMIT 10"
+  },
+  {
+    "question": "총자산 회전율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, total_assets, (revenue / total_assets) as asset_turnover FROM smtp_financial_data WHERE total_assets > 0 ORDER BY asset_turnover DESC LIMIT 10"
+  },
+  {
+    "question": "총자산 회전율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, total_assets, (revenue / total_assets) as asset_turnover FROM smtp_financial_data WHERE total_assets > 0 AND revenue > 0 ORDER BY asset_turnover ASC LIMIT 10"
+  },
+  {
+    "question": "매출액 증가율이 높은 회사들을 보여줘",
+    "answer": "SELECT t1.financial_company_id, t1.year, t1.revenue, t2.revenue as prev_revenue, ((t1.revenue - t2.revenue) / t2.revenue * 100) as revenue_growth FROM smtp_financial_data t1 JOIN smtp_financial_data t2 ON t1.financial_company_id = t2.financial_company_id AND t1.year = t2.year + 1 WHERE t2.revenue > 0 ORDER BY revenue_growth DESC LIMIT 10"
+  },
+  {
+    "question": "순이익 증가율이 높은 회사들을 조회해줘",
+    "answer": "SELECT t1.financial_company_id, t1.year, t1.net_income, t2.net_income as prev_net_income, ((t1.net_income - t2.net_income) / ABS(t2.net_income) * 100) as net_income_growth FROM smtp_financial_data t1 JOIN smtp_financial_data t2 ON t1.financial_company_id = t2.financial_company_id AND t1.year = t2.year + 1 WHERE t2.net_income != 0 AND t1.net_income > t2.net_income ORDER BY net_income_growth DESC LIMIT 10"
+  },
+  {
+    "question": "영업이익 증가율이 높은 회사들을 보여줘",
+    "answer": "SELECT t1.financial_company_id, t1.year, t1.operating_income, t2.operating_income as prev_operating_income, ((t1.operating_income - t2.operating_income) / ABS(t2.operating_income) * 100) as operating_income_growth FROM smtp_financial_data t1 JOIN smtp_financial_data t2 ON t1.financial_company_id = t2.financial_company_id AND t1.year = t2.year + 1 WHERE t2.operating_income != 0 AND t1.operating_income > t2.operating_income ORDER BY operating_income_growth DESC LIMIT 10"
+  },
+  {
+    "question": "총자산 증가율이 높은 회사들을 조회해줘",
+    "answer": "SELECT t1.financial_company_id, t1.year, t1.total_assets, t2.total_assets as prev_total_assets, ((t1.total_assets - t2.total_assets) / t2.total_assets * 100) as total_assets_growth FROM smtp_financial_data t1 JOIN smtp_financial_data t2 ON t1.financial_company_id = t2.financial_company_id AND t1.year = t2.year + 1 WHERE t2.total_assets > 0 ORDER BY total_assets_growth DESC LIMIT 10"
+  },
+  {
+    "question": "매출액 대비 판관비 비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, sga, (sga / revenue * 100) as sga_ratio FROM smtp_financial_data WHERE revenue > 0 ORDER BY sga_ratio DESC LIMIT 10"
+  },
+  {
+    "question": "매출액 대비 판관비 비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, sga, (sga / revenue * 100) as sga_ratio FROM smtp_financial_data WHERE revenue > 0 AND sga > 0 ORDER BY sga_ratio ASC LIMIT 10"
+  },
+  {
+    "question": "매출액 대비 매출원가 비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, sales_cost, (sales_cost / revenue * 100) as cogs_ratio FROM smtp_financial_data WHERE revenue > 0 ORDER BY cogs_ratio DESC LIMIT 10"
+  },
+  {
+    "question": "매출액 대비 매출원가 비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, sales_cost, (sales_cost / revenue * 100) as cogs_ratio FROM smtp_financial_data WHERE revenue > 0 AND sales_cost > 0 ORDER BY cogs_ratio ASC LIMIT 10"
+  },
+  {
+    "question": "매출총이익률이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, revenue, sales_profit, (sales_profit / revenue * 100) as gross_margin FROM smtp_financial_data WHERE revenue > 0 ORDER BY gross_margin DESC LIMIT 10"
+  },
+  {
+    "question": "매출총이익률이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, revenue, sales_profit, (sales_profit / revenue * 100) as gross_margin FROM smtp_financial_data WHERE revenue > 0 AND sales_profit > 0 ORDER BY gross_margin ASC LIMIT 10"
+  },
+  {
+    "question": "법인세 비율이 높은 회사들을 보여줘",
+    "answer": "SELECT financial_company_id, year, pre_tax_income, corporate_tax, (corporate_tax / pre_tax_income * 100) as tax_rate FROM smtp_financial_data WHERE pre_tax_income > 0 ORDER BY tax_rate DESC LIMIT 10"
+  },
+  {
+    "question": "법인세 비율이 낮은 회사들을 조회해줘",
+    "answer": "SELECT financial_company_id, year, pre_tax_income, corporate_tax, (corporate_tax / pre_tax_income * 100) as tax_rate FROM smtp_financial_data WHERE pre_tax_income > 0 AND corporate_tax > 0 ORDER BY tax_rate ASC LIMIT 10"
+  }
+]

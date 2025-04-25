@@ -1,0 +1,362 @@
+[
+  {
+    "question": "모든 금융 회사의 이름과 주소를 조회해줘",
+    "answer": "SELECT company_name, address FROM smtp_financial_company"
+  },
+  {
+    "question": "금융 회사들의 이름과 대표자를 보여줘",
+    "answer": "SELECT company_name, representative FROM smtp_financial_company"
+  },
+  {
+    "question": "서울에 있는 금융 회사들의 목록을 보여줘",
+    "answer": "SELECT company_name, address FROM smtp_financial_company WHERE address LIKE '%서울%'"
+  },
+  {
+    "question": "부산에 위치한 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, address FROM smtp_financial_company WHERE address LIKE '%부산%'"
+  },
+  {
+    "question": "금융 산업에 속한 회사들을 보여줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%금융%' OR industry LIKE '%Finance%'"
+  },
+  {
+    "question": "보험 관련 회사들의 목록을 조회해줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%보험%' OR industry LIKE '%Insurance%'"
+  },
+  {
+    "question": "직원 수가 100명 이상인 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_financial_company WHERE employee_count >= 100"
+  },
+  {
+    "question": "직원 수가 1000명 이상인 대형 금융 회사 목록을 보여줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_financial_company WHERE employee_count >= 1000"
+  },
+  {
+    "question": "2000년 이후에 설립된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, establishment_date FROM smtp_financial_company WHERE establishment_date >= 2000"
+  },
+  {
+    "question": "1990년대에 설립된 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, establishment_date FROM smtp_financial_company WHERE establishment_date >= 1990 AND establishment_date < 2000"
+  },
+  {
+    "question": "회사 이름에 '금융'이 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE company_name LIKE '%금융%'"
+  },
+  {
+    "question": "회사 이름에 '은행'이 포함된 회사들을 보여줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE company_name LIKE '%은행%'"
+  },
+  {
+    "question": "회사 이름에 '증권'이 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE company_name LIKE '%증권%'"
+  },
+  {
+    "question": "회사 이름에 '보험'이 포함된 회사들을 보여줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE company_name LIKE '%보험%'"
+  },
+  {
+    "question": "회사 이름에 '카드'가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE company_name LIKE '%카드%'"
+  },
+  {
+    "question": "회사 이름을 알파벳 순으로 정렬해서 보여줘",
+    "answer": "SELECT company_name FROM smtp_financial_company ORDER BY company_name ASC"
+  },
+  {
+    "question": "직원 수가 많은 순서대로 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_financial_company WHERE employee_count IS NOT NULL ORDER BY employee_count DESC"
+  },
+  {
+    "question": "설립일이 오래된 순서대로 금융 회사들을 정렬해줘",
+    "answer": "SELECT company_name, establishment_date FROM smtp_financial_company WHERE establishment_date IS NOT NULL ORDER BY establishment_date ASC"
+  },
+  {
+    "question": "최근에 설립된 순서대로 금융 회사들을 정렬해줘",
+    "answer": "SELECT company_name, establishment_date FROM smtp_financial_company WHERE establishment_date IS NOT NULL ORDER BY establishment_date DESC"
+  },
+  {
+    "question": "경기도에 있는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, address FROM smtp_financial_company WHERE address LIKE '%경기%'"
+  },
+  {
+    "question": "서울에 있는 은행들을 보여줘",
+    "answer": "SELECT company_name, address, industry FROM smtp_financial_company WHERE address LIKE '%서울%' AND (company_name LIKE '%은행%' OR industry LIKE '%은행%')"
+  },
+  {
+    "question": "대표자 이름이 '김'으로 시작하는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, representative FROM smtp_financial_company WHERE representative LIKE '김%'"
+  },
+  {
+    "question": "대표자 이름이 '이'로 시작하는 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, representative FROM smtp_financial_company WHERE representative LIKE '이%'"
+  },
+  {
+    "question": "팩스 번호가 등록된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, fax_number FROM smtp_financial_company WHERE fax_number IS NOT NULL AND fax_number != ''"
+  },
+  {
+    "question": "전화번호가 등록된 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, phone_number FROM smtp_financial_company WHERE phone_number IS NOT NULL AND phone_number != ''"
+  },
+  {
+    "question": "우편번호가 등록된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, postal_code FROM smtp_financial_company WHERE postal_code IS NOT NULL AND postal_code != ''"
+  },
+  {
+    "question": "회사 유형이 등록된 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, type FROM smtp_financial_company WHERE type IS NOT NULL AND type != ''"
+  },
+  {
+    "question": "산업 코드1이 등록된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry_code1 FROM smtp_financial_company WHERE industry_code1 IS NOT NULL AND industry_code1 != ''"
+  },
+  {
+    "question": "산업 코드2가 등록된 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, industry_code2 FROM smtp_financial_company WHERE industry_code2 IS NOT NULL AND industry_code2 != ''"
+  },
+  {
+    "question": "산업 대분류가 등록된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry_major FROM smtp_financial_company WHERE industry_major IS NOT NULL AND industry_major != ''"
+  },
+  {
+    "question": "산업 중분류가 등록된 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, industry_middle FROM smtp_financial_company WHERE industry_middle IS NOT NULL AND industry_middle != ''"
+  },
+  {
+    "question": "산업 소분류가 등록된 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry_minor FROM smtp_financial_company WHERE industry_minor IS NOT NULL AND industry_minor != ''"
+  },
+  {
+    "question": "지역1이 '서울'인 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, region1 FROM smtp_financial_company WHERE region1 = '서울'"
+  },
+  {
+    "question": "지역1이 '경기'인 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, region1 FROM smtp_financial_company WHERE region1 = '경기'"
+  },
+  {
+    "question": "지역1이 '부산'인 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, region1 FROM smtp_financial_company WHERE region1 = '부산'"
+  },
+  {
+    "question": "지역2가 '강남구'인 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, region1, region2 FROM smtp_financial_company WHERE region2 = '강남구'"
+  },
+  {
+    "question": "지역2가 '중구'인 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, region1, region2 FROM smtp_financial_company WHERE region2 = '중구'"
+  },
+  {
+    "question": "결산월이 12월인 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, fiscal_month FROM smtp_financial_company WHERE fiscal_month = 12"
+  },
+  {
+    "question": "결산월이 3월인 금융 회사들을 보여줘",
+    "answer": "SELECT company_name, fiscal_month FROM smtp_financial_company WHERE fiscal_month = 3"
+  },
+  {
+    "question": "금융 회사 수를 산업별로 그룹화해서 보여줘",
+    "answer": "SELECT industry, COUNT(*) as company_count FROM smtp_financial_company GROUP BY industry ORDER BY company_count DESC"
+  },
+  {
+    "question": "지역별 금융 회사 수를 보여줘",
+    "answer": "SELECT region1, COUNT(*) as company_count FROM smtp_financial_company WHERE region1 IS NOT NULL GROUP BY region1 ORDER BY company_count DESC"
+  },
+  {
+    "question": "서울 내 구별 금융 회사 수를 보여줘",
+    "answer": "SELECT region2, COUNT(*) as company_count FROM smtp_financial_company WHERE region1 = '서울' GROUP BY region2 ORDER BY company_count DESC"
+  },
+  {
+    "question": "산업 대분류별 금융 회사 수를 보여줘",
+    "answer": "SELECT industry_major, COUNT(*) as company_count FROM smtp_financial_company WHERE industry_major IS NOT NULL GROUP BY industry_major ORDER BY company_count DESC"
+  },
+  {
+    "question": "직원 수 구간별 금융 회사 수를 보여줘",
+    "answer": "SELECT CASE WHEN employee_count < 10 THEN '10명 미만' WHEN employee_count < 50 THEN '10-49명' WHEN employee_count < 100 THEN '50-99명' WHEN employee_count < 300 THEN '100-299명' WHEN employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, COUNT(*) as company_count FROM smtp_financial_company WHERE employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+  },
+  {
+    "question": "설립 연도별 금융 회사 수를 보여줘",
+    "answer": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM smtp_financial_company WHERE establishment_date IS NOT NULL GROUP BY founding_year ORDER BY founding_year"
+  },
+  {
+    "question": "최근 10년간 설립된 금융 회사 수를 연도별로 보여줘",
+    "answer": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM smtp_financial_company WHERE establishment_date IS NOT NULL AND CAST(establishment_date AS INTEGER) >= EXTRACT(YEAR FROM CURRENT_DATE) - 10 GROUP BY founding_year ORDER BY founding_year"
+  },
+  {
+    "question": "금융 회사 이름의 첫 글자별 회사 수를 보여줘",
+    "answer": "SELECT LEFT(company_name, 1) AS first_letter, COUNT(*) as company_count FROM smtp_financial_company GROUP BY first_letter ORDER BY company_count DESC"
+  },
+  {
+    "question": "결산월별 금융 회사 수를 보여줘",
+    "answer": "SELECT fiscal_month, COUNT(*) as company_count FROM smtp_financial_company WHERE fiscal_month IS NOT NULL GROUP BY fiscal_month ORDER BY fiscal_month"
+  },
+  {
+    "question": "금융 회사 이름과 주소, 전화번호를 CSV 형식으로 추출해줘",
+    "answer": "SELECT company_name || ',' || address || ',' || phone_number FROM smtp_financial_company"
+  },
+  {
+    "question": "금융 회사 정보를 JSON 형식으로 추출해줘",
+    "answer": "SELECT json_build_object('name', company_name, 'address', address, 'phone', phone_number, 'industry', industry) FROM smtp_financial_company"
+  },
+  {
+    "question": "금융 회사 이름에 특수문자가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name ~ '[^a-zA-Z0-9가-힣\\s]'"
+  },
+  {
+    "question": "전화번호 형식이 올바르지 않은 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name, phone_number FROM smtp_financial_company WHERE phone_number IS NOT NULL AND phone_number != '' AND phone_number !~ '^[0-9\\-\\+\\(\\)\\s]+$'"
+  },
+  {
+    "question": "주소가 없는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE address IS NULL OR address = ''"
+  },
+  {
+    "question": "산업 정보가 없는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE industry IS NULL OR industry = ''"
+  },
+  {
+    "question": "대표자 정보가 없는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE representative IS NULL OR representative = ''"
+  },
+  {
+    "question": "설립일 정보가 없는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE establishment_date IS NULL"
+  },
+  {
+    "question": "직원 수 정보가 없는 금융 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE employee_count IS NULL"
+  },
+  {
+    "question": "최근에 추가된 금융 회사 10개를 보여줘",
+    "answer": "SELECT company_name, address FROM smtp_financial_company ORDER BY id DESC LIMIT 10"
+  },
+  {
+    "question": "금융 회사 이름이 가장 긴 회사 10개를 보여줘",
+    "answer": "SELECT company_name, LENGTH(company_name) as name_length FROM smtp_financial_company ORDER BY name_length DESC LIMIT 10"
+  },
+  {
+    "question": "금융 회사 이름이 가장 짧은 회사 10개를 보여줘",
+    "answer": "SELECT company_name, LENGTH(company_name) as name_length FROM smtp_financial_company WHERE LENGTH(company_name) > 0 ORDER BY name_length ASC LIMIT 10"
+  },
+  {
+    "question": "주소가 가장 긴 금융 회사 10개를 보여줘",
+    "answer": "SELECT company_name, address, LENGTH(address) as address_length FROM smtp_financial_company WHERE address IS NOT NULL ORDER BY address_length DESC LIMIT 10"
+  },
+  {
+    "question": "산업 분류가 가장 긴 금융 회사 10개를 보여줘",
+    "answer": "SELECT company_name, industry, LENGTH(industry) as industry_length FROM smtp_financial_company WHERE industry IS NOT NULL ORDER BY industry_length DESC LIMIT 10"
+  },
+  {
+    "question": "금융 회사 이름에 숫자가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name ~ '[0-9]'"
+  },
+  {
+    "question": "금융 회사 이름에 영어가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name ~ '[a-zA-Z]'"
+  },
+  {
+    "question": "금융 회사 이름이 한글로만 이루어진 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name ~ '^[가-힣\\s]+$'"
+  },
+  {
+    "question": "금융 회사 이름이 영어로만 이루어진 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name ~ '^[a-zA-Z\\s]+$'"
+  },
+  {
+    "question": "금융 회사 중 은행업에 속하는 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%은행%' OR company_name LIKE '%은행%'"
+  },
+  {
+    "question": "금융 회사 중 증권업에 속하는 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%증권%' OR company_name LIKE '%증권%'"
+  },
+  {
+    "question": "금융 회사 중 보험업에 속하는 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%보험%' OR company_name LIKE '%보험%'"
+  },
+  {
+    "question": "금융 회사 중 카드사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%카드%' OR company_name LIKE '%카드%'"
+  },
+  {
+    "question": "금융 회사 중 자산운용사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%자산운용%' OR company_name LIKE '%자산운용%'"
+  },
+  {
+    "question": "금융 회사 중 캐피탈사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%캐피탈%' OR company_name LIKE '%캐피탈%'"
+  },
+  {
+    "question": "금융 회사 중 저축은행들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%저축은행%' OR company_name LIKE '%저축은행%'"
+  },
+  {
+    "question": "금융 회사 중 신용금고들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%신용금고%' OR company_name LIKE '%신용금고%'"
+  },
+  {
+    "question": "금융 회사 중 리스회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%리스%' OR company_name LIKE '%리스%'"
+  },
+  {
+    "question": "금융 회사 중 신탁회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%신탁%' OR company_name LIKE '%신탁%'"
+  },
+  {
+    "question": "금융 회사 중 투자회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%투자%' OR company_name LIKE '%투자%'"
+  },
+  {
+    "question": "금융 회사 중 금융지주회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_financial_company WHERE industry LIKE '%금융지주%' OR company_name LIKE '%금융지주%'"
+  },
+  {
+    "question": "금융 회사 중 외국계 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%America%' OR company_name LIKE '%Bank of%' OR company_name LIKE '%JP%' OR company_name LIKE '%Goldman%' OR company_name LIKE '%Morgan%' OR company_name LIKE '%Citi%' OR company_name LIKE '%HSBC%' OR company_name LIKE '%UBS%' OR company_name LIKE '%Credit Suisse%' OR company_name LIKE '%Deutsche%' OR company_name LIKE '%BNP%'"
+  },
+  {
+    "question": "금융 회사 중 국내 대형 금융사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%신한%' OR company_name LIKE '%국민%' OR company_name LIKE '%우리%' OR company_name LIKE '%하나%' OR company_name LIKE '%농협%' OR company_name LIKE '%기업%' OR company_name LIKE '%산업%' OR company_name LIKE '%수출입%' OR company_name LIKE '%삼성%' OR company_name LIKE '%현대%' OR company_name LIKE '%미래에셋%' OR company_name LIKE '%한국투자%'"
+  },
+  {
+    "question": "금융 회사 중 국책 금융기관들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%한국%' OR company_name LIKE '%산업은행%' OR company_name LIKE '%수출입은행%' OR company_name LIKE '%주택금융공사%' OR company_name LIKE '%예금보험공사%' OR company_name LIKE '%자산관리공사%' OR company_name LIKE '%신용보증기금%' OR company_name LIKE '%기술보증기금%'"
+  },
+  {
+    "question": "금융 회사 중 특수은행들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%산업은행%' OR company_name LIKE '%수출입은행%' OR company_name LIKE '%농협은행%' OR company_name LIKE '%수협은행%' OR company_name LIKE '%기업은행%'"
+  },
+  {
+    "question": "금융 회사 중 시중은행들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%국민은행%' OR company_name LIKE '%신한은행%' OR company_name LIKE '%우리은행%' OR company_name LIKE '%하나은행%' OR company_name LIKE '%SC제일은행%' OR company_name LIKE '%한국씨티은행%'"
+  },
+  {
+    "question": "금융 회사 중 지방은행들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%부산은행%' OR company_name LIKE '%대구은행%' OR company_name LIKE '%경남은행%' OR company_name LIKE '%광주은행%' OR company_name LIKE '%전북은행%' OR company_name LIKE '%제주은행%'"
+  },
+  {
+    "question": "금융 회사 중 생명보험사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%생명%'"
+  },
+  {
+    "question": "금융 회사 중 손해보험사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%손해보험%' OR company_name LIKE '%화재%' OR company_name LIKE '%해상%' OR company_name LIKE '%재보험%'"
+  },
+  {
+    "question": "금융 회사 중 증권사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%증권%'"
+  },
+  {
+    "question": "금융 회사 중 자산운용사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%자산운용%' OR company_name LIKE '%에셋%' OR company_name LIKE '%투자운용%'"
+  },
+  {
+    "question": "금융 회사 중 여신전문금융회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%카드%' OR company_name LIKE '%캐피탈%' OR company_name LIKE '%리스%' OR company_name LIKE '%할부금융%'"
+  },
+  {
+    "question": "금융 회사 중 저축은행들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_financial_company WHERE company_name LIKE '%저축은행%'"
+  }
+]

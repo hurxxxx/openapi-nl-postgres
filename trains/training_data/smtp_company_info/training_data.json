@@ -1,0 +1,366 @@
+[
+  {
+    "question": "모든 회사의 이름과 주소를 조회해줘",
+    "answer": "SELECT company_name, address FROM smtp_company_info"
+  },
+  {
+    "question": "서울에 있는 회사들의 목록을 보여줘",
+    "answer": "SELECT company_name, address, phone_number FROM smtp_company_info WHERE address LIKE '%서울%'"
+  },
+  {
+    "question": "부산에 위치한 회사들을 찾아줘",
+    "answer": "SELECT company_name, address, phone_number FROM smtp_company_info WHERE address LIKE '%부산%'"
+  },
+  {
+    "question": "IT 산업에 속한 회사들을 보여줘",
+    "answer": "SELECT company_name, industry FROM smtp_company_info WHERE industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%'"
+  },
+  {
+    "question": "제조업 회사들의 목록을 조회해줘",
+    "answer": "SELECT company_name, industry FROM smtp_company_info WHERE industry LIKE '%제조%'"
+  },
+  {
+    "question": "직원 수가 100명 이상인 회사들을 찾아줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_company_info WHERE CAST(employee_count AS INTEGER) >= 100"
+  },
+  {
+    "question": "직원 수가 1000명 이상인 대기업 목록을 보여줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_company_info WHERE CAST(employee_count AS INTEGER) >= 1000"
+  },
+  {
+    "question": "2010년 이후에 설립된 회사들을 찾아줘",
+    "answer": "SELECT company_name, establishment_date FROM smtp_company_info WHERE CAST(establishment_date AS INTEGER) >= 2010"
+  },
+  {
+    "question": "웹사이트가 있는 회사들의 목록을 보여줘",
+    "answer": "SELECT company_name, website FROM smtp_company_info WHERE website IS NOT NULL AND website != ''"
+  },
+  {
+    "question": "이메일 주소가 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, email FROM smtp_company_info WHERE email IS NOT NULL AND email != ''"
+  },
+  {
+    "question": "회사 이름에 '테크'가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry FROM smtp_company_info WHERE company_name LIKE '%테크%' OR company_name LIKE '%Tech%'"
+  },
+  {
+    "question": "회사 이름에 '솔루션'이 포함된 회사들을 보여줘",
+    "answer": "SELECT company_name, industry FROM smtp_company_info WHERE company_name LIKE '%솔루션%' OR company_name LIKE '%Solution%'"
+  },
+  {
+    "question": "주식 코드가 있는 상장 회사들을 찾아줘",
+    "answer": "SELECT company_name, stock_code FROM smtp_company_info WHERE stock_code IS NOT NULL AND stock_code != ''"
+  },
+  {
+    "question": "최근 매출이 10억 이상인 회사들을 보여줘",
+    "answer": "SELECT company_name, recent_sales FROM smtp_company_info WHERE CAST(recent_sales AS NUMERIC) >= 1000000000"
+  },
+  {
+    "question": "최근 순이익이 양수인 회사들을 찾아줘",
+    "answer": "SELECT company_name, recent_profit FROM smtp_company_info WHERE CAST(recent_profit AS NUMERIC) > 0"
+  },
+  {
+    "question": "회사 이름을 알파벳 순으로 정렬해서 보여줘",
+    "answer": "SELECT company_name FROM smtp_company_info ORDER BY company_name ASC"
+  },
+  {
+    "question": "직원 수가 많은 순서대로 회사들을 보여줘",
+    "answer": "SELECT company_name, employee_count FROM smtp_company_info WHERE employee_count IS NOT NULL ORDER BY CAST(employee_count AS INTEGER) DESC"
+  },
+  {
+    "question": "최근 매출이 높은 순서대로 회사들을 정렬해줘",
+    "answer": "SELECT company_name, recent_sales FROM smtp_company_info WHERE recent_sales IS NOT NULL ORDER BY CAST(recent_sales AS NUMERIC) DESC"
+  },
+  {
+    "question": "경기도에 있는 제조업 회사들을 찾아줘",
+    "answer": "SELECT company_name, address, industry FROM smtp_company_info WHERE address LIKE '%경기%' AND industry LIKE '%제조%'"
+  },
+  {
+    "question": "서울에 있는 IT 회사들을 보여줘",
+    "answer": "SELECT company_name, address, industry FROM smtp_company_info WHERE address LIKE '%서울%' AND (industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%')"
+  },
+  {
+    "question": "대표자 이름이 '김'으로 시작하는 회사들을 찾아줘",
+    "answer": "SELECT company_name, representative FROM smtp_company_info WHERE representative LIKE '김%'"
+  },
+  {
+    "question": "대표자 이름이 '이'로 시작하는 회사들을 보여줘",
+    "answer": "SELECT company_name, representative FROM smtp_company_info WHERE representative LIKE '이%'"
+  },
+  {
+    "question": "팩스 번호가 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, fax_number FROM smtp_company_info WHERE fax_number IS NOT NULL AND fax_number != ''"
+  },
+  {
+    "question": "그룹사 이름이 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, group_name FROM smtp_company_info WHERE group_name IS NOT NULL AND group_name != ''"
+  },
+  {
+    "question": "삼성 그룹에 속한 회사들을 찾아줘",
+    "answer": "SELECT company_name, group_name FROM smtp_company_info WHERE group_name LIKE '%삼성%'"
+  },
+  {
+    "question": "현대 그룹에 속한 회사들을 보여줘",
+    "answer": "SELECT company_name, group_name FROM smtp_company_info WHERE group_name LIKE '%현대%'"
+  },
+  {
+    "question": "LG 그룹에 속한 회사들을 찾아줘",
+    "answer": "SELECT company_name, group_name FROM smtp_company_info WHERE group_name LIKE '%LG%'"
+  },
+  {
+    "question": "SK 그룹에 속한 회사들을 보여줘",
+    "answer": "SELECT company_name, group_name FROM smtp_company_info WHERE group_name LIKE '%SK%'"
+  },
+  {
+    "question": "회사 이름에 '삼성'이 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name LIKE '%삼성%'"
+  },
+  {
+    "question": "회사 이름에 '현대'가 포함된 회사들을 보여줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name LIKE '%현대%'"
+  },
+  {
+    "question": "회사 이름에 'LG'가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name LIKE '%LG%'"
+  },
+  {
+    "question": "회사 이름에 'SK'가 포함된 회사들을 보여줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name LIKE '%SK%'"
+  },
+  {
+    "question": "주요 제품이 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, main_product FROM smtp_company_info WHERE main_product IS NOT NULL AND main_product != ''"
+  },
+  {
+    "question": "주요 은행이 '국민은행'인 회사들을 보여줘",
+    "answer": "SELECT company_name, main_bank FROM smtp_company_info WHERE main_bank LIKE '%국민%'"
+  },
+  {
+    "question": "주요 은행이 '신한은행'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, main_bank FROM smtp_company_info WHERE main_bank LIKE '%신한%'"
+  },
+  {
+    "question": "주요 은행이 '우리은행'인 회사들을 보여줘",
+    "answer": "SELECT company_name, main_bank FROM smtp_company_info WHERE main_bank LIKE '%우리%'"
+  },
+  {
+    "question": "주요 은행이 '하나은행'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, main_bank FROM smtp_company_info WHERE main_bank LIKE '%하나%'"
+  },
+  {
+    "question": "영문 이름이 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, english_name FROM smtp_company_info WHERE english_name IS NOT NULL AND english_name != ''"
+  },
+  {
+    "question": "상호명이 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, trade_name FROM smtp_company_info WHERE trade_name IS NOT NULL AND trade_name != ''"
+  },
+  {
+    "question": "결산월이 12월인 회사들을 보여줘",
+    "answer": "SELECT company_name, fiscal_month FROM smtp_company_info WHERE fiscal_month = '12'"
+  },
+  {
+    "question": "결산월이 3월인 회사들을 찾아줘",
+    "answer": "SELECT company_name, fiscal_month FROM smtp_company_info WHERE fiscal_month = '3'"
+  },
+  {
+    "question": "최근 총자산이 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, recent_total_assets FROM smtp_company_info WHERE recent_total_assets IS NOT NULL AND recent_total_assets != ''"
+  },
+  {
+    "question": "최근 총부채가 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, recent_total_debt FROM smtp_company_info WHERE recent_total_debt IS NOT NULL AND recent_total_debt != ''"
+  },
+  {
+    "question": "최근 자본금이 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, recent_capital FROM smtp_company_info WHERE recent_capital IS NOT NULL AND recent_capital != ''"
+  },
+  {
+    "question": "지역1이 '서울'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, region1 FROM smtp_company_info WHERE region1 = '서울'"
+  },
+  {
+    "question": "지역1이 '경기'인 회사들을 보여줘",
+    "answer": "SELECT company_name, region1 FROM smtp_company_info WHERE region1 = '경기'"
+  },
+  {
+    "question": "지역1이 '부산'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, region1 FROM smtp_company_info WHERE region1 = '부산'"
+  },
+  {
+    "question": "지역2가 '강남구'인 회사들을 보여줘",
+    "answer": "SELECT company_name, region1, region2 FROM smtp_company_info WHERE region2 = '강남구'"
+  },
+  {
+    "question": "지역2가 '서초구'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, region1, region2 FROM smtp_company_info WHERE region2 = '서초구'"
+  },
+  {
+    "question": "산업 대분류가 '제조업'인 회사들을 보여줘",
+    "answer": "SELECT company_name, industry_major FROM smtp_company_info WHERE industry_major = '제조업'"
+  },
+  {
+    "question": "산업 대분류가 '정보통신업'인 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry_major FROM smtp_company_info WHERE industry_major = '정보통신업'"
+  },
+  {
+    "question": "산업 중분류가 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, industry_middle FROM smtp_company_info WHERE industry_middle IS NOT NULL AND industry_middle != ''"
+  },
+  {
+    "question": "산업 소분류가 등록된 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry_small FROM smtp_company_info WHERE industry_small IS NOT NULL AND industry_small != ''"
+  },
+  {
+    "question": "위도와 경도가 모두 등록된 회사들을 보여줘",
+    "answer": "SELECT company_name, latitude, longitude FROM smtp_company_info WHERE latitude IS NOT NULL AND longitude IS NOT NULL"
+  },
+  {
+    "question": "서울 강남구에 있는 회사들의 위치 정보를 보여줘",
+    "answer": "SELECT company_name, address, latitude, longitude FROM smtp_company_info WHERE address LIKE '%서울%강남구%' AND latitude IS NOT NULL AND longitude IS NOT NULL"
+  },
+  {
+    "question": "내 위치(위도: 37.5665, 경도: 126.9780)에서 가장 가까운 회사 10개를 찾아줘",
+    "answer": "SELECT company_name, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM smtp_company_info WHERE latitude IS NOT NULL AND longitude IS NOT NULL ORDER BY distance ASC LIMIT 10"
+  },
+  {
+    "question": "내 위치(위도: 35.1796, 경도: 129.0756)에서 반경 5km 이내의 회사들을 찾아줘",
+    "answer": "SELECT company_name, address, latitude, longitude, 6371 * 2 * ASIN(SQRT(POWER(SIN((latitude - 35.1796) * PI() / 180 / 2), 2) + COS(35.1796 * PI() / 180) * COS(latitude * PI() / 180) * POWER(SIN((longitude - 129.0756) * PI() / 180 / 2), 2))) AS distance_km FROM smtp_company_info WHERE latitude IS NOT NULL AND longitude IS NOT NULL HAVING distance_km <= 5 ORDER BY distance_km"
+  },
+  {
+    "question": "내 위치(위도: 37.5665, 경도: 126.9780)에서 반경 10km 이내의 IT 회사들을 찾아줘",
+    "answer": "SELECT company_name, industry, address, latitude, longitude, 6371 * 2 * ASIN(SQRT(POWER(SIN((latitude - 37.5665) * PI() / 180 / 2), 2) + COS(37.5665 * PI() / 180) * COS(latitude * PI() / 180) * POWER(SIN((longitude - 126.9780) * PI() / 180 / 2), 2))) AS distance_km FROM smtp_company_info WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND (industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%') HAVING distance_km <= 10 ORDER BY distance_km"
+  },
+  {
+    "question": "삭제되지 않은 회사들만 보여줘",
+    "answer": "SELECT company_name, address FROM smtp_company_info WHERE is_deleted = FALSE OR is_deleted IS NULL"
+  },
+  {
+    "question": "삭제된 회사들의 목록을 보여줘",
+    "answer": "SELECT company_name, address FROM smtp_company_info WHERE is_deleted = TRUE"
+  },
+  {
+    "question": "회사 수를 산업별로 그룹화해서 보여줘",
+    "answer": "SELECT industry, COUNT(*) as company_count FROM smtp_company_info GROUP BY industry ORDER BY company_count DESC"
+  },
+  {
+    "question": "지역별 회사 수를 보여줘",
+    "answer": "SELECT region1, COUNT(*) as company_count FROM smtp_company_info WHERE region1 IS NOT NULL GROUP BY region1 ORDER BY company_count DESC"
+  },
+  {
+    "question": "서울 내 구별 회사 수를 보여줘",
+    "answer": "SELECT region2, COUNT(*) as company_count FROM smtp_company_info WHERE region1 = '서울' GROUP BY region2 ORDER BY company_count DESC"
+  },
+  {
+    "question": "산업 대분류별 회사 수를 보여줘",
+    "answer": "SELECT industry_major, COUNT(*) as company_count FROM smtp_company_info WHERE industry_major IS NOT NULL GROUP BY industry_major ORDER BY company_count DESC"
+  },
+  {
+    "question": "직원 수 구간별 회사 수를 보여줘",
+    "answer": "SELECT CASE WHEN CAST(employee_count AS INTEGER) < 10 THEN '10명 미만' WHEN CAST(employee_count AS INTEGER) < 50 THEN '10-49명' WHEN CAST(employee_count AS INTEGER) < 100 THEN '50-99명' WHEN CAST(employee_count AS INTEGER) < 300 THEN '100-299명' WHEN CAST(employee_count AS INTEGER) < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, COUNT(*) as company_count FROM smtp_company_info WHERE employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+  },
+  {
+    "question": "설립 연도별 회사 수를 보여줘",
+    "answer": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM smtp_company_info WHERE establishment_date ~ '^[0-9]+$' GROUP BY founding_year ORDER BY founding_year"
+  },
+  {
+    "question": "최근 10년간 설립된 회사 수를 연도별로 보여줘",
+    "answer": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM smtp_company_info WHERE establishment_date ~ '^[0-9]+$' AND CAST(establishment_date AS INTEGER) >= EXTRACT(YEAR FROM CURRENT_DATE) - 10 GROUP BY founding_year ORDER BY founding_year"
+  },
+  {
+    "question": "회사 이름의 첫 글자별 회사 수를 보여줘",
+    "answer": "SELECT LEFT(company_name, 1) AS first_letter, COUNT(*) as company_count FROM smtp_company_info GROUP BY first_letter ORDER BY company_count DESC"
+  },
+  {
+    "question": "주요 은행별 회사 수를 보여줘",
+    "answer": "SELECT main_bank, COUNT(*) as company_count FROM smtp_company_info WHERE main_bank IS NOT NULL AND main_bank != '' GROUP BY main_bank ORDER BY company_count DESC"
+  },
+  {
+    "question": "결산월별 회사 수를 보여줘",
+    "answer": "SELECT fiscal_month, COUNT(*) as company_count FROM smtp_company_info WHERE fiscal_month IS NOT NULL AND fiscal_month != '' GROUP BY fiscal_month ORDER BY CAST(fiscal_month AS INTEGER)"
+  },
+  {
+    "question": "회사 이름과 주소, 전화번호를 CSV 형식으로 추출해줘",
+    "answer": "SELECT company_name || ',' || address || ',' || phone_number FROM smtp_company_info"
+  },
+  {
+    "question": "회사 정보를 JSON 형식으로 추출해줘",
+    "answer": "SELECT json_build_object('name', company_name, 'address', address, 'phone', phone_number, 'industry', industry) FROM smtp_company_info"
+  },
+  {
+    "question": "회사 이름에 특수문자가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name ~ '[^a-zA-Z0-9가-힣\\s]'"
+  },
+  {
+    "question": "전화번호 형식이 올바르지 않은 회사들을 찾아줘",
+    "answer": "SELECT company_name, phone_number FROM smtp_company_info WHERE phone_number IS NOT NULL AND phone_number != '' AND phone_number !~ '^[0-9\\-\\+\\(\\)\\s]+$'"
+  },
+  {
+    "question": "이메일 형식이 올바르지 않은 회사들을 찾아줘",
+    "answer": "SELECT company_name, email FROM smtp_company_info WHERE email IS NOT NULL AND email != '' AND email !~ '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'"
+  },
+  {
+    "question": "웹사이트 URL이 올바르지 않은 회사들을 찾아줘",
+    "answer": "SELECT company_name, website FROM smtp_company_info WHERE website IS NOT NULL AND website != '' AND website !~ '^(http|https)://[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}'"
+  },
+  {
+    "question": "주소가 없는 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE address IS NULL OR address = ''"
+  },
+  {
+    "question": "산업 정보가 없는 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE industry IS NULL OR industry = ''"
+  },
+  {
+    "question": "대표자 정보가 없는 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE representative IS NULL OR representative = ''"
+  },
+  {
+    "question": "설립일 정보가 없는 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE establishment_date IS NULL OR establishment_date = ''"
+  },
+  {
+    "question": "직원 수 정보가 없는 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE employee_count IS NULL OR employee_count = ''"
+  },
+  {
+    "question": "최근에 추가된 회사 10개를 보여줘",
+    "answer": "SELECT company_name, address FROM smtp_company_info ORDER BY id DESC LIMIT 10"
+  },
+  {
+    "question": "회사 이름이 가장 긴 회사 10개를 보여줘",
+    "answer": "SELECT company_name, LENGTH(company_name) as name_length FROM smtp_company_info ORDER BY name_length DESC LIMIT 10"
+  },
+  {
+    "question": "회사 이름이 가장 짧은 회사 10개를 보여줘",
+    "answer": "SELECT company_name, LENGTH(company_name) as name_length FROM smtp_company_info WHERE LENGTH(company_name) > 0 ORDER BY name_length ASC LIMIT 10"
+  },
+  {
+    "question": "주소가 가장 긴 회사 10개를 보여줘",
+    "answer": "SELECT company_name, address, LENGTH(address) as address_length FROM smtp_company_info WHERE address IS NOT NULL ORDER BY address_length DESC LIMIT 10"
+  },
+  {
+    "question": "산업 분류가 가장 긴 회사 10개를 보여줘",
+    "answer": "SELECT company_name, industry, LENGTH(industry) as industry_length FROM smtp_company_info WHERE industry IS NOT NULL ORDER BY industry_length DESC LIMIT 10"
+  },
+  {
+    "question": "회사 이름에 숫자가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name ~ '[0-9]'"
+  },
+  {
+    "question": "회사 이름에 영어가 포함된 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name ~ '[a-zA-Z]'"
+  },
+  {
+    "question": "회사 이름이 한글로만 이루어진 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name ~ '^[가-힣\\s]+$'"
+  },
+  {
+    "question": "회사 이름이 영어로만 이루어진 회사들을 찾아줘",
+    "answer": "SELECT company_name FROM smtp_company_info WHERE company_name ~ '^[a-zA-Z\\s]+$'"
+  },
+  {
+    "question": "내 현재 위치(위도: 37.5665, 경도: 126.9780)에서 가장 가까운 IT 회사를 찾아줘",
+    "answer": "SELECT company_name, industry, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM smtp_company_info WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND (industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%') ORDER BY distance ASC LIMIT 1"
+  }
+]
