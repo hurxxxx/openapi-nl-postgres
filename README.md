@@ -1,6 +1,6 @@
-# 🔍 PostgreSQL Natural Language Query Server
+# 🔍 PostgreSQL Natural Language Query API
 
-A FastAPI-based server that allows querying PostgreSQL databases using natural language through the vanna.ai library.
+A modern API service that transforms natural language into SQL queries for PostgreSQL databases, built with FastAPI and OpenAPI standards for maximum compatibility and integration.
 
 ## 🚀 Quickstart
 
@@ -12,148 +12,102 @@ uvicorn main:app --host 0.0.0.0 --reload
 ```
 
 Access at:
-- **API Documentation**: http://localhost:8000/docs
-- **Web Interface**: http://localhost:8000/ or http://localhost:8000/ui
+- **OpenAPI Documentation**: http://localhost:8000/docs
+- **Web Interface**: http://localhost:8000/
 
-## 📋 Features
+## 📋 Key Features
 
-- **Natural Language to SQL**: Convert natural language questions into SQL queries
-- **Database Schema Training**: Automatically train on your database schema
-- **Custom Training**: Add DDL statements, documentation, and SQL examples
-- **Query Execution**: Execute generated SQL and return results
-- **Query Explanation**: Get explanations for generated SQL queries
+- **Natural Language → SQL**: Ask questions in plain English, get SQL queries
+- **Auto-Training**: System learns your database schema automatically
+- **Custom Training**: Enhance with your own examples and documentation
+- **Query Execution & Explanation**: Run queries and understand the results
 
-## 🔧 API Endpoints
+## 🔌 OpenAPI Integration
 
-- **POST /connect** - Connect to PostgreSQL database
-- **POST /train** - Train the model with schema/documentation/examples
-- **POST /query** - Query database using natural language
-- **GET /training_data** - Get all training data
-- **DELETE /training_data/{training_id}** - Remove specific training data
-- **GET /connection_status** - Check database connection status
-- **GET /api_config** - Get OpenAI API configuration from environment
-- **GET /db_config** - Get database configuration from environment
+Built on OpenAPI standards, this service can be easily integrated with:
+- Enterprise applications
+- Mobile apps
+- Web dashboards
+- BI tools
+- Third-party services
 
-## 🔐 Configuration
+The standardized API endpoints make it compatible with any system that supports REST APIs.
 
-You can configure the server using:
+## ⚙️ Simple Configuration
 
-1. **Environment Variables** (.env file):
+**Environment Variables** (.env file):
 ```
-OPENAI_API_KEY=your_api_key_here
+OPENAI_API_KEY=your_api_key
 OPENAI_MODEL=gpt-4
 POSTGRES_HOST=localhost
 POSTGRES_DB=your_database
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=your_password
-POSTGRES_PORT=5432
-CHROMA_PERSIST_DIRECTORY=./chroma_db
 ```
 
-2. **API Requests**:
+**Or via API/Web Interface**:
+Configure connections directly through the API or user-friendly web interface.
+
+## 📚 Quick Example
+
 ```json
-POST /connect
-{
-  "host": "localhost", 
-  "dbname": "your_database",
-  "user": "postgres",
-  "password": "your_password", 
-  "port": "5432",
-  "api_key": "your_openai_api_key",
-  "model": "gpt-4"
-}
-```
-
-3. **Web Interface**: Enter details in the Connect tab
-
-## 📚 Example Usage
-
-1. Connect to database:
-```json
+// 1. Connect to database
 POST /connect
 {
   "host": "localhost",
   "dbname": "your_database",
   "user": "postgres",
-  "password": "your_password",
-  "port": "5432",
-  "api_key": "your_openai_api_key"
-}
-```
-
-2. Train and query:
-```json
-POST /train
-{
-  "train_type": "schema"
+  "password": "your_password"
 }
 
+// 2. Ask a question in plain English
 POST /query
 {
   "question": "What were the total sales for each product category last month?"
 }
+
+// Response includes SQL, results, and explanation
 ```
 
-## 🔄 Managing Training Data
+## 🧠 Smart Training System
 
-Training data persists in ChromaDB between server restarts. On first startup with valid database credentials, the server automatically performs schema training if no existing training data is found.
+The system automatically learns your database structure on first connection and stores this knowledge in ChromaDB for future use.
 
-### Training Types:
-- **Schema** (basic database structure)
-- **DDL** (CREATE TABLE statements)
-- **Documentation** (text explaining database concepts)
-- **SQL** (example queries)
-- **Question-SQL** (pairs of natural language questions with corresponding SQL)
+**Training Options:**
+- **Schema**: Auto-learns tables, columns, and relationships
+- **Documentation**: Add business context and domain knowledge
+- **SQL Examples**: Teach with your common queries
+- **Question-SQL Pairs**: Train with examples of questions and answers
 
-Examples:
 ```json
+// Example: Train with business context
 POST /train
 {
   "train_type": "documentation",
-  "content": "Sales data is stored in the sales table."
-}
-
-POST /train
-{
-  "train_type": "sql",
-  "content": "SELECT * FROM users WHERE active = true"
-}
-
-POST /train
-{
-  "train_type": "question_sql",
-  "question": "How many customers do we have in each country?",
-  "content": "SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC"
+  "content": "Sales data is stored in the sales table with monthly aggregations."
 }
 ```
 
-## 🖥️ Web Interface
+## 🖥️ User-Friendly Interface
 
-The web interface provides a user-friendly way to interact with the API. Features include:
+The intuitive web interface lets you:
+- Connect to databases
+- Train the system with examples
+- Ask questions in natural language
+- View and manage training data
+- See SQL queries and results
 
-- **Connection Status**: Check if you're connected to a database
-- **Database Connection**: Connect to your PostgreSQL database
-- **Training Interface**: Multiple training options with examples
-  - Schema training
-  - DDL statements
-  - Documentation
-  - SQL examples
-  - Question-SQL pairs
-- **Training Data Management**: View and delete training data items
-- **Query Interface**: Ask natural language questions and see results
+## 🌐 Cross-Platform Compatibility
 
-## 🔄 Automatic Schema Training
+Thanks to OpenAPI standards, this solution works seamlessly with:
+- Any SQL client that supports REST
+- Data visualization tools
+- Custom applications
+- Cloud services
+- CI/CD pipelines
 
-The server automatically performs these steps on startup:
-1. Checks for database credentials in environment variables
-2. Connects to the database if credentials are provided
-3. Checks if schema training data already exists in ChromaDB
-4. Performs schema training automatically if no training data exists
+## 🔗 Learn More
 
-This process only runs once when the server first starts, as training data persists in ChromaDB between restarts.
-
-## 🔗 Resources
-
-- [vanna.ai Documentation](https://vanna.ai/docs/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [API Documentation](http://localhost:8000/docs)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [PostgreSQL](https://www.postgresql.org/)
