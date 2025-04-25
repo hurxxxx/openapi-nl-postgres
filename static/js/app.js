@@ -50,20 +50,12 @@ const elements = {
     jsonProgressFill: document.getElementById('jsonProgressFill'),
     jsonProgressText: document.getElementById('jsonProgressText'),
 
-    // JSON file training elements
-    jsonFile: document.getElementById('jsonFile'),
-    jsonTrainType: document.getElementById('jsonTrainType'),
-    jsonFormatExample: document.getElementById('jsonFormatExample'),
-    jsonTrainingProgress: document.getElementById('jsonTrainingProgress'),
-    jsonProgressFill: document.getElementById('jsonProgressFill'),
-    jsonProgressText: document.getElementById('jsonProgressText'),
-
     // Training inputs
-    trainDDLInput: document.getElementById('trainDDL'),
-    trainDocumentationInput: document.getElementById('trainDocumentation'),
-    trainSQLOnlyInput: document.getElementById('trainSQLOnly'),
-    trainQuestionInput: document.getElementById('trainQuestion'),
-    trainSQLInput: document.getElementById('trainSQL'),
+    trainDDLInput: document.getElementById('trainDDLInput'),
+    trainDocumentationInput: document.getElementById('trainDocumentationInput'),
+    trainSQLOnlyInput: document.getElementById('trainSQLOnlyInput'),
+    trainQuestionInput: document.getElementById('trainQuestionInput'),
+    trainSQLInput: document.getElementById('trainSQLInput'),
 
     // Query elements
     questionInput: document.getElementById('question'),
@@ -347,6 +339,29 @@ async function trainSchema() {
             body: JSON.stringify({ train_type: 'schema' })
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+            }
+            
+            console.error("Training error:", errorMessage);
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         const data = await response.json();
 
         // Check if training was skipped because it already exists
@@ -356,6 +371,7 @@ async function trainSchema() {
             elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
         }
     } catch (error) {
+        console.error("Exception during schema training:", error);
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     } finally {
         // Reset button state after training
@@ -388,6 +404,12 @@ async function trainDDL() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
+        // 요청 내용 로깅
+        console.log("DDL Training Request:", JSON.stringify({
+            train_type: 'ddl',
+            content: ddl
+        }));
+
         const response = await fetch('/train', {
             method: 'POST',
             headers: {
@@ -399,12 +421,40 @@ async function trainDDL() {
             })
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Full server error response:", errorText);
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+                console.error("Parsed error JSON:", errorJson);
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+                console.error("Error parsing server response:", parseError);
+            }
+            
+            console.error("Training error:", errorMessage);
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         const data = await response.json();
+        console.log("DDL Training Response:", data);
         elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
 
         // Clear the form field after successful training
         elements.trainDDLInput.value = '';
     } catch (error) {
+        console.error("Exception during training:", error);
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     } finally {
         // Reset button state
@@ -447,12 +497,36 @@ async function trainDocumentation() {
             })
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+            }
+            
+            console.error("Training error:", errorMessage);
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         const data = await response.json();
         elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
 
         // Clear the form field after successful training
         elements.trainDocumentationInput.value = '';
     } catch (error) {
+        console.error("Exception during training:", error);
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     } finally {
         // Reset button state
@@ -495,12 +569,36 @@ async function trainSQL() {
             })
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+            }
+            
+            console.error("Training error:", errorMessage);
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         const data = await response.json();
         elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
 
         // Clear the form field after successful training
         elements.trainSQLOnlyInput.value = '';
     } catch (error) {
+        console.error("Exception during training:", error);
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     } finally {
         // Reset button state
@@ -545,6 +643,29 @@ async function trainQuestionSQL() {
             })
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+            }
+            
+            console.error("Training error:", errorMessage);
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         const data = await response.json();
         elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
 
@@ -552,6 +673,7 @@ async function trainQuestionSQL() {
         elements.trainQuestionInput.value = '';
         elements.trainSQLInput.value = '';
     } catch (error) {
+        console.error("Exception during training:", error);
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     } finally {
         // Reset button state
@@ -623,11 +745,11 @@ function updateJsonFormatExample() {
             exampleHtml = `<pre class="example-content">[
   {
     "question": "What are the top 10 companies by revenue?",
-    "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
+    "sql": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
   },
   {
     "question": "How many employees work in each department?",
-    "answer": "SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC"
+    "sql": "SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC"
   }
 ]</pre>`;
             break;
@@ -653,8 +775,6 @@ function updateJsonFormatExample() {
 
     elements.jsonFormatExample.innerHTML = exampleHtml;
 }
-
-
 
 /**
  * Train the model with a JSON file from the general JSON tab
@@ -706,6 +826,31 @@ async function trainWithJsonFile() {
         elements.jsonProgressFill.style.width = '50%';
         elements.jsonProgressText.textContent = 'Processing training data...';
 
+        // Check if response is ok
+        if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+            
+            try {
+                // Try to parse as JSON
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.detail) {
+                    errorMessage += `<br>Details: ${errorJson.detail}`;
+                } else {
+                    errorMessage += `<br>Details: ${JSON.stringify(errorJson)}`;
+                }
+            } catch (parseError) {
+                // If not JSON, use the raw text
+                errorMessage += `<br>Details: ${errorText}`;
+            }
+            
+            console.error("JSON training error:", errorMessage);
+            elements.jsonProgressText.textContent = 'Error!';
+            elements.jsonProgressFill.style.width = '100%';
+            elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+            return;
+        }
+
         // Parse the response
         const data = await response.json();
 
@@ -719,9 +864,25 @@ async function trainWithJsonFile() {
         // Add details about errors if any
         if (data.error_count > 0) {
             resultMessage += `<div class="error">Failed to train ${data.error_count} examples. See details below:</div>`;
-            resultMessage += '<ul>';
+            resultMessage += '<ul class="error-list">';
             data.errors.forEach(error => {
-                resultMessage += `<li>Error at index ${error.index}: ${error.error}</li>`;
+                let errorDetail = `<li>Error at index ${error.index}: ${error.error}</li>`;
+                
+                // Add example data if available for more context
+                if (error.example) {
+                    if (typeof error.example === 'object') {
+                        try {
+                            const exampleJson = JSON.stringify(error.example, null, 2);
+                            errorDetail += `<div class="error-example"><pre>${exampleJson}</pre></div>`;
+                        } catch (e) {
+                            errorDetail += `<div class="error-example">Unable to display example data</div>`;
+                        }
+                    } else {
+                        errorDetail += `<div class="error-example"><pre>${error.example}</pre></div>`;
+                    }
+                }
+                
+                resultMessage += errorDetail;
             });
             resultMessage += '</ul>';
         }
@@ -731,6 +892,7 @@ async function trainWithJsonFile() {
         // Reset the file input
         fileInput.value = '';
     } catch (error) {
+        console.error("Exception during JSON file training:", error);
         elements.jsonProgressFill.style.width = '100%';
         elements.jsonProgressText.textContent = 'Error!';
         elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;

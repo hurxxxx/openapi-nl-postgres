@@ -1,126 +1,126 @@
 [
   {
     "question": "Find companies with 'Tech' in their name",
-    "answer": "SELECT master_id, company_name, industry FROM rb_master_company WHERE company_name ILIKE '%Tech%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry FROM rb_master_company WHERE company_name ILIKE '%Tech%' LIMIT 10"
   },
   {
     "question": "List all technology companies",
-    "answer": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Technology%' OR industry ILIKE '%소프트웨어%' OR industry ILIKE '%IT%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Technology%' OR industry ILIKE '%소프트웨어%' OR industry ILIKE '%IT%' LIMIT 10"
   },
   {
     "question": "Find companies with revenue greater than 1 million",
-    "answer": "SELECT rmc.master_id, rmc.company_name, rmc.revenue FROM rb_master_company rmc WHERE rmc.revenue > 1000000 LIMIT 10"
+    "sql": "SELECT rmc.master_id, rmc.company_name, rmc.revenue FROM rb_master_company rmc WHERE rmc.revenue > 1000000 LIMIT 10"
   },
   {
     "question": "List companies with more than 100 employees",
-    "answer": "SELECT master_id, company_name, employee_count FROM rb_master_company WHERE CAST(employee_count AS INTEGER) > 100 LIMIT 10"
+    "sql": "SELECT master_id, company_name, employee_count FROM rb_master_company WHERE CAST(employee_count AS INTEGER) > 100 LIMIT 10"
   },
   {
     "question": "Find companies in the healthcare industry",
-    "answer": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Healthcare%' OR industry ILIKE '%의료%' OR industry ILIKE '%병원%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Healthcare%' OR industry ILIKE '%의료%' OR industry ILIKE '%병원%' LIMIT 10"
   },
   {
     "question": "List companies sorted by revenue in descending order",
-    "answer": "SELECT master_id, company_name, revenue FROM rb_master_company WHERE revenue IS NOT NULL ORDER BY revenue DESC LIMIT 10"
+    "sql": "SELECT master_id, company_name, revenue FROM rb_master_company WHERE revenue IS NOT NULL ORDER BY revenue DESC LIMIT 10"
   },
   {
     "question": "Find companies with 'Inc' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Inc%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Inc%' LIMIT 10"
   },
   {
     "question": "Find companies with headquarters in Seoul",
-    "answer": "SELECT master_id, company_name, address FROM rb_master_company WHERE address ILIKE '%서울%' OR address ILIKE '%Seoul%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, address FROM rb_master_company WHERE address ILIKE '%서울%' OR address ILIKE '%Seoul%' LIMIT 10"
   },
   {
     "question": "List companies in the retail industry with more than 500 employees",
-    "answer": "SELECT master_id, company_name, industry, employee_count FROM rb_master_company WHERE (industry ILIKE '%Retail%' OR industry ILIKE '%소매%') AND CAST(employee_count AS INTEGER) > 500 LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry, employee_count FROM rb_master_company WHERE (industry ILIKE '%Retail%' OR industry ILIKE '%소매%') AND CAST(employee_count AS INTEGER) > 500 LIMIT 10"
   },
   {
     "question": "Find companies with 'LLC' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%LLC%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%LLC%' LIMIT 10"
   },
   {
     "question": "List companies with websites",
-    "answer": "SELECT master_id, company_name, website FROM rb_master_company WHERE website IS NOT NULL AND website != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, website FROM rb_master_company WHERE website IS NOT NULL AND website != '' LIMIT 10"
   },
   {
     "question": "Find companies established before 2000",
-    "answer": "SELECT master_id, company_name, establishment_date FROM rb_master_company WHERE establishment_date < '2000-01-01' LIMIT 10"
+    "sql": "SELECT master_id, company_name, establishment_date FROM rb_master_company WHERE establishment_date < '2000-01-01' LIMIT 10"
   },
   {
     "question": "List companies with 'Co., Ltd.' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Co., Ltd.%' OR company_name ILIKE '%주식회사%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Co., Ltd.%' OR company_name ILIKE '%주식회사%' LIMIT 10"
   },
   {
     "question": "Find companies in the manufacturing industry",
-    "answer": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Manufacturing%' OR industry ILIKE '%제조%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Manufacturing%' OR industry ILIKE '%제조%' LIMIT 10"
   },
   {
     "question": "List companies with email addresses",
-    "answer": "SELECT master_id, company_name, email FROM rb_master_company WHERE email IS NOT NULL AND email != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, email FROM rb_master_company WHERE email IS NOT NULL AND email != '' LIMIT 10"
   },
   {
     "question": "Find companies with phone numbers starting with 02",
-    "answer": "SELECT master_id, company_name, phone_number FROM rb_master_company WHERE phone_number LIKE '02%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, phone_number FROM rb_master_company WHERE phone_number LIKE '02%' LIMIT 10"
   },
   {
     "question": "List companies with fax numbers",
-    "answer": "SELECT master_id, company_name, fax_number FROM rb_master_company WHERE fax_number IS NOT NULL AND fax_number != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, fax_number FROM rb_master_company WHERE fax_number IS NOT NULL AND fax_number != '' LIMIT 10"
   },
   {
     "question": "Find companies with 'Group' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Group%' OR company_name ILIKE '%그룹%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Group%' OR company_name ILIKE '%그룹%' LIMIT 10"
   },
   {
     "question": "List companies in Busan",
-    "answer": "SELECT master_id, company_name, address FROM rb_master_company WHERE address ILIKE '%부산%' OR address ILIKE '%Busan%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, address FROM rb_master_company WHERE address ILIKE '%부산%' OR address ILIKE '%Busan%' LIMIT 10"
   },
   {
     "question": "Find companies with total assets greater than 10 million",
-    "answer": "SELECT master_id, company_name, total_assets FROM rb_master_company WHERE total_assets > 10000000 LIMIT 10"
+    "sql": "SELECT master_id, company_name, total_assets FROM rb_master_company WHERE total_assets > 10000000 LIMIT 10"
   },
   {
     "question": "List companies with positive net income",
-    "answer": "SELECT master_id, company_name, net_income FROM rb_master_company WHERE net_income > 0 LIMIT 10"
+    "sql": "SELECT master_id, company_name, net_income FROM rb_master_company WHERE net_income > 0 LIMIT 10"
   },
   {
     "question": "Find companies with 'Bank' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Bank%' OR company_name ILIKE '%은행%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Bank%' OR company_name ILIKE '%은행%' LIMIT 10"
   },
   {
     "question": "List companies in the financial industry",
-    "answer": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Financial%' OR industry ILIKE '%금융%' LIMIT 10"
+    "sql": "SELECT master_id, company_name, industry FROM rb_master_company WHERE industry ILIKE '%Financial%' OR industry ILIKE '%금융%' LIMIT 10"
   },
   {
     "question": "Find companies with 'Korea' in their name",
-    "answer": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Korea%' OR company_name ILIKE '%한국%' LIMIT 10"
+    "sql": "SELECT master_id, company_name FROM rb_master_company WHERE company_name ILIKE '%Korea%' OR company_name ILIKE '%한국%' LIMIT 10"
   },
   {
     "question": "List companies with stock codes",
-    "answer": "SELECT master_id, company_name, stock_code FROM rb_master_company WHERE stock_code IS NOT NULL AND stock_code != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, stock_code FROM rb_master_company WHERE stock_code IS NOT NULL AND stock_code != '' LIMIT 10"
   },
   {
     "question": "Find companies with corporate numbers",
-    "answer": "SELECT master_id, company_name, corporate_number FROM rb_master_company WHERE corporate_number IS NOT NULL AND corporate_number != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, corporate_number FROM rb_master_company WHERE corporate_number IS NOT NULL AND corporate_number != '' LIMIT 10"
   },
   {
     "question": "List companies with English names",
-    "answer": "SELECT master_id, company_name, english_name FROM rb_master_company WHERE english_name IS NOT NULL AND english_name != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, english_name FROM rb_master_company WHERE english_name IS NOT NULL AND english_name != '' LIMIT 10"
   },
   {
     "question": "Find companies with trade names",
-    "answer": "SELECT master_id, company_name, trade_name FROM rb_master_company WHERE trade_name IS NOT NULL AND trade_name != '' LIMIT 10"
+    "sql": "SELECT master_id, company_name, trade_name FROM rb_master_company WHERE trade_name IS NOT NULL AND trade_name != '' LIMIT 10"
   },
   {
     "question": "List companies with fiscal month 12",
-    "answer": "SELECT master_id, company_name, fiscal_month FROM rb_master_company WHERE fiscal_month = '12' LIMIT 10"
+    "sql": "SELECT master_id, company_name, fiscal_month FROM rb_master_company WHERE fiscal_month = '12' LIMIT 10"
   },
   {
     "question": "Find companies with recent sales greater than 1 billion",
-    "answer": "SELECT master_id, company_name, recent_sales FROM rb_master_company WHERE CAST(recent_sales AS NUMERIC) > 1000000000 LIMIT 10"
+    "sql": "SELECT master_id, company_name, recent_sales FROM rb_master_company WHERE CAST(recent_sales AS NUMERIC) > 1000000000 LIMIT 10"
   },
   {
     "question": "List companies with recent profit greater than 100 million",
-    "answer": "SELECT master_id, company_name, recent_profit FROM rb_master_company WHERE CAST(recent_profit AS NUMERIC) > 100000000 LIMIT 10"
+    "sql": "SELECT master_id, company_name, recent_profit FROM rb_master_company WHERE CAST(recent_profit AS NUMERIC) > 100000000 LIMIT 10"
   }
 ]

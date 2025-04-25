@@ -1,202 +1,202 @@
 [
   {
     "question": "모든 회사의 이름과 주소를 조회해줘",
-    "answer": "SELECT company_name, address FROM rb_master_company"
+    "sql": "SELECT company_name, address FROM rb_master_company"
   },
   {
     "question": "서울에 있는 회사들의 목록을 보여줘",
-    "answer": "SELECT company_name, address, phone_number FROM rb_master_company WHERE address LIKE '%서울%'"
+    "sql": "SELECT company_name, address, phone_number FROM rb_master_company WHERE address LIKE '%서울%'"
   },
   {
     "question": "IT 산업에 속한 회사들을 보여줘",
-    "answer": "SELECT company_name, industry FROM rb_master_company WHERE industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%'"
+    "sql": "SELECT company_name, industry FROM rb_master_company WHERE industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%'"
   },
   {
     "question": "직원 수가 100명 이상인 회사들을 찾아줘",
-    "answer": "SELECT company_name, employee_count FROM rb_master_company WHERE CAST(employee_count AS INTEGER) >= 100"
+    "sql": "SELECT company_name, employee_count FROM rb_master_company WHERE CAST(employee_count AS INTEGER) >= 100"
   },
   {
     "question": "2010년 이후에 설립된 회사들을 찾아줘",
-    "answer": "SELECT company_name, establishment_date FROM rb_master_company WHERE CAST(establishment_date AS INTEGER) >= 2010"
+    "sql": "SELECT company_name, establishment_date FROM rb_master_company WHERE CAST(establishment_date AS INTEGER) >= 2010"
   },
   {
     "question": "웹사이트가 있는 회사들의 목록을 보여줘",
-    "answer": "SELECT company_name, website FROM rb_master_company WHERE website IS NOT NULL AND website != ''"
+    "sql": "SELECT company_name, website FROM rb_master_company WHERE website IS NOT NULL AND website != ''"
   },
   {
     "question": "회사 이름에 '테크'가 포함된 회사들을 찾아줘",
-    "answer": "SELECT company_name, industry FROM rb_master_company WHERE company_name LIKE '%테크%' OR company_name LIKE '%Tech%'"
+    "sql": "SELECT company_name, industry FROM rb_master_company WHERE company_name LIKE '%테크%' OR company_name LIKE '%Tech%'"
   },
   {
     "question": "주식 코드가 있는 상장 회사들을 찾아줘",
-    "answer": "SELECT company_name, stock_code FROM rb_master_company WHERE stock_code IS NOT NULL AND stock_code != ''"
+    "sql": "SELECT company_name, stock_code FROM rb_master_company WHERE stock_code IS NOT NULL AND stock_code != ''"
   },
   {
     "question": "최근 매출이 10억 이상인 회사들을 보여줘",
-    "answer": "SELECT company_name, recent_sales FROM rb_master_company WHERE CAST(recent_sales AS NUMERIC) >= 1000000000"
+    "sql": "SELECT company_name, recent_sales FROM rb_master_company WHERE CAST(recent_sales AS NUMERIC) >= 1000000000"
   },
   {
     "question": "회사 이름을 알파벳 순으로 정렬해서 보여줘",
-    "answer": "SELECT company_name FROM rb_master_company ORDER BY company_name ASC"
+    "sql": "SELECT company_name FROM rb_master_company ORDER BY company_name ASC"
   },
   {
     "question": "직원 수가 많은 순서대로 회사들을 보여줘",
-    "answer": "SELECT company_name, employee_count FROM rb_master_company WHERE employee_count IS NOT NULL ORDER BY CAST(employee_count AS INTEGER) DESC"
+    "sql": "SELECT company_name, employee_count FROM rb_master_company WHERE employee_count IS NOT NULL ORDER BY CAST(employee_count AS INTEGER) DESC"
   },
   {
     "question": "경기도에 있는 제조업 회사들을 찾아줘",
-    "answer": "SELECT company_name, address, industry FROM rb_master_company WHERE address LIKE '%경기%' AND industry LIKE '%제조%'"
+    "sql": "SELECT company_name, address, industry FROM rb_master_company WHERE address LIKE '%경기%' AND industry LIKE '%제조%'"
   },
   {
     "question": "대표자 이름이 '김'으로 시작하는 회사들을 찾아줘",
-    "answer": "SELECT company_name, representative FROM rb_master_company WHERE representative LIKE '김%'"
+    "sql": "SELECT company_name, representative FROM rb_master_company WHERE representative LIKE '김%'"
   },
   {
     "question": "팩스 번호가 등록된 회사들을 찾아줘",
-    "answer": "SELECT company_name, fax_number FROM rb_master_company WHERE fax_number IS NOT NULL AND fax_number != ''"
+    "sql": "SELECT company_name, fax_number FROM rb_master_company WHERE fax_number IS NOT NULL AND fax_number != ''"
   },
   {
     "question": "그룹사 이름이 등록된 회사들을 보여줘",
-    "answer": "SELECT company_name, group_name FROM rb_master_company WHERE group_name IS NOT NULL AND group_name != ''"
+    "sql": "SELECT company_name, group_name FROM rb_master_company WHERE group_name IS NOT NULL AND group_name != ''"
   },
   {
     "question": "삼성 그룹에 속한 회사들을 찾아줘",
-    "answer": "SELECT company_name, group_name FROM rb_master_company WHERE group_name LIKE '%삼성%'"
+    "sql": "SELECT company_name, group_name FROM rb_master_company WHERE group_name LIKE '%삼성%'"
   },
   {
     "question": "주요 제품이 등록된 회사들을 찾아줘",
-    "answer": "SELECT company_name, main_product FROM rb_master_company WHERE main_product IS NOT NULL AND main_product != ''"
+    "sql": "SELECT company_name, main_product FROM rb_master_company WHERE main_product IS NOT NULL AND main_product != ''"
   },
   {
     "question": "주요 은행이 '국민은행'인 회사들을 보여줘",
-    "answer": "SELECT company_name, main_bank FROM rb_master_company WHERE main_bank LIKE '%국민%'"
+    "sql": "SELECT company_name, main_bank FROM rb_master_company WHERE main_bank LIKE '%국민%'"
   },
   {
     "question": "영문 이름이 등록된 회사들을 보여줘",
-    "answer": "SELECT company_name, english_name FROM rb_master_company WHERE english_name IS NOT NULL AND english_name != ''"
+    "sql": "SELECT company_name, english_name FROM rb_master_company WHERE english_name IS NOT NULL AND english_name != ''"
   },
   {
     "question": "결산월이 12월인 회사들을 보여줘",
-    "answer": "SELECT company_name, fiscal_month FROM rb_master_company WHERE fiscal_month = '12'"
+    "sql": "SELECT company_name, fiscal_month FROM rb_master_company WHERE fiscal_month = '12'"
   },
   {
     "question": "최근 총자산이 등록된 회사들을 보여줘",
-    "answer": "SELECT company_name, recent_total_assets FROM rb_master_company WHERE recent_total_assets IS NOT NULL AND recent_total_assets != ''"
+    "sql": "SELECT company_name, recent_total_assets FROM rb_master_company WHERE recent_total_assets IS NOT NULL AND recent_total_assets != ''"
   },
   {
     "question": "지역1이 '서울'인 회사들을 찾아줘",
-    "answer": "SELECT company_name, region1 FROM rb_master_company WHERE region1 = '서울'"
+    "sql": "SELECT company_name, region1 FROM rb_master_company WHERE region1 = '서울'"
   },
   {
     "question": "산업 대분류가 '제조업'인 회사들을 보여줘",
-    "answer": "SELECT company_name, industry_major FROM rb_master_company WHERE industry_major = '제조업'"
+    "sql": "SELECT company_name, industry_major FROM rb_master_company WHERE industry_major = '제조업'"
   },
   {
     "question": "위도와 경도가 모두 등록된 회사들을 보여줘",
-    "answer": "SELECT company_name, latitude, longitude FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL"
+    "sql": "SELECT company_name, latitude, longitude FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL"
   },
   {
     "question": "내 위치(위도: 37.5665, 경도: 126.9780)에서 가장 가까운 회사 10개를 찾아줘",
-    "answer": "SELECT company_name, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL ORDER BY distance ASC LIMIT 10"
+    "sql": "SELECT company_name, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL ORDER BY distance ASC LIMIT 10"
   },
   {
     "question": "내 위치(위도: 37.5665, 경도: 126.9780)에서 반경 5km 이내의 회사들을 찾아줘",
-    "answer": "SELECT company_name, address, latitude, longitude, 6371 * 2 * ASIN(SQRT(POWER(SIN((latitude - 37.5665) * PI() / 180 / 2), 2) + COS(37.5665 * PI() / 180) * COS(latitude * PI() / 180) * POWER(SIN((longitude - 126.9780) * PI() / 180 / 2), 2))) AS distance_km FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL HAVING distance_km <= 5 ORDER BY distance_km"
+    "sql": "SELECT company_name, address, latitude, longitude, 6371 * 2 * ASIN(SQRT(POWER(SIN((latitude - 37.5665) * PI() / 180 / 2), 2) + COS(37.5665 * PI() / 180) * COS(latitude * PI() / 180) * POWER(SIN((longitude - 126.9780) * PI() / 180 / 2), 2))) AS distance_km FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL HAVING distance_km <= 5 ORDER BY distance_km"
   },
   {
     "question": "회사 수를 산업별로 그룹화해서 보여줘",
-    "answer": "SELECT industry, COUNT(*) as company_count FROM rb_master_company GROUP BY industry ORDER BY company_count DESC"
+    "sql": "SELECT industry, COUNT(*) as company_count FROM rb_master_company GROUP BY industry ORDER BY company_count DESC"
   },
   {
     "question": "지역별 회사 수를 보여줘",
-    "answer": "SELECT region1, COUNT(*) as company_count FROM rb_master_company WHERE region1 IS NOT NULL GROUP BY region1 ORDER BY company_count DESC"
+    "sql": "SELECT region1, COUNT(*) as company_count FROM rb_master_company WHERE region1 IS NOT NULL GROUP BY region1 ORDER BY company_count DESC"
   },
   {
     "question": "직원 수 구간별 회사 수를 보여줘",
-    "answer": "SELECT CASE WHEN CAST(employee_count AS INTEGER) < 10 THEN '10명 미만' WHEN CAST(employee_count AS INTEGER) < 50 THEN '10-49명' WHEN CAST(employee_count AS INTEGER) < 100 THEN '50-99명' WHEN CAST(employee_count AS INTEGER) < 300 THEN '100-299명' WHEN CAST(employee_count AS INTEGER) < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, COUNT(*) as company_count FROM rb_master_company WHERE employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+    "sql": "SELECT CASE WHEN CAST(employee_count AS INTEGER) < 10 THEN '10명 미만' WHEN CAST(employee_count AS INTEGER) < 50 THEN '10-49명' WHEN CAST(employee_count AS INTEGER) < 100 THEN '50-99명' WHEN CAST(employee_count AS INTEGER) < 300 THEN '100-299명' WHEN CAST(employee_count AS INTEGER) < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, COUNT(*) as company_count FROM rb_master_company WHERE employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
   },
   {
     "question": "설립 연도별 회사 수를 보여줘",
-    "answer": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM rb_master_company WHERE establishment_date ~ '^[0-9]+$' GROUP BY founding_year ORDER BY founding_year"
+    "sql": "SELECT CAST(establishment_date AS INTEGER) AS founding_year, COUNT(*) as company_count FROM rb_master_company WHERE establishment_date ~ '^[0-9]+$' GROUP BY founding_year ORDER BY founding_year"
   },
   {
     "question": "회사 이름의 첫 글자별 회사 수를 보여줘",
-    "answer": "SELECT LEFT(company_name, 1) AS first_letter, COUNT(*) as company_count FROM rb_master_company GROUP BY first_letter ORDER BY company_count DESC"
+    "sql": "SELECT LEFT(company_name, 1) AS first_letter, COUNT(*) as company_count FROM rb_master_company GROUP BY first_letter ORDER BY company_count DESC"
   },
   {
     "question": "주요 은행별 회사 수를 보여줘",
-    "answer": "SELECT main_bank, COUNT(*) as company_count FROM rb_master_company WHERE main_bank IS NOT NULL AND main_bank != '' GROUP BY main_bank ORDER BY company_count DESC"
+    "sql": "SELECT main_bank, COUNT(*) as company_count FROM rb_master_company WHERE main_bank IS NOT NULL AND main_bank != '' GROUP BY main_bank ORDER BY company_count DESC"
   },
   {
     "question": "회사 이름과 주소, 전화번호를 CSV 형식으로 추출해줘",
-    "answer": "SELECT company_name || ',' || address || ',' || phone_number FROM rb_master_company"
+    "sql": "SELECT company_name || ',' || address || ',' || phone_number FROM rb_master_company"
   },
   {
     "question": "회사 정보를 JSON 형식으로 추출해줘",
-    "answer": "SELECT json_build_object('name', company_name, 'address', address, 'phone', phone_number, 'industry', industry) FROM rb_master_company"
+    "sql": "SELECT json_build_object('name', company_name, 'address', address, 'phone', phone_number, 'industry', industry) FROM rb_master_company"
   },
   {
     "question": "주소가 없는 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE address IS NULL OR address = ''"
+    "sql": "SELECT company_name FROM rb_master_company WHERE address IS NULL OR address = ''"
   },
   {
     "question": "산업 정보가 없는 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE industry IS NULL OR industry = ''"
+    "sql": "SELECT company_name FROM rb_master_company WHERE industry IS NULL OR industry = ''"
   },
   {
     "question": "대표자 정보가 없는 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE representative IS NULL OR representative = ''"
+    "sql": "SELECT company_name FROM rb_master_company WHERE representative IS NULL OR representative = ''"
   },
   {
     "question": "설립일 정보가 없는 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE establishment_date IS NULL OR establishment_date = ''"
+    "sql": "SELECT company_name FROM rb_master_company WHERE establishment_date IS NULL OR establishment_date = ''"
   },
   {
     "question": "직원 수 정보가 없는 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE employee_count IS NULL OR employee_count = ''"
+    "sql": "SELECT company_name FROM rb_master_company WHERE employee_count IS NULL OR employee_count = ''"
   },
   {
     "question": "최근에 추가된 회사 10개를 보여줘",
-    "answer": "SELECT company_name, address FROM rb_master_company ORDER BY created_at DESC LIMIT 10"
+    "sql": "SELECT company_name, address FROM rb_master_company ORDER BY created_at DESC LIMIT 10"
   },
   {
     "question": "회사 이름이 가장 긴 회사 10개를 보여줘",
-    "answer": "SELECT company_name, LENGTH(company_name) as name_length FROM rb_master_company ORDER BY name_length DESC LIMIT 10"
+    "sql": "SELECT company_name, LENGTH(company_name) as name_length FROM rb_master_company ORDER BY name_length DESC LIMIT 10"
   },
   {
     "question": "회사 이름에 숫자가 포함된 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE company_name ~ '[0-9]'"
+    "sql": "SELECT company_name FROM rb_master_company WHERE company_name ~ '[0-9]'"
   },
   {
     "question": "회사 이름에 영어가 포함된 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE company_name ~ '[a-zA-Z]'"
+    "sql": "SELECT company_name FROM rb_master_company WHERE company_name ~ '[a-zA-Z]'"
   },
   {
     "question": "회사 이름이 한글로만 이루어진 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE company_name ~ '^[가-힣\\s]+$'"
+    "sql": "SELECT company_name FROM rb_master_company WHERE company_name ~ '^[가-힣\\s]+$'"
   },
   {
     "question": "회사 이름이 영어로만 이루어진 회사들을 찾아줘",
-    "answer": "SELECT company_name FROM rb_master_company WHERE company_name ~ '^[a-zA-Z\\s]+$'"
+    "sql": "SELECT company_name FROM rb_master_company WHERE company_name ~ '^[a-zA-Z\\s]+$'"
   },
   {
     "question": "내 현재 위치(위도: 37.5665, 경도: 126.9780)에서 가장 가까운 IT 회사를 찾아줘",
-    "answer": "SELECT company_name, industry, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND (industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%') ORDER BY distance ASC LIMIT 1"
+    "sql": "SELECT company_name, industry, address, latitude, longitude, SQRT(POWER(latitude - 37.5665, 2) + POWER(longitude - 126.9780, 2)) AS distance FROM rb_master_company WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND (industry LIKE '%IT%' OR industry LIKE '%소프트웨어%' OR industry LIKE '%정보%') ORDER BY distance ASC LIMIT 1"
   },
   {
     "question": "총자산이 가장 많은 회사 10개를 보여줘",
-    "answer": "SELECT company_name, total_assets FROM rb_master_company WHERE total_assets IS NOT NULL ORDER BY total_assets DESC LIMIT 10"
+    "sql": "SELECT company_name, total_assets FROM rb_master_company WHERE total_assets IS NOT NULL ORDER BY total_assets DESC LIMIT 10"
   },
   {
     "question": "매출액이 가장 높은 회사 10개를 보여줘",
-    "answer": "SELECT company_name, revenue FROM rb_master_company WHERE revenue IS NOT NULL ORDER BY revenue DESC LIMIT 10"
+    "sql": "SELECT company_name, revenue FROM rb_master_company WHERE revenue IS NOT NULL ORDER BY revenue DESC LIMIT 10"
   },
   {
     "question": "순이익이 가장 높은 회사 10개를 보여줘",
-    "answer": "SELECT company_name, net_income FROM rb_master_company WHERE net_income IS NOT NULL ORDER BY net_income DESC LIMIT 10"
+    "sql": "SELECT company_name, net_income FROM rb_master_company WHERE net_income IS NOT NULL ORDER BY net_income DESC LIMIT 10"
   },
   {
     "question": "자본금이 가장 많은 회사 10개를 보여줘",
-    "answer": "SELECT company_name, recent_capital FROM rb_master_company WHERE recent_capital IS NOT NULL AND recent_capital != '' ORDER BY CAST(recent_capital AS NUMERIC) DESC LIMIT 10"
+    "sql": "SELECT company_name, recent_capital FROM rb_master_company WHERE recent_capital IS NOT NULL AND recent_capital != '' ORDER BY CAST(recent_capital AS NUMERIC) DESC LIMIT 10"
   }
 ]

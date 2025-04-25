@@ -1,202 +1,202 @@
 [
   {
     "question": "회사 정보와 재무 데이터를 함께 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id"
   },
   {
     "question": "2022년 재무 데이터가 있는 회사 정보를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.year = 2022"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.year = 2022"
   },
   {
     "question": "매출액이 1조원 이상인 회사 정보와 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue >= 1000000000000"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue >= 1000000000000"
   },
   {
     "question": "순이익이 양수인 회사 정보와 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.net_income > 0"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.net_income > 0"
   },
   {
     "question": "서울에 있는 회사의 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.address LIKE '%서울%'"
+    "sql": "SELECT sfc.company_name, sfc.address, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.address LIKE '%서울%'"
   },
   {
     "question": "IT 산업에 속한 회사의 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.industry LIKE '%IT%' OR sfc.industry LIKE '%소프트웨어%' OR sfc.industry LIKE '%정보%'"
+    "sql": "SELECT sfc.company_name, sfc.industry, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.industry LIKE '%IT%' OR sfc.industry LIKE '%소프트웨어%' OR sfc.industry LIKE '%정보%'"
   },
   {
     "question": "직원 수가 1000명 이상인 회사의 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.employee_count, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count >= 1000"
+    "sql": "SELECT sfc.company_name, sfc.employee_count, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count >= 1000"
   },
   {
     "question": "2010년 이후에 설립된 회사의 재무 데이터를 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.establishment_date, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.establishment_date >= 2010"
+    "sql": "SELECT sfc.company_name, sfc.establishment_date, sfd.year, sfd.revenue, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.establishment_date >= 2010"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출액 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.revenue DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.revenue DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 순이익 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.net_income DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.net_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 총자산 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_assets DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_assets DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 영업이익 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.operating_income DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.operating_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 자본금 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.capital_stock DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.capital_stock DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 부채 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_liabilities DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_liabilities DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 자본 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_equity FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_equity DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_equity FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id ORDER BY sfd.total_equity DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출액 대비 순이익 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income, (sfd.net_income / sfd.revenue * 100) as profit_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY profit_margin DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.net_income, (sfd.net_income / sfd.revenue * 100) as profit_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY profit_margin DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출액 대비 영업이익 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.operating_income, (sfd.operating_income / sfd.revenue * 100) as operating_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY operating_margin DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.operating_income, (sfd.operating_income / sfd.revenue * 100) as operating_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY operating_margin DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 총자산 대비 순이익 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_assets, sfd.net_income, (sfd.net_income / sfd.total_assets * 100) as ROA FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY ROA DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_assets, sfd.net_income, (sfd.net_income / sfd.total_assets * 100) as ROA FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY ROA DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 자본 대비 순이익 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_equity, sfd.net_income, (sfd.net_income / sfd.total_equity * 100) as ROE FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_equity > 0 ORDER BY ROE DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_equity, sfd.net_income, (sfd.net_income / sfd.total_equity * 100) as ROE FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_equity > 0 ORDER BY ROE DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 부채비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_liabilities, sfd.total_assets, (sfd.total_liabilities / sfd.total_assets * 100) as debt_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY debt_ratio DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.total_liabilities, sfd.total_assets, (sfd.total_liabilities / sfd.total_assets * 100) as debt_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY debt_ratio DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 유동비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.current_assets, sfd.current_liabilities, (sfd.current_assets / sfd.current_liabilities * 100) as current_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.current_liabilities > 0 ORDER BY current_ratio DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.current_assets, sfd.current_liabilities, (sfd.current_assets / sfd.current_liabilities * 100) as current_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.current_liabilities > 0 ORDER BY current_ratio DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 당좌비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.quick_assets, sfd.current_liabilities, (sfd.quick_assets / sfd.current_liabilities * 100) as quick_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.current_liabilities > 0 ORDER BY quick_ratio DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.quick_assets, sfd.current_liabilities, (sfd.quick_assets / sfd.current_liabilities * 100) as quick_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.current_liabilities > 0 ORDER BY quick_ratio DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 총자산 회전율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.total_assets, (sfd.revenue / sfd.total_assets) as asset_turnover FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY asset_turnover DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.total_assets, (sfd.revenue / sfd.total_assets) as asset_turnover FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.total_assets > 0 ORDER BY asset_turnover DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 재고자산 회전율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.inventory, (sfd.revenue / sfd.inventory) as inventory_turnover FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.inventory > 0 ORDER BY inventory_turnover DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.inventory, (sfd.revenue / sfd.inventory) as inventory_turnover FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.inventory > 0 ORDER BY inventory_turnover DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출액 대비 판관비 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sga, (sfd.sga / sfd.revenue * 100) as sga_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY sga_ratio DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sga, (sfd.sga / sfd.revenue * 100) as sga_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY sga_ratio DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출액 대비 매출원가 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sales_cost, (sfd.sales_cost / sfd.revenue * 100) as cogs_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY cogs_ratio DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sales_cost, (sfd.sales_cost / sfd.revenue * 100) as cogs_ratio FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY cogs_ratio DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 매출총이익률 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sales_profit, (sfd.sales_profit / sfd.revenue * 100) as gross_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY gross_margin DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.revenue, sfd.sales_profit, (sfd.sales_profit / sfd.revenue * 100) as gross_margin FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.revenue > 0 ORDER BY gross_margin DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 법인세 비율 기준으로 정렬해서 보여줘",
-    "answer": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.pre_tax_income, sfd.corporate_tax, (sfd.corporate_tax / sfd.pre_tax_income * 100) as tax_rate FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.pre_tax_income > 0 ORDER BY tax_rate DESC"
+    "sql": "SELECT sfc.company_name, sfc.address, sfc.industry, sfd.year, sfd.pre_tax_income, sfd.corporate_tax, (sfd.corporate_tax / sfd.pre_tax_income * 100) as tax_rate FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfd.pre_tax_income > 0 ORDER BY tax_rate DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 매출액을 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 순이익을 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 영업이익을 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 총자산을 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 총부채를 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 연도별로 그룹화하여 평균 자본금을 보여줘",
-    "answer": "SELECT sfd.year, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
+    "sql": "SELECT sfd.year, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfd.year ORDER BY sfd.year"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 매출액을 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_revenue DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_revenue DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 순이익을 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_net_income DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_net_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 영업이익을 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_operating_income DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_operating_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 총자산을 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_total_assets DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_total_assets DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 총부채를 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_total_liabilities DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_total_liabilities DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 산업별로 그룹화하여 평균 자본금을 보여줘",
-    "answer": "SELECT sfc.industry, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_capital_stock DESC"
+    "sql": "SELECT sfc.industry, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id GROUP BY sfc.industry ORDER BY avg_capital_stock DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 매출액을 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_revenue DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_revenue DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 순이익을 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_net_income DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_net_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 영업이익을 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_operating_income DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_operating_income DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 총자산을 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_total_assets DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_total_assets DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 총부채를 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_total_liabilities DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.total_liabilities) as avg_total_liabilities FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_total_liabilities DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 지역별로 그룹화하여 평균 자본금을 보여줘",
-    "answer": "SELECT sfc.region1, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_capital_stock DESC"
+    "sql": "SELECT sfc.region1, AVG(sfd.capital_stock) as avg_capital_stock FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.region1 IS NOT NULL GROUP BY sfc.region1 ORDER BY avg_capital_stock DESC"
   },
   {
     "question": "회사 정보와 재무 데이터를 직원 수 구간별로 그룹화하여 평균 매출액을 보여줘",
-    "answer": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+    "sql": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.revenue) as avg_revenue FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
   },
   {
     "question": "회사 정보와 재무 데이터를 직원 수 구간별로 그룹화하여 평균 순이익을 보여줘",
-    "answer": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+    "sql": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.net_income) as avg_net_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
   },
   {
     "question": "회사 정보와 재무 데이터를 직원 수 구간별로 그룹화하여 평균 영업이익을 보여줘",
-    "answer": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+    "sql": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.operating_income) as avg_operating_income FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
   },
   {
     "question": "회사 정보와 재무 데이터를 직원 수 구간별로 그룹화하여 평균 총자산을 보여줘",
-    "answer": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
+    "sql": "SELECT CASE WHEN sfc.employee_count < 10 THEN '10명 미만' WHEN sfc.employee_count < 50 THEN '10-49명' WHEN sfc.employee_count < 100 THEN '50-99명' WHEN sfc.employee_count < 300 THEN '100-299명' WHEN sfc.employee_count < 1000 THEN '300-999명' ELSE '1000명 이상' END AS employee_range, AVG(sfd.total_assets) as avg_total_assets FROM smtp_financial_company sfc JOIN smtp_financial_data sfd ON sfc.id = sfd.financial_company_id WHERE sfc.employee_count IS NOT NULL GROUP BY employee_range ORDER BY employee_range"
   }
 ]

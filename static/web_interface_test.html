@@ -92,27 +92,11 @@
                 </div>
                 <button id="trainSchema">Train on Schema</button>
             </div>
-            <div class="tab-content" id="data-tab">
-                <p>Train the model on the database data.</p>
-                <div class="form-group">
-                    <label for="table">Table Name:</label>
-                    <input type="text" id="table" placeholder="Enter table name">
-                </div>
-                <div class="example-container">
-                    <p class="example-title">Example:</p>
-                    <p class="example-content">Enter a table name like "customers" to train the model on the actual data
-                        in
-                        that table.</p>
-                    <p class="example-content">This helps the model understand the data distribution and common values
-                        in your database.</p>
-                </div>
-                <button id="trainData">Train on Data</button>
-            </div>
             <div class="tab-content" id="ddl-tab">
                 <p>Train the model with DDL statements that define your database structure.</p>
                 <div class="form-group">
-                    <label for="trainDDL">DDL Statement:</label>
-                    <textarea id="trainDDL" rows="5" placeholder="Enter DDL statement..."></textarea>
+                    <label for="trainDDLInput">DDL Statement:</label>
+                    <textarea id="trainDDLInput" rows="5" placeholder="Enter DDL statement..."></textarea>
                 </div>
                 <div class="example-container">
                     <p class="example-title">Example:</p>
@@ -123,8 +107,8 @@
             <div class="tab-content" id="documentation-tab">
                 <p>Train the model with documentation about your database, business, or industry.</p>
                 <div class="form-group">
-                    <label for="trainDocumentation">Documentation:</label>
-                    <textarea id="trainDocumentation" rows="5" placeholder="Enter documentation..."></textarea>
+                    <label for="trainDocumentationInput">Documentation:</label>
+                    <textarea id="trainDocumentationInput" rows="5" placeholder="Enter documentation..."></textarea>
                 </div>
                 <div class="example-container">
                     <p class="example-title">Example:</p>
@@ -136,8 +120,8 @@
             <div class="tab-content" id="sql-tab">
                 <p>Train the model with SQL statements commonly used in your organization.</p>
                 <div class="form-group">
-                    <label for="trainSQLOnly">SQL Statement:</label>
-                    <textarea id="trainSQLOnly" rows="5" placeholder="Enter SQL statement..."></textarea>
+                    <label for="trainSQLOnlyInput">SQL Statement:</label>
+                    <textarea id="trainSQLOnlyInput" rows="5" placeholder="Enter SQL statement..."></textarea>
                 </div>
                 <div class="example-container">
                     <p class="example-title">Example:</p>
@@ -148,32 +132,12 @@
             <div class="tab-content" id="qa-tab">
                 <p>Train the model with question and SQL pairs.</p>
                 <div class="form-group">
-                    <label for="trainQuestion">Question:</label>
-                    <textarea id="trainQuestion" rows="3" placeholder="Enter a natural language question..."></textarea>
+                    <label for="trainQuestionInput">Question:</label>
+                    <textarea id="trainQuestionInput" rows="3" placeholder="Enter a natural language question..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="trainSQL">SQL Query:</label>
-                    <textarea id="trainSQL" rows="5" placeholder="Enter the corresponding SQL query..."></textarea>
-                </div>
-                <div class="example-container">
-                    <p class="example-title">Example:</p>
-                    <p class="example-content"><strong>Question:</strong> How many customers do we have in each country?
-                    </p>
-                    <p class="example-content"><strong>SQL:</strong></p>
-                    <pre
-                        class="example-content">SELECT country, COUNT(*) as customer_count FROM customers GROUP BY country ORDER BY customer_count DESC</pre>
-                </div>
-                <button id="trainQuestionSQL">Train on Question-SQL Pair</button>
-            </div>
-            <div class="tab-content" id="qa-tab">
-                <p>Train the model with question and SQL pairs.</p>
-                <div class="form-group">
-                    <label for="trainQuestion">Question:</label>
-                    <textarea id="trainQuestion" rows="3" placeholder="Enter a natural language question..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="trainSQL">SQL Query:</label>
-                    <textarea id="trainSQL" rows="5" placeholder="Enter the corresponding SQL query..."></textarea>
+                    <label for="trainSQLInput">SQL Query:</label>
+                    <textarea id="trainSQLInput" rows="5" placeholder="Enter the corresponding SQL query..."></textarea>
                 </div>
                 <div class="example-container">
                     <p class="example-title">Example:</p>

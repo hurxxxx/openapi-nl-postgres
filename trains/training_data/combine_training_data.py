@@ -58,7 +58,7 @@ with open(summary_file, 'w', encoding='utf-8') as f:
         f.write(f"### Sample {i+1}\n")
         f.write(f"Question: {item['question']}\n")
         f.write("```sql\n")
-        f.write(f"{item['answer']}\n")
+        f.write(f"{item['sql']}\n")
         f.write("```\n\n")
 
 print(f"Created summary file at {summary_file}")
