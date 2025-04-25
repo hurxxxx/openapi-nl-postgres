@@ -10,7 +10,6 @@
 
 <body>
     <h1>PostgreSQL Natural Language Query Interface</h1>
-
     <div class="container">
         <div class="card">
             <h2>Connection Status</h2>
@@ -38,9 +37,7 @@
                     <input type="password" id="password" placeholder="Enter your database password">
                     <div id="password_status" class="status-indicator"></div>
                 </div>
-                <div class="helper-text">
-                    Leave empty to use the password from .env file
-                </div>
+                <div class="helper-text">Leave empty to use the password from .env file</div>
             </div>
             <div class="form-group">
                 <label for="port">Port:</label>
@@ -52,16 +49,12 @@
                     <input type="text" id="api_key" value="env" placeholder="Enter your OpenAI API key or use env">
                     <div id="api_key_status" class="status-indicator"></div>
                 </div>
-                <div class="helper-text">
-                    Leave as "env" to use the API key from .env file, or enter your own key
-                </div>
+                <div class="helper-text">Leave as "env" to use the API key from .env file, or enter your own key</div>
             </div>
             <div class="form-group">
                 <label for="model">Model:</label>
                 <input type="text" id="model" value="env" placeholder="Example: gpt-4, gpt-3.5-turbo">
-                <div class="helper-text">
-                    Leave as "env" to use the model from .env file, or specify a model
-                </div>
+                <div class="helper-text">Leave as "env" to use the model from .env file, or specify a model</div>
             </div>
             <button id="connect">Connect</button>
             <div id="connectResult" class="status"></div>
@@ -80,11 +73,9 @@
             </div>
             <div class="tab-content active" id="schema-tab">
                 <p>Train the model on the database schema.</p>
-                <p class="helper-text">
-                    Note: Schema training is automatically performed once when the server starts if database
-                    connection information is available in environment variables. You only need to use this
-                    button if you want to retrain the model or if automatic training was not performed.
-                </p>
+                <p class="helper-text">Note: Schema training is automatically performed once when the server starts if
+                    database connection information is available in environment variables. You only need to use this
+                    button if you want to retrain the model or if automatic training was not performed.</p>
                 <div class="example-container">
                     <p class="example-title">What this does:</p>
                     <p class="example-content">Extracts and trains on your database schema information including tables,
@@ -201,9 +192,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="trainingDataBody">
-                            <!-- Training data will be populated here -->
-                        </tbody>
+                        <tbody id="trainingDataBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -227,7 +216,6 @@
         </div>
     </div>
 
-    <!-- Modal dialog -->
     <div id="contentModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -236,7 +224,6 @@
         </div>
     </div>
 
-    <!-- Load JavaScript -->
     <script src="/static/js/app.js"></script>
 </body>
 
