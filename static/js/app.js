@@ -87,8 +87,14 @@ function initApp() {
     checkApiConfig();
     checkDbConfig();
 
+    // Make sure the default training type is set to question_sql
+    elements.jsonTrainType.value = 'question_sql';
+
     // Initialize JSON format example
     updateJsonFormatExample();
+
+    // Log the initial training type
+    console.log("Initial training type:", elements.jsonTrainType.value);
 }
 
 /**
@@ -113,7 +119,14 @@ function setupEventListeners() {
     elements.refreshTrainingData.addEventListener('click', fetchTrainingData);
 
     // JSON train type change
-    elements.jsonTrainType.addEventListener('change', updateJsonFormatExample);
+    elements.jsonTrainType.addEventListener('change', function () {
+        const newType = elements.jsonTrainType.value;
+        console.log("Training type dropdown changed to:", newType);
+        updateJsonFormatExample();
+
+        // Show a notification to the user
+        elements.trainResult.innerHTML = `<div class="info">Training type changed to: <strong>${newType}</strong>. Please make sure your JSON file matches the expected format shown below.</div>`;
+    });
 
     // Query
     elements.queryBtn.addEventListener('click', queryDatabase);
@@ -343,7 +356,7 @@ async function trainSchema() {
         if (!response.ok) {
             const errorText = await response.text();
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -356,7 +369,7 @@ async function trainSchema() {
                 // If not JSON, use the raw text
                 errorMessage += `<br>Details: ${errorText}`;
             }
-            
+
             console.error("Training error:", errorMessage);
             elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
             return;
@@ -426,7 +439,7 @@ async function trainDDL() {
             const errorText = await response.text();
             console.error("Full server error response:", errorText);
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -441,7 +454,7 @@ async function trainDDL() {
                 errorMessage += `<br>Details: ${errorText}`;
                 console.error("Error parsing server response:", parseError);
             }
-            
+
             console.error("Training error:", errorMessage);
             elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
             return;
@@ -501,7 +514,7 @@ async function trainDocumentation() {
         if (!response.ok) {
             const errorText = await response.text();
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -514,7 +527,7 @@ async function trainDocumentation() {
                 // If not JSON, use the raw text
                 errorMessage += `<br>Details: ${errorText}`;
             }
-            
+
             console.error("Training error:", errorMessage);
             elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
             return;
@@ -573,7 +586,7 @@ async function trainSQL() {
         if (!response.ok) {
             const errorText = await response.text();
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -586,7 +599,7 @@ async function trainSQL() {
                 // If not JSON, use the raw text
                 errorMessage += `<br>Details: ${errorText}`;
             }
-            
+
             console.error("Training error:", errorMessage);
             elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
             return;
@@ -647,7 +660,7 @@ async function trainQuestionSQL() {
         if (!response.ok) {
             const errorText = await response.text();
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -660,7 +673,7 @@ async function trainQuestionSQL() {
                 // If not JSON, use the raw text
                 errorMessage += `<br>Details: ${errorText}`;
             }
-            
+
             console.error("Training error:", errorMessage);
             elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
             return;
@@ -738,11 +751,15 @@ async function queryDatabase() {
  */
 function updateJsonFormatExample() {
     const trainType = elements.jsonTrainType.value;
+    console.log("Training type changed to:", trainType);
     let exampleHtml = '';
+
+    // Add a visual indicator of the selected type
+    let typeIndicator = `<div class="selected-type-indicator">Selected Type: <strong>${trainType}</strong></div>`;
 
     switch (trainType) {
         case 'question_sql':
-            exampleHtml = `<pre class="example-content">[
+            exampleHtml = `${typeIndicator}<pre class="example-content">[
   {
     "question": "What are the top 10 companies by revenue?",
     "sql": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
@@ -754,19 +771,19 @@ function updateJsonFormatExample() {
 ]</pre>`;
             break;
         case 'ddl':
-            exampleHtml = `<pre class="example-content">[
+            exampleHtml = `${typeIndicator}<pre class="example-content">[
   "CREATE TABLE my_table (id INT, name TEXT)",
   "CREATE TABLE another_table (id INT, value FLOAT)"
 ]</pre>`;
             break;
         case 'documentation':
-            exampleHtml = `<pre class="example-content">[
+            exampleHtml = `${typeIndicator}<pre class="example-content">[
   "Our business defines customer lifetime value (CLV) as the total revenue generated by a customer over their entire relationship with our company.",
   "The customers table contains information about all registered users of our platform."
 ]</pre>`;
             break;
         case 'sql':
-            exampleHtml = `<pre class="example-content">[
+            exampleHtml = `${typeIndicator}<pre class="example-content">[
   "SELECT col1, col2, col3 FROM my_table WHERE condition = 'value'",
   "SELECT COUNT(*) FROM customers GROUP BY country"
 ]</pre>`;
@@ -797,9 +814,86 @@ async function trainWithJsonFile() {
         return;
     }
 
+    // Check file size
+    if (file.size === 0) {
+        elements.trainResult.innerHTML = '<div class="error">The selected JSON file is empty</div>';
+        return;
+    }
+
     // Get the selected training type
     const trainType = elements.jsonTrainType.value;
+    console.log("Submitting with training type:", trainType);
 
+    // Show a message that we're validating the file
+    elements.trainResult.innerHTML = '<div class="info">Validating JSON file...</div>';
+
+    // Read file content to verify it's valid JSON before sending
+    try {
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+            try {
+                // Try to parse the JSON to validate it
+                const content = e.target.result;
+                console.log("File content preview:", content.substring(0, 200) + "...");
+
+                try {
+                    // Validate JSON format
+                    const jsonData = JSON.parse(content);
+
+                    // Additional validation based on training type
+                    let isValid = true;
+                    let errorMessage = "";
+
+                    if (trainType === "question_sql") {
+                        // For question_sql, we expect an array of objects with question and sql fields
+                        if (!Array.isArray(jsonData)) {
+                            isValid = false;
+                            errorMessage = "JSON file must contain an array of objects for question_sql training";
+                        } else if (jsonData.length === 0) {
+                            isValid = false;
+                            errorMessage = "JSON file contains an empty array";
+                        } else if (!jsonData[0].question || (!jsonData[0].sql && !jsonData[0].answer)) {
+                            isValid = false;
+                            errorMessage = "JSON objects must have 'question' and 'sql' (or 'answer') fields for question_sql training";
+                        }
+                    } else if (["ddl", "documentation", "sql"].includes(trainType)) {
+                        // For other types, we expect an array of strings
+                        if (!Array.isArray(jsonData) && typeof jsonData !== "string") {
+                            isValid = false;
+                            errorMessage = `JSON file must contain an array of strings or a single string for ${trainType} training`;
+                        } else if (Array.isArray(jsonData) && jsonData.length === 0) {
+                            isValid = false;
+                            errorMessage = "JSON file contains an empty array";
+                        }
+                    }
+
+                    if (isValid) {
+                        // If we get here, JSON is valid, proceed with upload
+                        elements.trainResult.innerHTML = '<div class="info">JSON is valid. Uploading...</div>';
+                        await uploadJsonFile(file, trainType);
+                    } else {
+                        elements.trainResult.innerHTML = `<div class="error">${errorMessage}</div>`;
+                    }
+                } catch (parseError) {
+                    console.error("JSON parse error:", parseError);
+                    elements.trainResult.innerHTML = `<div class="error">Invalid JSON format: ${parseError.message}</div>`;
+                }
+            } catch (error) {
+                console.error("Error reading file:", error);
+                elements.trainResult.innerHTML = `<div class="error">Error reading file: ${error.message}</div>`;
+            }
+        };
+        reader.readAsText(file);
+    } catch (error) {
+        console.error("Error setting up file reader:", error);
+        elements.trainResult.innerHTML = `<div class="error">Error setting up file reader: ${error.message}</div>`;
+    }
+}
+
+/**
+ * Upload and process a JSON file for training
+ */
+async function uploadJsonFile(file, trainType) {
     try {
         // Disable the button and show loading state
         const trainButton = elements.trainJsonFile;
@@ -816,6 +910,15 @@ async function trainWithJsonFile() {
         formData.append('file', file);
         formData.append('train_type', trainType);
 
+        // Log the form data being sent
+        console.log("Sending form data with train_type:", trainType);
+        console.log("File details:", {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            lastModified: new Date(file.lastModified).toISOString()
+        });
+
         // Upload the file
         const response = await fetch('/train/json', {
             method: 'POST',
@@ -830,7 +933,7 @@ async function trainWithJsonFile() {
         if (!response.ok) {
             const errorText = await response.text();
             let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-            
+
             try {
                 // Try to parse as JSON
                 const errorJson = JSON.parse(errorText);
@@ -843,7 +946,7 @@ async function trainWithJsonFile() {
                 // If not JSON, use the raw text
                 errorMessage += `<br>Details: ${errorText}`;
             }
-            
+
             console.error("JSON training error:", errorMessage);
             elements.jsonProgressText.textContent = 'Error!';
             elements.jsonProgressFill.style.width = '100%';
@@ -853,6 +956,7 @@ async function trainWithJsonFile() {
 
         // Parse the response
         const data = await response.json();
+        console.log("Server response:", data);
 
         // Update progress to complete
         elements.jsonProgressFill.style.width = '100%';
@@ -867,7 +971,7 @@ async function trainWithJsonFile() {
             resultMessage += '<ul class="error-list">';
             data.errors.forEach(error => {
                 let errorDetail = `<li>Error at index ${error.index}: ${error.error}</li>`;
-                
+
                 // Add example data if available for more context
                 if (error.example) {
                     if (typeof error.example === 'object') {
@@ -881,7 +985,7 @@ async function trainWithJsonFile() {
                         errorDetail += `<div class="error-example"><pre>${error.example}</pre></div>`;
                     }
                 }
-                
+
                 resultMessage += errorDetail;
             });
             resultMessage += '</ul>';
@@ -890,7 +994,7 @@ async function trainWithJsonFile() {
         elements.trainResult.innerHTML = resultMessage;
 
         // Reset the file input
-        fileInput.value = '';
+        elements.jsonFile.value = '';
     } catch (error) {
         console.error("Exception during JSON file training:", error);
         elements.jsonProgressFill.style.width = '100%';

@@ -4,7 +4,7 @@ API routes for the application.
 import os
 import json
 import traceback
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 
 from app import config
@@ -128,7 +128,7 @@ async def train_model(request: TrainRequest):
             # Train on DDL statements
             print(f"Training on DDL statement")
             vn.train(ddl=request.content)
-            
+
             return TrainResponse(
                 message="Successfully trained on DDL statement",
                 training_id="unknown"
@@ -138,7 +138,7 @@ async def train_model(request: TrainRequest):
             # Train on documentation
             print(f"Training on documentation")
             vn.train(documentation=request.content)
-            
+
             return TrainResponse(
                 message="Successfully trained on documentation",
                 training_id="unknown"
@@ -148,7 +148,7 @@ async def train_model(request: TrainRequest):
             # Train on SQL examples
             print(f"Training on SQL example")
             vn.train(sql=request.content)
-            
+
             return TrainResponse(
                 message="Successfully trained on SQL example",
                 training_id="unknown"
@@ -158,7 +158,7 @@ async def train_model(request: TrainRequest):
             # Train on question-SQL pairs
             print(f"Training on question-SQL pair")
             vn.train(question=request.question, sql=request.content)
-            
+
             return TrainResponse(
                 message="Successfully trained on question-SQL pair",
                 training_id="unknown"
@@ -352,7 +352,7 @@ async def get_web_interface_file():
 
 
 @router.post("/train/json", response_model=TrainJsonResponse, summary="Train model with JSON file")
-async def train_with_json_file(file: UploadFile = File(...), train_type: str = "ddl"):
+async def train_with_json_file(file: UploadFile = File(...), train_type: str = Form("question_sql")):
     """
     Train the model with a JSON file containing training data.
 
@@ -396,6 +396,9 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
     if not file.filename.endswith('.json'):
         raise HTTPException(status_code=400, detail="Only JSON files are allowed")
 
+    # Log the received train_type with more details
+    print(f"Received train_type parameter: '{train_type}' (type: {type(train_type).__name__})")
+
     # Validate train_type
     valid_train_types = ["question_sql", "ddl", "documentation", "sql"]
     if train_type not in valid_train_types:
@@ -407,79 +410,170 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
     try:
         # Read the file content
         content = await file.read()
-        
+
         # 디버깅을 위한 로그 추가
         print(f"Received training file: {file.filename}, size: {len(content)} bytes, train_type: {train_type}")
 
+        # Check if file is empty
+        if not content or len(content) == 0:
+            raise HTTPException(status_code=400, detail="The uploaded JSON file is empty")
+
+        # Print the raw content for debugging
+        print(f"Raw file content: {content[:200]}...")
+
         # Parse JSON
         try:
-            training_data = json.loads(content.decode('utf-8'))
+            # Try to decode as UTF-8
+            try:
+                content_str = content.decode('utf-8')
+                print(f"Decoded content: {content_str[:200]}...")
+            except UnicodeDecodeError:
+                # If we can't decode as UTF-8, it might be a binary file
+                print("Warning: Could not decode file content as UTF-8. It might be a binary file.")
+                raise HTTPException(status_code=400, detail="The uploaded file is not a valid JSON file. It appears to be a binary file.")
+
+            # Check if content is empty or just whitespace
+            if not content_str.strip():
+                raise HTTPException(status_code=400, detail="The uploaded JSON file is empty or contains only whitespace")
+
+            # Try to parse as JSON
+            try:
+                training_data = json.loads(content_str)
+            except json.JSONDecodeError as e:
+                print(f"JSON parse error: {str(e)}")
+                # If train_type is not question_sql, try to handle plain text format
+                if train_type in ["ddl", "documentation", "sql"]:
+                    print(f"Attempting to handle as plain text for {train_type} training")
+                    # Split by lines and filter out empty lines
+                    lines = [line.strip() for line in content_str.splitlines() if line.strip()]
+                    if lines:
+                        print(f"Converted plain text to {len(lines)} lines")
+                        training_data = lines
+                    else:
+                        raise HTTPException(status_code=400, detail="The uploaded file contains no valid content")
+                else:
+                    # For question_sql, we need valid JSON
+                    raise HTTPException(status_code=400, detail=f"JSON syntax error: {str(e)}")
+
+            # Handle the case where training_data is not a list
+            if not isinstance(training_data, list):
+                if isinstance(training_data, dict) and train_type == "question_sql":
+                    # If it's a single question-SQL object, convert to a list
+                    print("Converting single question-SQL object to array")
+                    training_data = [training_data]
+                elif isinstance(training_data, str) and train_type in ["ddl", "documentation", "sql"]:
+                    # If it's a single string for other types, convert to a list
+                    print("Converting single string to array")
+                    training_data = [training_data]
+                else:
+                    # If it's not a valid format, raise an error
+                    raise HTTPException(status_code=400, detail="JSON file must contain an array")
+
             print(f"Successfully parsed JSON with {len(training_data)} items")
         except json.JSONDecodeError as e:
             print(f"JSON parse error: {str(e)}")
             raise HTTPException(status_code=400, detail=f"JSON syntax error: {str(e)}")
 
+        # Log the train_type again for clarity
+        print(f"Validating JSON structure for train_type: '{train_type}'")
+
         # Validate the structure based on train_type
-        if train_type == "question_sql":
-            # For question_sql, we expect an array of objects with question and sql fields
-            if not isinstance(training_data, list):
-                raise HTTPException(status_code=400, detail="JSON file must contain an array of objects")
-            
-            # 추가 검증 - 각 항목이 필요한 필드를 가지고 있는지 확인
-            for i, item in enumerate(training_data):
-                if not isinstance(item, dict):
-                    raise HTTPException(status_code=400, detail=f"Item at index {i} must be an object with 'question' and 'sql' fields")
-                
-                # question 필드 체크
-                if 'question' not in item:
-                    raise HTTPException(status_code=400, detail=f"Item at index {i} requires a 'question' field")
-                
-                # sql 필드 체크
-                if 'sql' not in item:
-                    raise HTTPException(status_code=400, detail=f"Item at index {i} requires a 'sql' field")
-                
-                # 타입 체크
-                if not isinstance(item['question'], str):
-                    raise HTTPException(status_code=400, detail=f"'question' field at index {i} must be a string")
-                
-                # sql 필드의 타입 체크
-                if not isinstance(item['sql'], str):
-                    raise HTTPException(status_code=400, detail=f"'sql' field at index {i} must be a string")
-        elif train_type in ["ddl", "documentation", "sql"]:
-            # For other types, we expect an array of strings or a single string
-            if isinstance(training_data, str):
-                # 문자열 하나인 경우 배열로 변환
-                training_data = [training_data]
-            elif not isinstance(training_data, list):
-                raise HTTPException(status_code=400, detail="JSON file must contain a string or an array of strings")
-            
-            # 추가 검증 - 각 항목이 문자열인지 확인
-            for i, item in enumerate(training_data):
-                if not isinstance(item, str):
-                    raise HTTPException(status_code=400, detail=f"Item at index {i} must be a string")
+        print(f"Starting validation for train_type: '{train_type}' with data type: {type(training_data).__name__}")
+
+        try:
+            if train_type == "question_sql":
+                # For question_sql, we expect an array of objects with question and sql fields
+                print(f"Validating question_sql format with {len(training_data)} items")
+
+                # Validate each item in the array
+                for i, item in enumerate(training_data):
+                    if not isinstance(item, dict):
+                        print(f"Error: Item at index {i} is not an object: {type(item)}")
+                        raise HTTPException(status_code=400, detail=f"Item at index {i} must be an object with 'question' and 'sql' fields")
+
+                    # Check question field
+                    if 'question' not in item:
+                        print(f"Error: Item at index {i} is missing 'question' field")
+                        raise HTTPException(status_code=400, detail=f"Item at index {i} requires a 'question' field")
+
+                    # Check sql field
+                    if 'sql' not in item:
+                        # Check if it has 'answer' field instead (common mistake)
+                        if 'answer' in item:
+                            print(f"Warning: Item at index {i} has 'answer' field instead of 'sql'. Converting.")
+                            item['sql'] = item['answer']
+                        else:
+                            print(f"Error: Item at index {i} is missing 'sql' field")
+                            raise HTTPException(status_code=400, detail=f"Item at index {i} requires a 'sql' field")
+
+                    # Type check
+                    if not isinstance(item['question'], str):
+                        print(f"Error: 'question' field at index {i} is not a string")
+                        raise HTTPException(status_code=400, detail=f"'question' field at index {i} must be a string")
+
+                    # Type check for sql field
+                    if not isinstance(item['sql'], str):
+                        print(f"Error: 'sql' field at index {i} is not a string")
+                        raise HTTPException(status_code=400, detail=f"'sql' field at index {i} must be a string")
+
+            elif train_type in ["ddl", "documentation", "sql"]:
+                # For other types, we expect an array of strings
+                print(f"Validating {train_type} format with {len(training_data)} items")
+
+                # Print the first item for debugging
+                if len(training_data) > 0:
+                    print(f"First item type: {type(training_data[0]).__name__}, value: {training_data[0][:100]}...")
+
+                # Validate each item in the array
+                for i, item in enumerate(training_data):
+                    if not isinstance(item, str):
+                        print(f"Error: Item at index {i} is not a string: {type(item)}")
+                        # Try to convert to string if possible
+                        try:
+                            training_data[i] = str(item)
+                            print(f"Converted item at index {i} to string: {training_data[i][:100]}...")
+                        except Exception as e:
+                            print(f"Failed to convert item at index {i} to string: {str(e)}")
+                            raise HTTPException(status_code=400, detail=f"For {train_type} training, item at index {i} must be a string")
+        except Exception as e:
+            print(f"Exception during validation: {str(e)}")
+            traceback.print_exc()
+            raise HTTPException(status_code=400, detail=f"Validation error: {str(e)}")
 
         # Process each training example
         success_count = 0
         error_count = 0
         errors = []
 
+        print(f"Starting to process {len(training_data)} training examples with type: '{train_type}'")
+
         for i, example in enumerate(training_data):
             try:
                 if train_type == "question_sql":
-                    # Train on the example
-                    question = example['question']
-                    sql = example['sql']
-
-                    print(f"Training on question-SQL pair {i+1}/{len(training_data)}: {question}")
-                    print(f"SQL: {sql}")
+                    # For question_sql, we need to extract question and sql from the object
                     try:
-                        # 요청 정보 로깅
+                        # Make sure we have the required fields
+                        if not isinstance(example, dict):
+                            raise ValueError("Expected an object with 'question' and 'sql' fields")
+
+                        if 'question' not in example:
+                            raise ValueError("Missing 'question' field")
+
+                        if 'sql' not in example:
+                            raise ValueError("Missing 'sql' field")
+
+                        question = example['question']
+                        sql = example['sql']
+
+                        print(f"Training on question-SQL pair {i+1}/{len(training_data)}: {question}")
+                        print(f"SQL: {sql}")
+
+                        # Log request info
                         print(f"Calling vn.train with question='{question}', sql='{sql}'")
                         vn.train(question=question, sql=sql)
                     except Exception as e:
                         error_count += 1
-                        print(f"Exception during training: {str(e)}")
-                        # 트레이스백 출력
+                        print(f"Exception during question-SQL training: {str(e)}")
                         traceback.print_exc()
                         errors.append({
                             'index': i,
@@ -489,12 +583,18 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
                         continue
 
                 elif train_type == "ddl":
-                    # Train on the example
-                    print(f"Training on DDL statement {i+1}/{len(training_data)}")
+                    # For ddl, the example should be a string
                     try:
+                        if not isinstance(example, str):
+                            raise ValueError("DDL statement must be a string")
+
+                        print(f"Training on DDL statement {i+1}/{len(training_data)}: {example[:100]}...")
+                        print(f"Calling vn.train with ddl='{example[:100]}...'")
                         vn.train(ddl=example)
                     except Exception as e:
                         error_count += 1
+                        print(f"Exception during DDL training: {str(e)}")
+                        traceback.print_exc()
                         errors.append({
                             'index': i,
                             'error': f"Training failed: {str(e)}",
@@ -503,12 +603,18 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
                         continue
 
                 elif train_type == "documentation":
-                    # Train on the example
-                    print(f"Training on documentation {i+1}/{len(training_data)}")
+                    # For documentation, the example should be a string
                     try:
+                        if not isinstance(example, str):
+                            raise ValueError("Documentation must be a string")
+
+                        print(f"Training on documentation {i+1}/{len(training_data)}: {example[:100]}...")
+                        print(f"Calling vn.train with documentation='{example[:100]}...'")
                         vn.train(documentation=example)
                     except Exception as e:
                         error_count += 1
+                        print(f"Exception during documentation training: {str(e)}")
+                        traceback.print_exc()
                         errors.append({
                             'index': i,
                             'error': f"Training failed: {str(e)}",
@@ -517,12 +623,18 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
                         continue
 
                 elif train_type == "sql":
-                    # Train on the example
-                    print(f"Training on SQL statement {i+1}/{len(training_data)}")
+                    # For sql, the example should be a string
                     try:
+                        if not isinstance(example, str):
+                            raise ValueError("SQL statement must be a string")
+
+                        print(f"Training on SQL statement {i+1}/{len(training_data)}: {example[:100]}...")
+                        print(f"Calling vn.train with sql='{example[:100]}...'")
                         vn.train(sql=example)
                     except Exception as e:
                         error_count += 1
+                        print(f"Exception during SQL training: {str(e)}")
+                        traceback.print_exc()
                         errors.append({
                             'index': i,
                             'error': f"Training failed: {str(e)}",
@@ -546,7 +658,7 @@ async def train_with_json_file(file: UploadFile = File(...), train_type: str = "
         print(result_message)
         if error_count > 0:
             print(f"Training errors: {errors}")
-            
+
         return TrainJsonResponse(
             message=result_message,
             success_count=success_count,

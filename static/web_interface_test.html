@@ -133,7 +133,8 @@
                 <p>Train the model with question and SQL pairs.</p>
                 <div class="form-group">
                     <label for="trainQuestionInput">Question:</label>
-                    <textarea id="trainQuestionInput" rows="3" placeholder="Enter a natural language question..."></textarea>
+                    <textarea id="trainQuestionInput" rows="3"
+                        placeholder="Enter a natural language question..."></textarea>
                 </div>
                 <div class="form-group">
                     <label for="trainSQLInput">SQL Query:</label>
@@ -170,11 +171,11 @@
                         <pre class="example-content">[
   {
     "question": "What are the top 10 companies by revenue?",
-    "answer": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
+    "sql": "SELECT company_name, revenue FROM companies ORDER BY revenue DESC LIMIT 10"
   },
   {
     "question": "How many employees work in each department?",
-    "answer": "SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC"
+    "sql": "SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC"
   }
 ]</pre>
                     </div>
