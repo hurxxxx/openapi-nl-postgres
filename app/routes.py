@@ -17,8 +17,8 @@ from app.models import (
 from app.database import vn
 from app.utils import convert_to_records
 
-# Create router
-router = APIRouter()
+# Create router with nl-postgres prefix
+router = APIRouter(prefix="/nl-postgres")
 
 
 @router.post("/connect", response_model=ConnectionResponse, summary="Connect to PostgreSQL database")

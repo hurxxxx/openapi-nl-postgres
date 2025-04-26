@@ -45,8 +45,9 @@ uvicorn main:app --host 0.0.0.0 --reload
 ```
 
 Access at:
-- **OpenAPI Documentation**: http://localhost:8000/docs
-- **Web Interface**: http://localhost:8000/
+- **OpenAPI Documentation**: http://localhost:8000/nl-postgres/docs
+- **OpenAPI Schema**: http://localhost:8000/nl-postgres/openapi.json
+- **Web Interface**: http://localhost:8000/nl-postgres/
 
 ## 📋 Key Features
 
@@ -89,7 +90,7 @@ Configure connections directly through the API or user-friendly web interface.
 
 ```json
 // 1. Connect to database
-POST /connect
+POST /nl-postgres/connect
 {
   "host": "localhost",
   "dbname": "your_database",
@@ -98,7 +99,7 @@ POST /connect
 }
 
 // 2. Ask a question in plain English
-POST /query
+POST /nl-postgres/query
 {
   "question": "What were the total sales for each product category last month?"
 }
@@ -132,7 +133,7 @@ The system automatically learns your database structure on first connection and 
 
 ```json
 // Example: Train with business context
-POST /train
+POST /nl-postgres/train
 {
   "train_type": "documentation",
   "content": "Sales data is stored in the sales table with monthly aggregations."
@@ -162,7 +163,9 @@ The OpenAPI compatibility makes this project particularly valuable as a tool ser
 
 ## 🔗 Learn More
 
-- [API Documentation](http://localhost:8000/docs)
+- [API Documentation](http://localhost:8000/nl-postgres/docs)
+- [OpenAPI Schema](http://localhost:8000/nl-postgres/openapi.json)
+- [Web Interface](http://localhost:8000/nl-postgres/)
 - [Vanna.AI Documentation](https://vanna.ai/docs/)
 - [Open WebUI Tool Server Integration](https://docs.openwebui.com/openapi-servers/open-webui)
 - [FastAPI](https://fastapi.tiangolo.com/)

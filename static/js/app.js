@@ -114,7 +114,7 @@ function setupModal() {
 async function checkConnectionStatus() {
     try {
         showLoading(elements.connectionStatus);
-        const response = await fetch('/connection_status');
+        const response = await fetch('/nl-postgres/connection_status');
         const data = await response.json();
 
         if (data.connected) {
@@ -150,7 +150,7 @@ async function connectToDatabase() {
         showLoading(elements.connectResult);
         elements.connectBtn.disabled = true;
 
-        const response = await fetch('/connect', {
+        const response = await fetch('/nl-postgres/connect', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -176,7 +176,7 @@ async function connectToDatabase() {
 
 async function checkApiConfig() {
     try {
-        const response = await fetch('/api_config');
+        const response = await fetch('/nl-postgres/api_config');
         const data = await response.json();
 
         if (data.has_api_key) {
@@ -195,7 +195,7 @@ async function checkApiConfig() {
 
 async function checkDbConfig() {
     try {
-        const response = await fetch('/db_config');
+        const response = await fetch('/nl-postgres/db_config');
         const data = await response.json();
 
         if (data.has_db_config) {
@@ -248,7 +248,7 @@ async function trainSchema() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
-        const response = await fetch('/train', {
+        const response = await fetch('/nl-postgres/train', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -311,7 +311,7 @@ async function trainDDL() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
-        const response = await fetch('/train', {
+        const response = await fetch('/nl-postgres/train', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -372,7 +372,7 @@ async function trainDocumentation() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
-        const response = await fetch('/train', {
+        const response = await fetch('/nl-postgres/train', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -433,7 +433,7 @@ async function trainSQL() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
-        const response = await fetch('/train', {
+        const response = await fetch('/nl-postgres/train', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -495,7 +495,7 @@ async function trainQuestionSQL() {
         trainButton.textContent = "Training...";
         showLoading(elements.trainResult);
 
-        const response = await fetch('/train', {
+        const response = await fetch('/nl-postgres/train', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -561,7 +561,7 @@ async function queryDatabase() {
         elements.queryResults.textContent = 'Waiting for results...';
         elements.explanation.textContent = '';
 
-        const response = await fetch('/query', {
+        const response = await fetch('/nl-postgres/query', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -715,7 +715,7 @@ async function uploadJsonFile(file, trainType) {
         formData.append('file', file);
         formData.append('train_type', trainType);
 
-        const response = await fetch('/train/json', {
+        const response = await fetch('/nl-postgres/train/json', {
             method: 'POST',
             body: formData
         });
@@ -800,7 +800,7 @@ async function fetchTrainingData() {
     try {
         showLoading(elements.trainingDataBody);
 
-        const response = await fetch('/training_data');
+        const response = await fetch('/nl-postgres/training_data');
         const data = await response.json();
 
         elements.trainingDataBody.innerHTML = '';
@@ -869,7 +869,7 @@ async function fetchTrainingData() {
             deleteButton.addEventListener('click', async () => {
                 if (confirm(`Are you sure you want to delete training data with ID: ${item.id}?`)) {
                     try {
-                        const response = await fetch(`/training_data/${item.id}`, {
+                        const response = await fetch(`/nl-postgres/training_data/${item.id}`, {
                             method: 'DELETE'
                         });
 

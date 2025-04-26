@@ -225,6 +225,19 @@
     </div>
 
     <script src="/static/js/app.js"></script>
+    <script>
+        // Fix for API paths
+        window.addEventListener('DOMContentLoaded', function () {
+            // This script ensures all API calls use the /nl-postgres prefix
+            const originalFetch = window.fetch;
+            window.fetch = function (url, options) {
+                if (typeof url === 'string' && url.startsWith('/') && !url.startsWith('/static/') && !url.startsWith('/nl-postgres/')) {
+                    url = '/nl-postgres' + url;
+                }
+                return originalFetch.call(this, url, options);
+            };
+        });
+    </script>
 </body>
 
 </html>
