@@ -110,10 +110,6 @@ POST /query
 
 When connected as a tool server in Open WebUI, you can have natural conversations with your database:
 
-**User**: "Connect to my PostgreSQL database at localhost with username postgres and password mypassword"
-
-**LLM**: *Uses the tool server to establish connection*
-
 **User**: "What were the total sales for each product category last month?"
 
 **LLM**: *Uses the tool server to:*
