@@ -20,7 +20,7 @@ class PostgresNL(ChromaDB_VectorStore, OpenAI_Chat):
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
         Initialize the PostgresNL instance.
-        
+
         Args:
             config: Configuration dictionary for OpenAI and ChromaDB
         """
@@ -35,7 +35,7 @@ class PostgresNL(ChromaDB_VectorStore, OpenAI_Chat):
     def has_schema_training(self) -> bool:
         """
         Check if schema training has already been performed by looking for training data.
-        
+
         Returns:
             bool: True if schema training data exists, False otherwise.
         """
@@ -70,7 +70,7 @@ class PostgresNL(ChromaDB_VectorStore, OpenAI_Chat):
         """
         Perform schema training using get_training_plan_generic.
         This should only be called once when the server starts if no training exists.
-        
+
         Returns:
             bool: True if training was successful, False otherwise.
         """
@@ -104,10 +104,10 @@ class PostgresNL(ChromaDB_VectorStore, OpenAI_Chat):
     def explain_sql(self, sql: str) -> str:
         """
         Provide an explanation for the given SQL query.
-        
+
         Args:
             sql: SQL query to explain
-            
+
         Returns:
             str: Explanation of the SQL query
         """
@@ -135,8 +135,8 @@ vn = PostgresNL(config={
 
 def initialize_database_and_training() -> None:
     """
-    Initialize database connection using environment variables if available
-    and perform schema training if it hasn't been done before.
+    Initialize database connection using environment variables if available.
+    Schema training is now handled through the UI instead of automatically.
     """
     global vn
 
@@ -178,17 +178,13 @@ def initialize_database_and_training() -> None:
 
             print(f"Successfully connected to database {dbname} on {host}")
 
-            # Check if schema training has been performed
-            if not vn.has_schema_training():
-                print("No schema training found. Performing initial schema training...")
-                try:
-                    # Perform schema training
-                    vn.perform_schema_training()
-                except Exception as e:
-                    print(f"Error during initial schema training: {str(e)}")
-            else:
-                print("Schema training already exists. No need to train again.")
+            # Check if schema training has been performed but don't automatically train
+            if vn.has_schema_training():
+                print("Schema training already exists.")
                 vn.schema_trained = True
+            else:
+                print("No schema training found. User will need to initialize training from the UI.")
+                vn.schema_trained = False
         except Exception as e:
             print(f"Error connecting to database: {str(e)}")
             print("You can still connect manually through the API or web interface.")

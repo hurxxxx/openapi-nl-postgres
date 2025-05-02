@@ -2,7 +2,8 @@ const state = {
     isConnected: false,
     isTraining: false,
     hasApiKey: false,
-    hasDbConfig: false
+    hasDbConfig: false,
+    schemaTrained: false
 };
 
 const elements = {
@@ -26,6 +27,7 @@ const elements = {
     trainQuestionSQL: document.getElementById('trainQuestionSQL'),
     trainJsonFile: document.getElementById('trainJsonFile'),
     refreshTrainingData: document.getElementById('refreshTrainingData'),
+    deleteAllTrainingData: document.getElementById('deleteAllTrainingData'),
     trainResult: document.getElementById('trainResult'),
     jsonFile: document.getElementById('jsonFile'),
     jsonTrainType: document.getElementById('jsonTrainType'),
@@ -71,6 +73,7 @@ function setupEventListeners() {
     elements.trainQuestionSQL.addEventListener('click', trainQuestionSQL);
     elements.trainJsonFile.addEventListener('click', trainWithJsonFile);
     elements.refreshTrainingData.addEventListener('click', fetchTrainingData);
+    elements.deleteAllTrainingData.addEventListener('click', deleteAllTrainingData);
 
     elements.jsonTrainType.addEventListener('change', function () {
         const newType = elements.jsonTrainType.value;
@@ -120,18 +123,43 @@ async function checkConnectionStatus() {
         if (data.connected) {
             elements.connectionStatus.innerHTML = `<div class="success">Connected to ${data.connection_info.dbname} on ${data.connection_info.host}</div>`;
             state.isConnected = true;
-            elements.trainSchema.textContent = "Train on Schema";
-            elements.trainSchema.disabled = false;
-            elements.trainSchema.style.backgroundColor = "#4CAF50";
+
+            // Check schema training status
+            state.schemaTrained = data.schema_trained || false;
+
+            if (state.schemaTrained) {
+                elements.trainSchema.textContent = "Train on Schema";
+                elements.trainSchema.disabled = false;
+                elements.trainSchema.style.backgroundColor = "#4CAF50";
+            } else {
+                // Schema not trained - show notification and highlight the train button
+                elements.trainSchema.textContent = "Initialize Schema Training";
+                elements.trainSchema.disabled = false;
+                elements.trainSchema.style.backgroundColor = "#ff9800"; // Orange to highlight importance
+
+                // Show notification in the training result area
+                elements.trainResult.innerHTML = `
+                    <div class="warning">
+                        <strong>Schema training required!</strong><br>
+                        Your database is connected but schema training has not been performed.
+                        Please click the "Initialize Schema Training" button above to train the model on your database schema.
+                        This is required for the natural language queries to work properly.
+                    </div>`;
+
+                // Switch to the schema tab
+                document.querySelector('.tab[data-tab="schema"]').click();
+            }
         } else {
             elements.connectionStatus.innerHTML = '<div class="error">Not connected to any database</div>';
             state.isConnected = false;
+            state.schemaTrained = false;
             elements.trainSchema.disabled = true;
             elements.trainSchema.style.backgroundColor = "#cccccc";
         }
     } catch (error) {
         elements.connectionStatus.innerHTML = `<div class="error">Error: ${error.message}</div>`;
         state.isConnected = false;
+        state.schemaTrained = false;
     }
 }
 
@@ -163,7 +191,12 @@ async function connectToDatabase() {
         if (data.status) {
             elements.connectResult.innerHTML = `<div class="success">${data.message}</div>`;
             state.isConnected = true;
+
+            // Check connection and training status
             checkConnectionStatus();
+
+            // Also check training status specifically
+            checkTrainingStatus();
         } else {
             elements.connectResult.innerHTML = `<div class="error">${data.message}</div>`;
         }
@@ -914,6 +947,105 @@ function formatObjectToString(obj) {
         return JSON.stringify(obj, null, 2);
     } catch (error) {
         return String(obj);
+    }
+}
+
+async function deleteAllTrainingData() {
+    if (!state.isConnected) {
+        elements.trainResult.innerHTML = '<div class="error">Not connected to a database. Please connect first.</div>';
+        return;
+    }
+
+    // 확인 대화상자 표시
+    const confirmDelete = confirm("정말로 모든 트레이닝 데이터를 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없으며, 모든 스키마 트레이닝 및 사용자 정의 트레이닝 데이터가 삭제됩니다.\n\n삭제 후에는 스키마 트레이닝을 다시 수행해야 합니다.");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+        // 버튼 비활성화 및 로딩 표시
+        elements.deleteAllTrainingData.disabled = true;
+        elements.deleteAllTrainingData.textContent = "삭제 중...";
+        showLoading(elements.trainResult);
+
+        // API 호출
+        const response = await fetch('/nl-postgres/training_data/all', {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            elements.trainResult.innerHTML = `<div class="error">Error: ${errorData.detail || '모든 트레이닝 데이터 삭제 실패'}</div>`;
+            return;
+        }
+
+        const data = await response.json();
+
+        // 결과 표시
+        if (data.deleted_count === 0) {
+            elements.trainResult.innerHTML = `<div class="info">${data.message}</div>`;
+        } else {
+            elements.trainResult.innerHTML = `<div class="success">${data.message}</div>`;
+
+            // 스키마 트레이닝 상태 업데이트
+            state.schemaTrained = false;
+            elements.trainSchema.textContent = "Initialize Schema Training";
+            elements.trainSchema.style.backgroundColor = "#ff9800";
+
+            // 트레이닝 데이터 테이블 갱신
+            fetchTrainingData();
+        }
+
+        // 오류가 있으면 표시
+        if (data.errors && data.errors.length > 0) {
+            const errorList = data.errors.map(err => `<li>${err}</li>`).join('');
+            elements.trainResult.innerHTML += `<div class="error"><strong>일부 항목 삭제 중 오류 발생:</strong><ul>${errorList}</ul></div>`;
+        }
+    } catch (error) {
+        elements.trainResult.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    } finally {
+        // 버튼 상태 복원
+        elements.deleteAllTrainingData.disabled = false;
+        elements.deleteAllTrainingData.textContent = "Delete All Training Data";
+    }
+}
+
+async function checkTrainingStatus() {
+    if (!state.isConnected) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/nl-postgres/training_status');
+        const data = await response.json();
+
+        if (data.connected) {
+            state.schemaTrained = data.schema_trained;
+
+            if (!data.schema_trained) {
+                // Schema not trained - show notification and highlight the train button
+                elements.trainSchema.textContent = "Initialize Schema Training";
+                elements.trainSchema.disabled = false;
+                elements.trainSchema.style.backgroundColor = "#ff9800"; // Orange to highlight importance
+
+                // Show notification in the training result area
+                elements.trainResult.innerHTML = `
+                    <div class="warning">
+                        <strong>Schema training required!</strong><br>
+                        ${data.message}
+                    </div>`;
+
+                // Switch to the schema tab
+                document.querySelector('.tab[data-tab="schema"]').click();
+            } else {
+                elements.trainSchema.textContent = "Train on Schema";
+                elements.trainSchema.disabled = false;
+                elements.trainSchema.style.backgroundColor = "#4CAF50";
+            }
+        }
+    } catch (error) {
+        console.error("Error checking training status:", error);
     }
 }
 

@@ -82,18 +82,13 @@ async def connect_to_database(request: ConnectionRequest):
             'port': request.port
         }
 
-        # Check if schema training has been performed
-        if not vn.schema_trained and not vn.has_schema_training():
-            # Perform schema training automatically
-            try:
-                print("Automatically performing initial schema training after manual connection...")
-                # Perform schema training
-                vn.perform_schema_training()
-            except Exception as e:
-                print(f"Warning: Failed to perform initial schema training: {str(e)}")
-                # Continue even if training fails - user can manually train later
+        # Check if schema training has been performed but don't automatically train
+        if vn.has_schema_training():
+            print("Schema training already exists. No need to train again.")
+            vn.schema_trained = True
         else:
-            print("Schema training already exists or was performed during server startup. No need to train again.")
+            print("No schema training found. User will need to initialize training from the UI.")
+            vn.schema_trained = False
 
         return ConnectionResponse(
             message=f"Successfully connected to PostgreSQL database {request.dbname} on {request.host}",
@@ -249,6 +244,57 @@ async def get_training_data():
         raise HTTPException(status_code=500, detail=f"Failed to get training data: {str(e)}")
 
 
+@router.delete("/training_data/all", summary="Remove all training data")
+async def remove_all_training_data():
+    """
+    Remove all training data from the model.
+    """
+    if not vn or not vn.is_connected:
+        raise HTTPException(status_code=400, detail="Not connected to a database. Please connect first.")
+
+    try:
+        # Get all training data
+        training_data = vn.get_training_data()
+
+        # Convert to list of records using utility function
+        training_data = convert_to_records(training_data)
+
+        if not training_data or len(training_data) == 0:
+            return JSONResponse(content={"message": "No training data found to delete"})
+
+        # Count of deleted items
+        deleted_count = 0
+        errors = []
+
+        # Remove each training data item
+        for item in training_data:
+            try:
+                if 'id' in item and item['id']:
+                    vn.remove_training_data(id=item['id'])
+                    deleted_count += 1
+            except Exception as e:
+                errors.append(f"Failed to delete item with ID {item.get('id', 'unknown')}: {str(e)}")
+                continue
+
+        # Reset schema_trained flag
+        vn.schema_trained = False
+
+        # Return result
+        result = {
+            "message": f"Successfully removed {deleted_count} training data items",
+            "deleted_count": deleted_count,
+            "total_count": len(training_data)
+        }
+
+        if errors:
+            result["errors"] = errors
+
+        return JSONResponse(content=result)
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to remove all training data: {str(e)}")
+
+
 @router.delete("/training_data/{training_id}", summary="Remove specific training data")
 async def remove_training_data(training_id: str):
     """
@@ -287,9 +333,40 @@ async def get_connection_status():
     if not vn or not vn.is_connected:
         return JSONResponse(content={"connected": False})
 
+    # Check schema training status
+    schema_trained = vn.schema_trained or vn.has_schema_training()
+
     return JSONResponse(content={
         "connected": True,
-        "connection_info": vn.connection_info
+        "connection_info": vn.connection_info,
+        "schema_trained": schema_trained
+    })
+
+
+@router.get("/training_status", summary="Get schema training status")
+async def get_training_status():
+    """
+    Get the current schema training status.
+    """
+    if not vn or not vn.is_connected:
+        return JSONResponse(content={
+            "connected": False,
+            "schema_trained": False,
+            "message": "Not connected to a database. Please connect first."
+        })
+
+    # Check if schema training has been performed
+    schema_trained = vn.schema_trained or vn.has_schema_training()
+
+    if schema_trained:
+        message = "Schema training has been completed."
+    else:
+        message = "Schema training has not been performed. Please initialize training."
+
+    return JSONResponse(content={
+        "connected": True,
+        "schema_trained": schema_trained,
+        "message": message
     })
 
 

@@ -73,9 +73,12 @@
             </div>
             <div class="tab-content active" id="schema-tab">
                 <p>Train the model on the database schema.</p>
-                <p class="helper-text">Note: Schema training is automatically performed once when the server starts if
-                    database connection information is available in environment variables. You only need to use this
-                    button if you want to retrain the model or if automatic training was not performed.</p>
+                <p class="helper-text">Note: Schema training is required for the natural language queries to work
+                    properly.
+                    If you see a warning message below, please click the "Initialize Schema Training" button to train
+                    the model
+                    on your database schema. You can also use this button to retrain the model if your database schema
+                    changes.</p>
                 <div class="example-container">
                     <p class="example-title">What this does:</p>
                     <p class="example-content">Extracts and trains on your database schema information including tables,
@@ -181,7 +184,10 @@
             </div>
             <div class="tab-content" id="manage-tab">
                 <p>View and manage existing training data.</p>
-                <button id="refreshTrainingData">Refresh Training Data</button>
+                <div class="button-group">
+                    <button id="refreshTrainingData">Refresh Training Data</button>
+                    <button id="deleteAllTrainingData" class="danger-button">Delete All Training Data</button>
+                </div>
                 <div id="trainingDataContainer" class="data-container">
                     <table id="trainingDataTable">
                         <thead>
